@@ -1,0 +1,33 @@
+import nc from "next-connect";
+import { StatusCodes } from "http-status-codes";
+import { APISession } from "../../../../../services/sessions/get-session";
+import errorWrapper from "../../../../../services/middleware/errorWrapper";
+import errorHandler from "../../../../../services/middleware/errorHandler";
+import Errors from "../../../../../services/errors";
+import query from "../../../../../services/database/query";
+import bcrypt from "bcryptjs";
+import User from "../../../../../services/database/controllers/users";
+import auth from "../../../../../services/middleware/authentication";
+import dozvoleId from "../../../../../services/constants/dozvoleId.json"
+import authorize from "../../../../../services/middleware/autohorize";
+
+const handler = nc({
+	onError: (err, req, res) => errorHandler(err, req, res),
+	onNoMatch: errorWrapper((req, res) => {
+		throw new Errors.NotFoundError(`${req.method} ${req.url} не постоји.`);
+	})
+});
+
+handler.patch(async (req, res) => {
+	const user = await auth(req, res);
+	if(!user) throw new Errors.UnauthenticatedError("Нисте пријављени");
+	if(!authorize(user, [dozvoleId.RESETUJ_LOZINKU])) 
+		throw new Errors.ForbiddenError("Немате дозволу да ресетујете лозинке корисницима.");
+	const id = req.query.id;
+	let queryResult = await User.resetLozinku({id});
+	if(queryResult.error) throw queryResult.error;
+	
+	res.status(StatusCodes.OK).json({ok: true})
+});
+
+export default APISession(errorWrapper(handler));

@@ -1,0 +1,152 @@
+[
+    {
+        "id": 1,
+        "naziv": "КРЕИРАЈ_СТРАНИЦУ",
+        "link": "stranice"
+    },
+    {
+        "id": 2,
+        "naziv": "ОБРИШИ_СТРАНИЦУ",
+        "link": "stranice"
+    },
+    {
+        "id": 3,
+        "naziv": "ПРОМЕНИ_СТРАНИЦУ",
+        "link": "stranice"
+    },
+    {
+        "id": 4,
+        "naziv": "КРЕИРАЈ_КОРИСНИКА",
+        "link": "korisnici"
+    },
+    {
+        "id": 5,
+        "naziv": "ОБРИШИ_КОРИСНИКА",
+        "link": "korisnici"
+    },
+    {
+        "id": 6,
+        "naziv": "ПРОМЕНИ_ПОДАТКЕ_КОРИСНИКА",
+        "link": "korisnici"
+    },
+    {
+        "id": 7,
+        "naziv": "РЕСЕТУЈ_ЛОЗИНКУ",
+        "link": "korisnici"
+    },
+    {
+        "id": 8,
+        "naziv": "КРЕИРАЈ_ОБАВЕШТЕЊЕ",
+        "link": "obavestenja"
+    },
+    {
+        "id": 9,
+        "naziv": "ОБРИШИ_СВОЈЕ_ОБАВЕШТЕЊЕ",
+        "link": "obavestenja"
+    },
+    {
+        "id": 10,
+        "naziv": "ОБРИШИ_ТУЂЕ_ОБАВЕШТЕЊЕ",
+        "link": "obavestenja"
+    },
+    {
+        "id": 11,
+        "naziv": "ПРОМЕНИ_СВОЈЕ_ОБАВЕШТЕЊЕ",
+        "link": "obavestenja"
+    },
+    {
+        "id": 12,
+        "naziv": "ПРОМЕНИ_ТУЂЕ_ОБАВЕШТЕЊЕ",
+        "link": "obavestenja"
+    },
+    {
+        "id": 13,
+        "naziv": "КРЕИРАЈ_НОВОСТ",
+        "link": "novosti"
+    },
+    {
+        "id": 14,
+        "naziv": "ОБРИШИ_СВОЈУ_НОВОСТ",
+        "link": "novosti"
+    },
+    {
+        "id": 15,
+        "naziv": "ОБРИШИ_ТУЂУ_НОВОСТ",
+        "link": "novosti"
+    },
+    {
+        "id": 16,
+        "naziv": "ПРОМЕНИ_СВОЈУ_НОВОСТ",
+        "link": "novosti"
+    },
+    {
+        "id": 17,
+        "naziv": "ПРОМЕНИ_ТУЂУ_НОВОСТ",
+        "link": "novosti"
+    },
+    {
+        "id": 18,
+        "naziv": "ДОДАЈ_ЗАПОСЛЕНОГ",
+        "link": "zaposleni"
+    },
+    {
+        "id": 19,
+        "naziv": "ОБРИШИ_ЗАПОСЛЕНОГ",
+        "link": "zaposleni"
+    },
+    {
+        "id": 20,
+        "naziv": "ПРОМЕНИ_ПОДАТКЕ_ЗАПОСЛЕНЕОГ",
+        "link": "zaposleni"
+    },
+    {
+        "id": 21,
+        "naziv": "ДОДАЈ_ДОКУМЕНТ",
+        "link": "dokumenta"
+    },
+    {
+        "id": 22,
+        "naziv": "ОБРИШИ_ДОКУМЕНТ",
+        "link": "dokumenta"
+    },
+    {
+        "id": 23,
+        "naziv": "ИЗМЕНИ_ДОКУМЕНТ",
+        "link": "dokumenta"
+    },
+    {
+        "id": 24,
+        "naziv": "ДОДАЈ_У_ГАЛЕРИЈУ",
+        "link": "galerija"
+    },
+    {
+        "id": 25,
+        "naziv": "ИЗБРИШИ_ИЗ_ГАЛЕРИЈЕ",
+        "link": "galerija"
+    },
+    {
+        "id": 26,
+        "naziv": "ДОДАЈ_СМЕР",
+        "link": "smerovi"
+    },
+    {
+        "id": 27,
+        "naziv": "ОБРИШИ_СМЕР",
+        "link": "smerovi"
+    },
+    {
+        "id": 28,
+        "naziv": "ПРОМЕНИ_СМЕР",
+        "link": "smerovi"
+    },
+    {
+        "id": 29,
+        "naziv": "ДОДАЈ_ПРЕДМЕТ",
+        "link": "smerovi"
+    },
+    {
+        "id": 30,
+        "naziv": "ОБРИШИ_ПРЕДМЕТ",
+        "link": "smerovi"
+    }
+]

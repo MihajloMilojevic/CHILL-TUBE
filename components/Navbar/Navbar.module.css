@@ -1,0 +1,28 @@
+.navbar {
+	padding: 1rem 3rem;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	z-index: 9999 !important;
+	background: #f1f1f1;
+	position: relative;
+}
+/* .navbar_remove_shadow {
+	width: 25px;
+	position: absolute;
+	left: 1px;
+	top: 0;
+	z-index: 9999999999 !important;
+	background-color: white;
+	box-shadow: none !important;
+} */
+
+.navbar_left {
+	cursor: pointer;
+}
+
+@media screen and (max-width: 500px) {
+	.navbar {
+		padding: 1rem;
+	}
+}
