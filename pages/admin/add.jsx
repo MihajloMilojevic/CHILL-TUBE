@@ -1,9 +1,9 @@
 import { useRef, useState } from "react";
-import AdminLayout from "../../../components/AdminLayout/AdminLayout";
-import auth from "../../../services/middleware/authentication";
-import {SSRSession} from "../../../services/sessions/get-session";
-import { useStateContext } from '../../../services/context/ContextProvider';
-import API from "../../../services/api";
+import AdminLayout from "../../components/AdminLayout/AdminLayout";
+import auth from "../../services/middleware/authentication";
+import {SSRSession} from "../../services/sessions/get-session";
+import { useStateContext } from '../../services/context/ContextProvider';
+import API from "../../services/api";
 import { useRouter } from "next/router";
 
 export default function AddAnimePage({user}) {

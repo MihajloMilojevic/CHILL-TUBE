@@ -11,12 +11,32 @@ CREATE TABLE IF NOT EXISTS users (
 	admin				BOOLEAN DEFAULT FALSE NOT NULL
 );
 
-CREATE TABLE IF NOT EXISTS animes (
+CREATE TABLE IF NOT EXISTS anime (
 	id 					INT PRIMARY KEY AUTO_INCREMENT,
 	name				TEXT NOT NULL,
 	picture				TEXT NOT NULL,
 	description			TEXT
 );
+
+CREATE TABLE IF NOT EXISTS episodes (
+	id					INT PRIMARY KEY AUTO_INCREMENT,
+	orderNumber			INT NOT NULL,
+	video				TEXT NOT NULL,
+	animeId				INT NOT NULL REFERENCES anime(id)
+);
+
+-- PL/SQL
+
+DELIMITER //
+
+CREATE FUNCTION getEpisodes(animeId_input INT) RETURNS TEXT
+BEGIN
+	RETURN CONCAT(
+    	'[',
+        (SELECT GROUP_CONCAT(JSON_OBJECT('id', id, 'orderNumber', orderNumber, 'video', video) SEPARATOR ', ' ) FROM episodes WHERE animeId = animeId_input ORDER BY orderNumber),
+        ']'
+    );
+END //
 
 -- INSERT DATA
 

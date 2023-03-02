@@ -8,6 +8,13 @@ export default class Anime {
 		});
 		return ret;
 	}
+	static async GetById(id) {
+		const ret = await query({
+			sql: "SELECT *, getEpisodes(id) as episodes FROM anime WHERE id = ?",
+			params: [id]
+		});
+		return ret;
+	}
 	static async Create({fileName, name, description}) {
 		const ret = await query({
 			sql: "INSERT INTO anime(name, picture, description) VALUES (?, ?, ?)",

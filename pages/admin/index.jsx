@@ -11,7 +11,7 @@ export default function Admin({user, anime}) {
 		<AdminLayout user={user}>
 			<h1>Admin</h1>
 			{/* <p>{JSON.stringify(user)}</p> */}
-			<Link href="/admin/add/anime"><p style={{padding: "1rem", background: "white", cursor: "pointer", display: "inline-block"}}>+</p></Link>
+			<Link href="/admin/add"><p style={{padding: "1rem", background: "white", cursor: "pointer", display: "inline-block"}}>+</p></Link>
 			<br />
 			<input placeholder="Search" value={search} onChange={e => setSearch(e.target.value)} />
 			<br/>
@@ -20,10 +20,12 @@ export default function Admin({user, anime}) {
 					<div>
 						{
 							anime.filter(a => (search === "" ? true : a.name.toLowerCase().includes(search.toLowerCase()))).map(a => (
-								<div key={a.id} style={{width: 100, height: 200, display: "inline-block"}}>
-									<img src={a.picture} alt={a.name} style={{width: "100%", height: "80%", objectFit: "cover"}} />
-									<p>{a.name}</p>
-								</div>
+								<Link key={a.id} href={`/admin/${a.id}`}>
+									<div style={{width: 100, height: 200, display: "inline-block"}}>
+										<img src={a.picture} alt={a.name} style={{width: "100%", height: "80%", objectFit: "cover"}} />
+										<p>{a.name}</p>
+									</div>
+								</Link>
 							))
 						}
 					</div>
