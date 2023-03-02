@@ -3,6 +3,8 @@ import { useStateContext } from "../../services/context/ContextProvider"
 import styles from "./Navbar.module.css";
 import { useState, useEffect, useRef } from "react";
 import {Profile} from "..";
+import Link from "next/link";
+import Image from "next/image";
 
 function Navbar() {
 
@@ -18,9 +20,13 @@ function Navbar() {
 	return (
 		<div className={`${styles.navbar} `}  ref={navRef}>
 			{/* <div className={styles.navbar_remove_shadow} style={{height: navHeight}}/> */}
-			<div className={styles.navbar_left}>
-				<AiOutlineMenu onClick={() => setActiveMenu(prev => !prev)} size={25}/>
-			</div>
+			
+			<Link href="/admin">
+				<div className={styles.navbar_left}>
+					<Image src="/logo-no-bg.png" alt="Logo" width={50} height={50}/>
+					<span>Chill Tube</span>
+				</div>
+			</Link>
 			<div className={styles.navbar_right}>
 				<Profile />
 			</div>

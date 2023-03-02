@@ -1,7 +1,9 @@
 import {default as UserAPI} from "./User";
+import {default as AnimeAPI} from "./Anime";
 
 const API = {
-    UserAPI
+    UserAPI,
+    AnimeAPI
 }
 
 export default API;

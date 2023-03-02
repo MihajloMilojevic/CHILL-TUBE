@@ -9,7 +9,7 @@ import auth from "../../../../services/middleware/authentication";
 import dozvoleId from "../../../../services/constants/dozvoleId.json"
 import authorize from "../../../../services/middleware/autohorize";
 import fileUpload from "express-fileupload";
-import Dokument from "../../../../services/database/controllers/dokument";
+import Anime from "../../../../services/database/controllers/anime";
 import {convert, crte, osisaj} from "../../../../services/utils/translate";
 
 
@@ -24,27 +24,18 @@ handler.use(fileUpload())
 
 handler.post(async (req, res) => {
 	const user = await auth(req, res);
-	if(!user) throw new Errors.UnauthenticatedError("Нисте пријављени");
-	if(!authorize(user, [dozvoleId.DODAJ_DOKUMENT])) 
-		throw new Errors.ForbiddenError("Немате дозволу да додајете документа.");
-	const {kategorija, naziv, opis} = req.body;
-	if(!kategorija) throw new Errors.BadRequestError("Категорија је обавезна.");
-	if(!naziv) throw new Errors.BadRequestError("Назив је обавезан.");
-	if(req.files.length === 0) throw new Errors.BadRequestError("Морате додати макар један фајл");
-	
-	let numberOfFilesUploaded = 0;
-	let ids = [];
-	for (const key in req.files) {
-		const file = req.files[key];
-		const {error, data} = await File.Upload(file, `dokumenta`, `${naziv}`);
-		if(!error) {
-			numberOfFilesUploaded++;
-			ids.push(data);
-		}
-	}
-	const {error} = await Dokument.Create({files: ids, naziv, opis, kategorija, korisnik: user.id});
+	if(!user) throw new Errors.UnauthenticatedError("You are not logged in");
+	if(!user.admin) 
+		throw new Errors.ForbiddenError("You don't have permission to perform this action.");
+	const {name, description} = req.body;
+	if(!name) throw new Errors.BadRequestError("Name is required.");
+	const picture = req.files.picture;
+	if(!picture) throw new Errors.BadRequestError("Picture is required");
+	const fileName = await File.Upload(picture, `anime`, `${name}`);
+	const {error} = await Anime.Create({fileName, name, description});
 	if(error) throw error;
-	res.status(StatusCodes.OK).json({ok: true, numberOfFilesUploaded})
+
+	res.status(StatusCodes.OK).json({ok: true})
 });
 
 

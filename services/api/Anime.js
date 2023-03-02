@@ -1,5 +1,5 @@
 
-export default class DokumentAPI {
+export default class AnimeAPI {
 	static async Delete({id}) {
 		try {
 			const ENDPOINT = `/api/admin/dokumenta/${id}`;
@@ -14,14 +14,13 @@ export default class DokumentAPI {
 			return {error, data: null};
 		}
 	}
-	static async Create(files, kategorija, naziv, opis) {
+	static async Create(name, description, picture) {
 		try {
 			const body = new FormData();
-			files.forEach((file, index) => body.append("fajl"+index, file));
-			body.append("kategorija", kategorija);
-			body.append("naziv", naziv);
-			body.append("opis", opis);
-			const ENDPOINT = `/api/admin/dokumenta`;
+			body.append("name", name);
+			body.append("description", description);
+			body.append("picture", picture);
+			const ENDPOINT = `/api/admin/anime`;
 			const res = await fetch(ENDPOINT, {
 				method: "POST",
 				body,

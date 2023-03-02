@@ -7,8 +7,15 @@ CREATE TABLE IF NOT EXISTS users (
 	email		 		TEXT UNIQUE NOT NULL,
 	password 			TEXT NOT NULL,
 	username 			TEXT UNIQUE NOT NULL,
-	picture 			TEXT DEFAULT '/images/users/default.jpg' NOT NULL,
+	picture 			TEXT DEFAULT '/files/users/default.jpg' NOT NULL,
 	admin				BOOLEAN DEFAULT FALSE NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS animes (
+	id 					INT PRIMARY KEY AUTO_INCREMENT,
+	name				TEXT NOT NULL,
+	picture				TEXT NOT NULL,
+	description			TEXT
 );
 
 -- INSERT DATA

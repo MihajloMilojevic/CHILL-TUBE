@@ -4,6 +4,7 @@ import {AiOutlineClose} from "react-icons/ai"
 import styles from "./Profile.module.css";
 import { useState } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import {RiLockPasswordLine, RiLogoutCircleRLine} from "react-icons/ri";
 import KorisnikAPI from "../../services/api/User";
 
@@ -36,7 +37,9 @@ function Profile() {
 
 	return (
 		<div className={styles.profile}>
-			<p className={styles.profile_toggle} onClick={() => setOpenDropdown(prev => !prev)}>{korisnik?.ime?.[0]?.toUpperCase()}. {korisnik?.prezime}</p>
+			<div className={styles.profile_toggle} onClick={() => setOpenDropdown(prev => !prev)}  >
+				<Image alt="profile-picture" src={korisnik.picture} layout="fill" />
+			</div>
 			{
 				openDropdown && (
 					<div className={`${styles.profile_dropdown} box-shadow`}>

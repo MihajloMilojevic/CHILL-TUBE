@@ -18,8 +18,18 @@
 } */
 
 .navbar_left {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	gap: 1rem;
 	cursor: pointer;
 }
+
+.navbar_left span {
+	font-size: 24px;
+	text-align: left;
+}
+
 
 @media screen and (max-width: 500px) {
 	.navbar {

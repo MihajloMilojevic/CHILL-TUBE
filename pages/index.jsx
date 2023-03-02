@@ -7,7 +7,7 @@ export default function Home({user}) {
     <div>
       <h1>Hello</h1>
       <p>{user ? (`Hello, ${user.username}`) : "You are not logged in"}</p>
-      <Link href={user ? "/logout" : "/login"}>{user ? "Logout" : "Login"}</Link>
+      {!user && <Link href="/login">Login</Link>}
     </div>
   )
 }

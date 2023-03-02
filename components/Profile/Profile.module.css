@@ -3,11 +3,15 @@
 }
 
 .profile_toggle {
-	padding: 0.75rem 2rem;
-	border-radius: 15px;
-	background-color: white;
-	margin: 0;
-	cursor: pointer;
+	border-radius: 50%;
+	width: 50px;
+	height: 50px;
+}
+.profile_toggle img{
+	border-radius: 50%;
+	width: 100%;
+	height: 100%;
+	object-fit: fill;
 }
 
 .profile_dropdown {

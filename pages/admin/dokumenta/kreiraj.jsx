@@ -6,7 +6,7 @@ import { PageTitle, Plus, DragDropFile } from '../../../components';
 import { useRouter } from 'next/router';
 import { useStateContext } from '../../../services/context/ContextProvider';
 import Dokument from '../../../services/database/controllers/dokument';
-import DokumentAPI from '../../../services/api/Dokument';
+import DokumentAPI from '../../../services/api/Anime';
 
 
 function KreirajDokument({user, kategorije}) {

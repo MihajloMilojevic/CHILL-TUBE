@@ -1,9 +1,9 @@
 import { useState } from "react"
 import { useRouter } from "next/router";
-import { useStateContext } from "../../services/context/ContextProvider";
+import { useStateContext } from "../services/context/ContextProvider";
 import KorisnikAPI from "../../services/api/Korisnik";
-import {SSRSession} from "../../services/sessions/get-session"
-import auth from "../../services/middleware/authentication"
+import {SSRSession} from "../services/sessions/get-session"
+import auth from "../services/middleware/authentication"
 
 const initalFormData = {
 	stara: "",
