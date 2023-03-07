@@ -4,7 +4,7 @@ module.exports = (err, req, res, next) => {
 	let error = {
 		// set default
 		statusCode: err.statusCode || StatusCodes.INTERNAL_SERVER_ERROR,
-		msg: err.message || "Doslo je do greske. Probajte ponovo kasnije.",
+		msg: err.message || "An error occured. Try again later.",
 	}
 	
 	console.trace(err);

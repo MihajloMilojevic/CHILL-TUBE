@@ -10,7 +10,7 @@ export default function ContextProvider({children}) {
 	// defines state of the aplication and helper functions
 	const windowSize = useWindowSize();
 	const [activeMenu, setActiveMenu] = useState(true);
-	const [korisnik, setKorisnik] = useState(null);
+	const [user, setUser] = useState(null);
 	const [navHeight, setNavHeight] = useState(0);
 	const [modalOpen, setModalOpen] = useState(false);
 	const [modalChildren, setModalChildren] = useState(null);
@@ -73,7 +73,7 @@ export default function ContextProvider({children}) {
 				windowSize,
 				activeMenu, setActiveMenu,
 				notificationTypes, createNotification,
-				korisnik, setKorisnik,
+				user, setUser,
 				navHeight, setNavHeight,
 				setModalChildren, setModalOpen,
 			}}

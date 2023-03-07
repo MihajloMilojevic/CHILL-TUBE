@@ -5,7 +5,7 @@ import Anime from "../../services/database/controllers/anime";
 import Link from "next/link";
 import { useState } from "react";
 
-export default function Admin({user, anime}) {
+export default function AdminHomePage({user, anime}) {
 	const [search, setSearch] = useState("");
 	return (
 		<AdminLayout user={user}>

@@ -1,13 +1,13 @@
 import { useStateContext } from "../../services/context/ContextProvider";
-import {SideBar, Footer, Navbar, ScrollToTop, Page} from "..";
+import {Navbar, ScrollToTop, Page} from "..";
 import { useEffect } from "react";
 
-function Layout({children, user}) {
+function AdminLayout({children, user}) {
 
-	const {activeMenu, windowSize, setKorisnik} = useStateContext();
+	const {activeMenu, windowSize, setUser} = useStateContext();
 
 	useEffect(() => {
-		setKorisnik(user);
+		setUser(user);
 	}, []);
 
 	return (
@@ -35,7 +35,6 @@ function Layout({children, user}) {
 					<Page>
 						{children}
 					</Page>
-					<Footer />
 					<ScrollToTop />
 				</div>
 			</div>
@@ -43,25 +42,4 @@ function Layout({children, user}) {
 	)
 }
 
-export default Layout
-
-
-// import React from "react";
-// import dozvole from "../../services/database/constants/dozvole.json";
-
-// export default function AdminLayout({children, user}) {
-//     return (
-//         <div style={{
-//             display: "flex"
-//         }}>
-//             <div style={{maxWidth: "30vw"}}>
-//                 <ul>
-//                     {user.dozvole.map(id => <li key={id}>{dozvole.find(doz => doz.id == id)?.naziv || "Hello"}</li>)}
-//                 </ul>
-//             </div>
-//             <div>
-//                 {children}
-//             </div>
-//         </div>
-//     )
-// }
+export default AdminLayout

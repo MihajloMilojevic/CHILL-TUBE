@@ -6,17 +6,14 @@ import errorHandler from "../../../../services/middleware/errorHandler";
 import Errors from "../../../../services/errors";
 import File from "../../../../services/database/controllers/files";
 import auth from "../../../../services/middleware/authentication";
-import dozvoleId from "../../../../services/constants/dozvoleId.json"
-import authorize from "../../../../services/middleware/autohorize";
 import fileUpload from "express-fileupload";
 import Anime from "../../../../services/database/controllers/anime";
-import {convert, crte, osisaj} from "../../../../services/utils/translate";
 
 
 const handler = nc({
 	onError: (err, req, res) => errorHandler(err, req, res),
 	onNoMatch: errorWrapper((req, res) => {
-		throw new Errors.NotFoundError(`${req.method} ${req.url} не постоји.`);
+		throw new Errors.NotFoundError(`${req.method} ${req.url} doesn't exist.`);
 	})
 });
 

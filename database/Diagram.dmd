@@ -1,6 +1,6 @@
 <?xml version = '1.0' encoding = 'UTF-8'?>
 <OSDM_Design class="oracle.dbtools.crest.model.design.Design" name="Diagram" id="2E563F49-63DD-ED3B-651B-2289B683C937" version="3.5">
-<createdBy>Programiranje</createdBy>
+<createdBy>User</createdBy>
 <createdTime>2022-11-14 10:13:53 UTC</createdTime>
 <ownerDesignName>ER dijagram</ownerDesignName>
 <capitalNames>false</capitalNames>

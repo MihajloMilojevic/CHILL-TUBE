@@ -6,45 +6,45 @@ import { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import {RiLockPasswordLine, RiLogoutCircleRLine} from "react-icons/ri";
-import KorisnikAPI from "../../services/api/User";
+import API from "../../services/api/";
 
 
 function Profile() {
 	
 	const [openDropdown, setOpenDropdown] = useState(false);
 	const router = useRouter();
-	const {korisnik, createNotification, notificationTypes} = useStateContext();
+	const {user, createNotification, notificationTypes} = useStateContext();
 
 	async function logout() {
-		const {error, data} = await KorisnikAPI.logout();
+		const {error, data} = await API.UserAPI.logout();
         if(error) {
             createNotification({
                 type: notificationTypes.ERROR,
-                title: "Грешка",
+                title: "Error",
                 message: error.message
             })
         }
         else {
             createNotification({
                 type: notificationTypes.SUCCESS,
-                title: "Успех",
-                message: "Успешно сте се одјавили"
+                title: "Success",
+                message: "You have succesfully logged out"
             })
-            router.push("/admin/login");
+            router.push("/login");
         }
 	}
-    if(!korisnik) return (<></>);
+    if(!user) return (<></>);
 
 	return (
 		<div className={styles.profile}>
 			<div className={styles.profile_toggle} onClick={() => setOpenDropdown(prev => !prev)}  >
-				<Image alt="profile-picture" src={korisnik.picture} layout="fill" />
+				<Image alt="profile-picture" src={user.picture} layout="fill" />
 			</div>
 			{
 				openDropdown && (
 					<div className={`${styles.profile_dropdown} box-shadow`}>
 						<div className={styles.profile_dropdown_header}>
-							<h3>Кориснички профил</h3>
+							<h3>User profile</h3>
 							<button 
 								style={{
 									borderRadius: "50%",
@@ -62,14 +62,11 @@ function Profile() {
 								<AiOutlineClose color="black" size={15} />
 							</button>
 						</div>
-						<div className={styles.profile_dropdown_data}>
-							<p className={styles.profile_dropdown_data_name}>{korisnik.ime} {korisnik.prezime}</p>
-						</div>
 						<div style={{display: "flex", justifyContent: "center", alignItems: "center", margin: 0, padding:0}}></div>
-						<Link href="/admin/promeni-lozinku">
+						<Link href="/change-password">
 							<div className={styles.profile_dropdown_link} onClick={() => setOpenDropdown(false)}>
 								<RiLockPasswordLine color="black"/>
-								<span>Промени лозинку</span>
+								<span>Change Password</span>
 							</div>
 						</Link>
 						<div style={{display: "flex", justifyContent: "center", alignItems: "center", margin: 0, padding:0}}></div>
@@ -78,7 +75,7 @@ function Profile() {
 							onClick={() => {setOpenDropdown(false); logout()}}
 						>
 							<RiLogoutCircleRLine />
-							<span>Одјави се</span>
+							<span>Log out</span>
 						</div>
 					</div>
 				)

@@ -3,11 +3,12 @@ import { StatusCodes } from "http-status-codes";
 import { APISession } from "../../services/sessions/get-session";
 import errorWrapper from "../../services/middleware/errorWrapper";
 import errorHandler from "../../services/middleware/errorHandler";
+import Errors from "../../services/errors";
 
 const handler = nc({
 	onError: (err, req, res) => errorHandler(err, req, res),
 	onNoMatch: errorWrapper((req, res) => {
-		throw new Errors.NotFoundError(`${req.method} ${req.url} не постоји.`);
+		throw new Errors.NotFoundError(`${req.method} ${req.url} doesn't exist.`);
 	})
 });
 

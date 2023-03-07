@@ -4,7 +4,6 @@ import { APISession } from "../../services/sessions/get-session";
 import errorWrapper from "../../services/middleware/errorWrapper";
 import errorHandler from "../../services/middleware/errorHandler";
 import Errors from "../../services/errors";
-import query from "../../services/database/query";
 import bcrypt from "bcryptjs";
 import User from "../../services/database/controllers/users";
 

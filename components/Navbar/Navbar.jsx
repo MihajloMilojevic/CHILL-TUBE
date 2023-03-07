@@ -10,7 +10,7 @@ function Navbar() {
 
 	const navRef = useRef(null);
 	
-	const {windowSize, setActiveMenu, korisnik, setNavHeight, navHeight} = useStateContext();
+	const {windowSize, setNavHeight} = useStateContext();
 
 	useEffect(() => {
 		setNavHeight(navRef.current.clientHeight);
@@ -19,11 +19,10 @@ function Navbar() {
 
 	return (
 		<div className={`${styles.navbar} `}  ref={navRef}>
-			{/* <div className={styles.navbar_remove_shadow} style={{height: navHeight}}/> */}
 			
 			<Link href="/admin">
 				<div className={styles.navbar_left}>
-					<Image src="/logo-no-bg.png" alt="Logo" width={50} height={50}/>
+					<Image src="/logo.png" alt="Logo" width={50} height={50}/>
 					<span>Chill Tube</span>
 				</div>
 			</Link>
