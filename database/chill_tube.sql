@@ -15,7 +15,19 @@ CREATE TABLE IF NOT EXISTS anime (
 	id 					INT PRIMARY KEY AUTO_INCREMENT,
 	name				TEXT NOT NULL,
 	picture				TEXT NOT NULL,
-	description			TEXT
+	description			TEXT,
+	type				TEXT,
+	released			INT
+);
+
+CREATE TABLE genres (
+	id					INT PRIMARY KEY AUTO_INCREMENT,
+	name				TEXT NOT NULL
+);
+
+CREATE TABLE animes_genres (
+	animeId				INT NOT NULL REFERENCES anime(id),
+	genreId				INT NOT NULL REFERENCES genres(id)
 );
 
 CREATE TABLE IF NOT EXISTS episodes (
@@ -38,8 +50,13 @@ BEGIN
     );
 END //
 
+DELIMITER ;
+
 -- INSERT DATA
 
 INSERT INTO users(email, username, admin, password) VALUES
 ('spasicn032@gmail.com', 'Nikola Spasic', TRUE, '$2a$10$XGt3PKZtQ53rIiwTi3fw..x5nnL.izZ9dF8Ddsm4CwXogIKUgPQpG'); 			-- ID: 1
+
+INSERT INTO users(id, email, username, admin, password) VALUES
+(100, 'milojevicm374@gmail.com', 'Mihajlo Milojevic', TRUE, '$2a$10$gyOL.zzdddWS18n4x8Uv..bs53fXGYQTNC4vwcfF7JzlhTFGgahXq'); 			-- ID: 1
 

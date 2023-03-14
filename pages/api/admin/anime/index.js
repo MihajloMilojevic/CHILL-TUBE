@@ -24,12 +24,12 @@ handler.post(async (req, res) => {
 	if(!user) throw new Errors.UnauthenticatedError("You are not logged in");
 	if(!user.admin) 
 		throw new Errors.ForbiddenError("You don't have permission to perform this action.");
-	const {name, description} = req.body;
+	const {name, description, type, released} = req.body;
 	if(!name) throw new Errors.BadRequestError("Name is required.");
 	const picture = req.files.picture;
 	if(!picture) throw new Errors.BadRequestError("Picture is required");
 	const fileName = await File.Upload(picture, `anime`, `${name}`);
-	const {error} = await Anime.Create({fileName, name, description});
+	const {error} = await Anime.Create({fileName, name, description, type, released});
 	if(error) throw error;
 
 	res.status(StatusCodes.OK).json({ok: true})

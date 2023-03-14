@@ -15,10 +15,10 @@ export default class Anime {
 		});
 		return ret;
 	}
-	static async Create({fileName, name, description}) {
+	static async Create({fileName, name, description, type, released}) {
 		const ret = await query({
-			sql: "INSERT INTO anime(name, picture, description) VALUES (?, ?, ?)",
-			params: [name, `/files/anime/${fileName}`, description]
+			sql: "INSERT INTO anime(name, picture, description, type, released) VALUES (?, ?, ?, ?, ?)",
+			params: [name, `/files/anime/${fileName}`, description, type, released]
 		});
 		return ret;
 	}

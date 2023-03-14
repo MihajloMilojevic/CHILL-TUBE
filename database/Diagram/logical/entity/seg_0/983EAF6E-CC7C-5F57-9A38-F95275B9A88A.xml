@@ -1,7 +1,7 @@
 <?xml version = '1.0' encoding = 'UTF-8'?>
-<Entity class="oracle.dbtools.crest.model.design.logical.Entity" directorySegmentName="seg_0" id="FF027E32-19F3-8788-D302-9E206ACDEA12" name="ANIME">
+<Entity class="oracle.dbtools.crest.model.design.logical.Entity" directorySegmentName="seg_0" id="983EAF6E-CC7C-5F57-9A38-F95275B9A88A" name="ANIME_GENRE">
 <createdBy>PC</createdBy>
-<createdTime>2023-03-02 17:04:36 UTC</createdTime>
+<createdTime>2023-03-14 19:37:07 UTC</createdTime>
 <ownerDesignName>Diagram</ownerDesignName>
 <engineerTo>
 <item key="FE6295DB-AFF4-3C5D-AC26-6CDC7CB8C4A0" value="true"/>
@@ -15,9 +15,9 @@
 <minVolumes>0</minVolumes>
 <normalForm>Third</normalForm>
 <attributes itemClass="oracle.dbtools.crest.model.design.logical.Attribute">
-<Attribute name="id" id="7F90031E-32D4-F15F-5E12-4E2A622FF549">
+<Attribute name="animeId" id="FE03C537-FCA8-2EB0-8D2B-59CDB3F94442">
 <createdBy>PC</createdBy>
-<createdTime>2023-03-02 17:05:07 UTC</createdTime>
+<createdTime>2023-03-14 19:37:17 UTC</createdTime>
 <ownerDesignName>Diagram</ownerDesignName>
 <engineerTo>
 <item key="FE6295DB-AFF4-3C5D-AC26-6CDC7CB8C4A0" value="true"/>
@@ -27,64 +27,41 @@
 <logicalDatatype>LOGDT011</logicalDatatype>
 <ownDataTypeParameters>,,</ownDataTypeParameters>
 </Attribute>
-<Attribute name="name" id="D486E270-AA6F-4E12-0CB6-9524B8703884">
+<Attribute name="genreId" id="B48D3F50-C3EA-3AF7-FBC6-CD1F9E400E05">
 <createdBy>PC</createdBy>
-<createdTime>2023-03-02 17:05:19 UTC</createdTime>
+<createdTime>2023-03-14 19:37:34 UTC</createdTime>
 <ownerDesignName>Diagram</ownerDesignName>
 <engineerTo>
 <item key="FE6295DB-AFF4-3C5D-AC26-6CDC7CB8C4A0" value="true"/>
 </engineerTo>
 <useDomainConstraints>false</useDomainConstraints>
 <use>1</use>
-<logicalDatatype>LOGDT040</logicalDatatype>
+<logicalDatatype>LOGDT011</logicalDatatype>
 <ownDataTypeParameters>,,</ownDataTypeParameters>
 </Attribute>
-<Attribute name="picture" id="9D61B11B-A21B-AEFE-E1D0-BA9A692A9447">
+<Attribute name="id" id="EBBD20B9-5A70-921F-ABBE-828912751CA4">
 <createdBy>PC</createdBy>
-<createdTime>2023-03-02 17:06:35 UTC</createdTime>
+<createdTime>2023-03-14 19:38:18 UTC</createdTime>
+<generatorID>93464DB0-0D78-0736-B3DA-14D2B674067D</generatorID>
 <ownerDesignName>Diagram</ownerDesignName>
 <engineerTo>
 <item key="FE6295DB-AFF4-3C5D-AC26-6CDC7CB8C4A0" value="true"/>
 </engineerTo>
+<referedAttribute>7F90031E-32D4-F15F-5E12-4E2A622FF549</referedAttribute>
 <useDomainConstraints>false</useDomainConstraints>
 <use>1</use>
-<logicalDatatype>LOGDT040</logicalDatatype>
+<logicalDatatype>LOGDT011</logicalDatatype>
 <ownDataTypeParameters>,,</ownDataTypeParameters>
 </Attribute>
-<Attribute name="description" id="D336BC7D-2511-E2D1-BD5F-13830ED3211D">
+<Attribute name="id1" id="7D68004D-385B-6E5A-6274-DA770CB3F954">
 <createdBy>PC</createdBy>
-<createdTime>2023-03-02 17:06:39 UTC</createdTime>
+<createdTime>2023-03-14 19:38:48 UTC</createdTime>
+<generatorID>31EED41A-137E-1C18-6FD4-1F353D09727D</generatorID>
 <ownerDesignName>Diagram</ownerDesignName>
 <engineerTo>
 <item key="FE6295DB-AFF4-3C5D-AC26-6CDC7CB8C4A0" value="true"/>
 </engineerTo>
-<nullsAllowed>true</nullsAllowed>
-<useDomainConstraints>false</useDomainConstraints>
-<use>1</use>
-<logicalDatatype>LOGDT040</logicalDatatype>
-<ownDataTypeParameters>,,</ownDataTypeParameters>
-</Attribute>
-<Attribute name="type" id="526F7C1E-D754-5CDE-5A1C-A63C3D4B6F6D">
-<createdBy>PC</createdBy>
-<createdTime>2023-03-14 19:33:54 UTC</createdTime>
-<ownerDesignName>Diagram</ownerDesignName>
-<engineerTo>
-<item key="FE6295DB-AFF4-3C5D-AC26-6CDC7CB8C4A0" value="true"/>
-</engineerTo>
-<nullsAllowed>true</nullsAllowed>
-<useDomainConstraints>false</useDomainConstraints>
-<use>1</use>
-<logicalDatatype>LOGDT040</logicalDatatype>
-<ownDataTypeParameters>,,</ownDataTypeParameters>
-</Attribute>
-<Attribute name="released" id="A9B4CE3A-21C8-64B1-A7CE-FD77B76F249F">
-<createdBy>PC</createdBy>
-<createdTime>2023-03-14 19:34:36 UTC</createdTime>
-<ownerDesignName>Diagram</ownerDesignName>
-<engineerTo>
-<item key="FE6295DB-AFF4-3C5D-AC26-6CDC7CB8C4A0" value="true"/>
-</engineerTo>
-<nullsAllowed>true</nullsAllowed>
+<referedAttribute>4CE2BEAA-3553-75B6-C21C-4A03A5C88B32</referedAttribute>
 <useDomainConstraints>false</useDomainConstraints>
 <use>1</use>
 <logicalDatatype>LOGDT011</logicalDatatype>
@@ -92,16 +69,19 @@
 </Attribute>
 </attributes>
 <identifiers itemClass="oracle.dbtools.crest.model.design.logical.CandidateKey">
-<identifier id="BEB3265B-83FA-1690-1908-D6D0D013D0ED" name="SERIES PK">
+<identifier id="53FF63A8-4F56-130B-CF85-9E10AE9FDE92" name="ANIME_GENRE PK">
 <createdBy>PC</createdBy>
-<createdTime>2023-03-02 17:05:18 UTC</createdTime>
+<createdTime>2023-03-14 19:37:32 UTC</createdTime>
 <ownerDesignName>Diagram</ownerDesignName>
 <engineerTo>
 <item key="FE6295DB-AFF4-3C5D-AC26-6CDC7CB8C4A0" value="true"/>
 </engineerTo>
 <pk>true</pk>
 <usedAttributes>
-<attributeRef>7F90031E-32D4-F15F-5E12-4E2A622FF549</attributeRef>
+<attributeRef>FE03C537-FCA8-2EB0-8D2B-59CDB3F94442</attributeRef>
+<attributeRef>B48D3F50-C3EA-3AF7-FBC6-CD1F9E400E05</attributeRef>
+<attributeRef>EBBD20B9-5A70-921F-ABBE-828912751CA4</attributeRef>
+<attributeRef>7D68004D-385B-6E5A-6274-DA770CB3F954</attributeRef>
 </usedAttributes>
 </identifier>
 </identifiers>

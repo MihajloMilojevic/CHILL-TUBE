@@ -1,12 +1,14 @@
 
 export default class AnimeAPI {
 	
-	static async Create(name, description, picture) {
+	static async Create(name, description, picture, type, released) {
 		try {
 			const body = new FormData();
 			body.append("name", name);
 			body.append("description", description);
 			body.append("picture", picture);
+			body.append("type", type);
+			body.append("released", released);
 			const ENDPOINT = `/api/admin/anime`;
 			const res = await fetch(ENDPOINT, {
 				method: "POST",

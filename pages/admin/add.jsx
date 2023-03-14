@@ -10,6 +10,8 @@ export default function AddAnimePage({user}) {
 	const {createNotification, notificationTypes} = useStateContext();
 	const [name, setName] = useState("");
 	const [description, setDescription] = useState("");
+	const [type, setType] = useState("");
+	const [released, setReleased] = useState("");
 	const [imageSrc, setImageSrc] = useState("");
 	const pictureRef = useRef(null);
 	const router = useRouter();
@@ -32,7 +34,7 @@ export default function AddAnimePage({user}) {
 				message: "Picture is required"
 			})
 		}
-		const {error, data} = await API.AnimeAPI.Create(name, description, pictureRef.current.files[0])
+		const {error, data} = await API.AnimeAPI.Create(name, description, pictureRef.current.files[0], type, released)
 		if(error) {
 			return createNotification({
 				type: notificationTypes.ERROR,
@@ -55,7 +57,11 @@ export default function AddAnimePage({user}) {
 			<form onSubmit={handleSubmit}>
 				<button type="submit">Save</button> <br/>
 				<label htmlFor="name">Name:</label>
-				<input id="name" value={name} onChange={e => setName(e.target.value)}  /> <br />
+				<textarea id="name" value={name} onChange={e => setName(e.target.value)}  /> <br />
+				<label htmlFor="type">Type:</label>
+				<input id="type" value={type} onChange={e => setType(e.target.value)}  /> <br />
+				<label htmlFor="released">Released:</label>
+				<input id="released" value={released} onChange={e => setReleased(e.target.value)}  /> <br />
 				<label htmlFor="picture">Picture:</label>
 				<input 
 					type="file" 
