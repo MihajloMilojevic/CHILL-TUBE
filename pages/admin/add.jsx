@@ -18,7 +18,7 @@ export default function AddAnimePage({user}) {
 
 	async function handleSubmit(e) {
 		e.preventDefault();
-		console.log({name, description, picture: pictureRef.current.files[0]});
+		//console.log({name, description, picture: pictureRef.current.files[0]});
 		if(!name) {
 			return createNotification({
 				type: notificationTypes.ERROR,

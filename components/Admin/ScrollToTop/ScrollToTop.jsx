@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { FaAngleUp } from "react-icons/fa";
+import { FaAngleUp } from "@react-icons/all-files/fa/FaAngleUp";
 
 import styles from "./ScrollToTop.module.css"
 

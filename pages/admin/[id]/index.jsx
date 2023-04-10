@@ -9,30 +9,124 @@ import Anime from "../../../services/database/controllers/anime";
 import {EpisodeEditer} from "../../../components/Admin";
 
 const testEpisodes = [
-	{number: 1, video: null},
-	{number: 2, video: null},
-	{number: 3, video: null},
-	{number: 4, video: null},
-	{number: 5, video: null},
-	{number: 6, video: null},
-	{number: 7, video: null},
-	{number: 8, video: null},
-	{number: 9, video: null},
+	{id: 1, orderNumber: 1, videoUrl: null, videoFile: null},
+	{id: 2, orderNumber: 2, videoUrl: null, videoFile: null},
+	{id: 3, orderNumber: 3, videoUrl: null, videoFile: null},
+	{id: 4, orderNumber: 4, videoUrl: null, videoFile: null},
+	{id: 5, orderNumber: 5, videoUrl: null, videoFile: null},
+	{id: 6, orderNumber: 6, videoUrl: null, videoFile: null},
+	{id: 7, orderNumber: 7, videoUrl: null, videoFile: null},
+	{id: 8, orderNumber: 8, videoUrl: null, videoFile: null},
+	{id: 9, orderNumber: 9, videoUrl: null, videoFile: null},
 ]
 
 export default function SingleAnime({user, anime}) {
+	
+
+	return (
+		<AdminLayout user={user}>
+			<h1>{anime.name}</h1>
+			{/* <p>{JSON.stringify(user)}</p> */}
+			{/* <AnimeData anime={anime} /> */}
+			<Episodes anime={anime} />
+		</AdminLayout>
+	)
+}
+
+export const getServerSideProps = SSRSession(async ({req, res, query}) => {
+	const user = await auth(req, res); // get currently logged user
+	if(!user) return { // if user isn't logged in redirect them to login page
+		redirect: {
+			destination: "/login",
+			permanent: false
+		}
+	}
+	// if user is not admin they can't access this page
+	if(!user.admin) return {
+		redirect: {
+			destination: `/error?message=Only admins can access this page`,
+			permanent: false
+		}
+	}
+	const {error, data} = await Anime.GetById(query.id);
+	if(error) return {
+		redirect: {
+			destination: `/error?message=${error.message}`,
+			permanent: false
+		}
+	}
+	if(data.length === 0) return {
+		notFound: true
+	}
+	//console.log(data);
+	const anime = {
+		...data[0],
+		episodes: JSON.parse(data[0].episodes ?? "[]") ?? []
+	}
+	//console.log(anime);
+	return {
+		props: {
+			user,
+			anime: JSON.parse(JSON.stringify(anime))
+		}
+	}
+})
+
+function Episodes({anime}) {
+
+	const [episodes, setEpisodes] = useState(testEpisodes) //useState(anime.episodes ?? []);
+	const [currentEpisodeIndex, setCurrentEpisodeIndex] = useState(-1);
+
+	function deleteEpisode(episodeId) {
+		setEpisodes(episodes.filter(({id}) => id !== episodeId))
+	}
+	function saveEpisode(id, file) {
+		setEpisodes(episodes.map(episode => episode.id === id ? {...episode, videoFile: file} : episode));
+	}
+
+	return (
+		<div style={{display: "flex"}}>
+			<div style={{flex: 3}}>
+				<button onClick={() => {setEpisodes([...episodes, {orderNumber: episodes.length + 1}])}}>
+					Add episode
+				</button>
+				<button onClick={() => {}}>
+					Save Episodes
+				</button>
+				<ul>
+					{episodes.map((e, i) => (
+						<li key={i} onClick={(e) => setCurrentEpisodeIndex(i)}>Episode {i+1}. {e.videoUrl == null && e.videoFile == null ? <span title="This episode does not have video selected">-</span> : <span title="This episode has video selected">+</span>}</li>
+					))}
+					<br></br>
+					<br></br>
+					<br></br>
+					<br></br>
+					<hr></hr>
+				</ul>
+			</div>
+			<EpisodeEditer 
+				episode={currentEpisodeIndex < 0 ? null : episodes[currentEpisodeIndex]}
+				close={() => {setCurrentEpisodeIndex(-1)}}
+				saveEpisode={saveEpisode}
+				deleteEpisode={deleteEpisode}
+			/>
+		</div>
+	)
+}
+
+function AnimeData({anime}) {
+
 	const {createNotification, notificationTypes} = useStateContext();
 	const [name, setName] = useState(anime.name);
 	const [description, setDescription] = useState(anime.description);
 	const [imageSrc, setImageSrc] = useState(anime.picture);
 	const pictureRef = useRef(null);
 	const router = useRouter();
-	const [episodes, setEpisodes] = useState(testEpisodes) //useState(anime.episodes ?? []);
-	const [currentEpisodeIndex, setCurrentEpisodeIndex] = useState(-1);
 		
 	async function handleSubmit(e) {
+		return;
 		e.preventDefault();
-		console.log({name, description, picture: pictureRef.current.files[0]});
+		//console.log({name, description, picture: pictureRef.current.files[0]});
 		if(!name) {
 			return createNotification({
 				type: notificationTypes.ERROR,
@@ -65,89 +159,28 @@ export default function SingleAnime({user, anime}) {
 	}
 
 	return (
-		<AdminLayout user={user}>
-			<h1>{anime.name}</h1>
-			{/* <p>{JSON.stringify(user)}</p> */}
-			<form onSubmit={handleSubmit}>
-				<button type="submit">Save</button> <br/>
-				<label htmlFor="name">Name:</label>
-				<input id="name" value={name} onChange={e => setName(e.target.value)}  /> <br />
-				<label htmlFor="picture">Picture:</label>
-				<input 
-					type="file" 
-					ref={pictureRef} 
-					onChange={
-						e => {
-							const [file] = e.target.files;
-							if (file) {
-								setImageSrc(URL.createObjectURL(file))
-							}
-							else setImageSrc("")
+		<form onSubmit={handleSubmit}>
+			<button type="submit">Save</button> <br/>
+			<label htmlFor="name">Name:</label>
+			<input id="name" value={name} onChange={e => setName(e.target.value)}  /> <br />
+			<label htmlFor="picture">Picture:</label>
+			<input 
+				type="file" 
+				ref={pictureRef} 
+				onChange={
+					e => {
+						const [file] = e.target.files;
+						if (file) {
+							setImageSrc(URL.createObjectURL(file))
 						}
-  					} 
-				/> 
-				<br />
-				{imageSrc !== "" && (<img src={imageSrc} width={100} height={100} style={{objectFit: "contain", display:"block"}} />)}
-				<label htmlFor="desc">Description:</label>
-				<textarea id="desc" value={description} onChange={e => setDescription(e.target.value)} /> <br />
-			</form>
-			<div style={{display: "flex"}}>
-				<div style={{flex: 3}}>
-					<button onClick={() => {setEpisodes([...episodes, {number: episodes.length + 1}])}}>
-						Add episode
-					</button>
-					<ul>
-						{episodes.map((e, i) => (
-							<li key={i} onClick={(e) => setCurrentEpisodeIndex(i)}>Episode {i+1}. {e.video == null ? <span title="This episode does not have video selected">-</span> : <span title="This episode has video selevted">+</span>}</li>
-						))}
-						<br></br>
-						<br></br>
-						<br></br>
-						<br></br>
-						<hr></hr>
-					</ul>
-				</div>
-				<EpisodeEditer onVideoChange={(e) => {console.log(e.currentTarget.value)}} anime={anime} episode={currentEpisodeIndex < 0 ? null : episodes[currentEpisodeIndex]} />
-			</div>
-		</AdminLayout>
-	)
+						else setImageSrc("")
+					}
+				} 
+			/> 
+			<br />
+			{imageSrc !== "" && (<img src={imageSrc} width={100} height={100} style={{objectFit: "contain", display:"block"}} />)}
+			<label htmlFor="desc">Description:</label>
+			<textarea id="desc" value={description} onChange={e => setDescription(e.target.value)} /> <br />
+		</form>
+	);
 }
-
-export const getServerSideProps = SSRSession(async ({req, res, query}) => {
-	const user = await auth(req, res); // get currently logged user
-	if(!user) return { // if user isn't logged in redirect them to login page
-		redirect: {
-			destination: "/login",
-			permanent: false
-		}
-	}
-	// if user is not admin they can't access this page
-	if(!user.admin) return {
-		redirect: {
-			destination: `/error?message=Only admins can access this page`,
-			permanent: false
-		}
-	}
-	const {error, data} = await Anime.GetById(query.id);
-	if(error) return {
-		redirect: {
-			destination: `/error?message=${error.message}`,
-			permanent: false
-		}
-	}
-	if(data.length === 0) return {
-		notFound: true
-	}
-	console.log(data);
-	const anime = {
-		...data[0],
-		episodes: JSON.parse(data[0].episodes ?? "[]") ?? []
-	}
-	console.log(anime);
-	return {
-		props: {
-			user,
-			anime: JSON.parse(JSON.stringify(anime))
-		}
-	}
-})

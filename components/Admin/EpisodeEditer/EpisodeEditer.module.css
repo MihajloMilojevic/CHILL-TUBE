@@ -2,5 +2,19 @@
 	flex: 2;
 	min-height: 300px;
 	border-left: 1px solid black;
-	
+	position: relative;
+}
+.close {
+	position: absolute;
+	top: 5px;
+	right: 5px;
+	outline: none;
+	border: none;
+	background-color: lightblue;
+	display: grid;
+	place-items: center;
+	border-radius: 50%;
+	width: 30px;
+	height: 30px;
+	cursor: pointer;
 }

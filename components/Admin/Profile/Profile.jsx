@@ -1,11 +1,12 @@
 import {useStateContext} from "../../../services/context/ContextProvider";
 import {useRouter} from "next/router";
-import {AiOutlineClose} from "react-icons/ai"
+import {AiOutlineClose} from "@react-icons/all-files/ai/AiOutlineClose"
 import styles from "./Profile.module.css";
 import { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import {RiLockPasswordLine, RiLogoutCircleRLine} from "react-icons/ri";
+import {RiLockPasswordLine} from "@react-icons/all-files/ri/RiLockPasswordLine";
+import {RiLogoutCircleRLine} from "@react-icons/all-files/ri/RiLogoutCircleRLine";
 import API from "../../../services/api/";
 
 
