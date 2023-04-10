@@ -1,7 +1,7 @@
 <?xml version = '1.0' encoding = 'UTF-8'?>
-<Entity class="oracle.dbtools.crest.model.design.logical.Entity" directorySegmentName="seg_0" id="5C211744-5DE6-5D08-B9B5-71F10C781F45" name="EPISODE">
+<Entity class="oracle.dbtools.crest.model.design.logical.Entity" directorySegmentName="seg_0" id="82D8CC05-B2E8-683E-37AA-D0ED5C1BFF90" name="RATING">
 <createdBy>PC</createdBy>
-<createdTime>2023-03-02 20:37:23 UTC</createdTime>
+<createdTime>2023-04-10 11:39:13 UTC</createdTime>
 <ownerDesignName>Diagram</ownerDesignName>
 <engineerTo>
 <item key="FE6295DB-AFF4-3C5D-AC26-6CDC7CB8C4A0" value="true"/>
@@ -15,9 +15,9 @@
 <minVolumes>0</minVolumes>
 <normalForm>Third</normalForm>
 <attributes itemClass="oracle.dbtools.crest.model.design.logical.Attribute">
-<Attribute name="id" id="5B56022C-9825-501B-4036-042CD721ACDA">
+<Attribute name="userId" id="9B7A04EA-AC40-CE0C-1E25-1469320DF208">
 <createdBy>PC</createdBy>
-<createdTime>2023-03-02 20:37:38 UTC</createdTime>
+<createdTime>2023-04-10 11:39:19 UTC</createdTime>
 <ownerDesignName>Diagram</ownerDesignName>
 <engineerTo>
 <item key="FE6295DB-AFF4-3C5D-AC26-6CDC7CB8C4A0" value="true"/>
@@ -27,9 +27,9 @@
 <logicalDatatype>LOGDT011</logicalDatatype>
 <ownDataTypeParameters>,,</ownDataTypeParameters>
 </Attribute>
-<Attribute name="orderNumber" id="3F3F5541-E48F-B68A-9E59-46B3DF97F788">
+<Attribute name="animeId" id="6C7DC6C2-5B92-512F-23D4-B3B84A55891F">
 <createdBy>PC</createdBy>
-<createdTime>2023-03-02 20:37:54 UTC</createdTime>
+<createdTime>2023-04-10 11:39:29 UTC</createdTime>
 <ownerDesignName>Diagram</ownerDesignName>
 <engineerTo>
 <item key="FE6295DB-AFF4-3C5D-AC26-6CDC7CB8C4A0" value="true"/>
@@ -39,21 +39,9 @@
 <logicalDatatype>LOGDT011</logicalDatatype>
 <ownDataTypeParameters>,,</ownDataTypeParameters>
 </Attribute>
-<Attribute name="video" id="2D2AB6A1-B9C0-3966-B5FF-20F259598F81">
+<Attribute name="rating" id="67DA0F3F-D547-C503-B7EA-A5418CDF4998">
 <createdBy>PC</createdBy>
-<createdTime>2023-03-02 20:52:17 UTC</createdTime>
-<ownerDesignName>Diagram</ownerDesignName>
-<engineerTo>
-<item key="FE6295DB-AFF4-3C5D-AC26-6CDC7CB8C4A0" value="true"/>
-</engineerTo>
-<useDomainConstraints>false</useDomainConstraints>
-<use>1</use>
-<logicalDatatype>LOGDT040</logicalDatatype>
-<ownDataTypeParameters>,,</ownDataTypeParameters>
-</Attribute>
-<Attribute name="animeId" id="16C3AA03-9A1F-07B9-0420-054F073FF200">
-<createdBy>PC</createdBy>
-<createdTime>2023-03-02 20:52:33 UTC</createdTime>
+<createdTime>2023-04-10 11:39:56 UTC</createdTime>
 <ownerDesignName>Diagram</ownerDesignName>
 <engineerTo>
 <item key="FE6295DB-AFF4-3C5D-AC26-6CDC7CB8C4A0" value="true"/>
@@ -63,10 +51,24 @@
 <logicalDatatype>LOGDT011</logicalDatatype>
 <ownDataTypeParameters>,,</ownDataTypeParameters>
 </Attribute>
-<Attribute name="id1" id="25439D23-1466-195A-2D94-4F2C3B97F342">
+<Attribute name="id" id="6B0B8897-DD8D-7CD5-4CCC-6888B4A3C444">
 <createdBy>PC</createdBy>
-<createdTime>2023-03-02 20:53:08 UTC</createdTime>
-<generatorID>072C2ACA-5227-FC77-547A-D18C9397B3B7</generatorID>
+<createdTime>2023-04-10 11:40:27 UTC</createdTime>
+<generatorID>A71B334F-F8ED-C8AF-6AA4-17D1CFDAE464</generatorID>
+<ownerDesignName>Diagram</ownerDesignName>
+<engineerTo>
+<item key="FE6295DB-AFF4-3C5D-AC26-6CDC7CB8C4A0" value="true"/>
+</engineerTo>
+<referedAttribute>80C6F24B-56D6-CAB1-6982-3A6A088E4E34</referedAttribute>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT027</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="id1" id="57DBEA21-8951-F66F-2803-9D3D76B13D8D">
+<createdBy>PC</createdBy>
+<createdTime>2023-04-10 11:40:31 UTC</createdTime>
+<generatorID>ABAB8FFE-5A99-C7E3-4C59-EA060298C7B1</generatorID>
 <ownerDesignName>Diagram</ownerDesignName>
 <engineerTo>
 <item key="FE6295DB-AFF4-3C5D-AC26-6CDC7CB8C4A0" value="true"/>
@@ -79,17 +81,19 @@
 </Attribute>
 </attributes>
 <identifiers itemClass="oracle.dbtools.crest.model.design.logical.CandidateKey">
-<identifier id="5FE4535C-ADB2-C3E9-FB18-6FA7EA39F99B" name="EPISODE PK">
+<identifier id="54BCD5AB-07D0-9B0E-44E5-231DFD6301CA" name="RATING PK">
 <createdBy>PC</createdBy>
-<createdTime>2023-03-02 20:37:53 UTC</createdTime>
+<createdTime>2023-04-10 11:39:24 UTC</createdTime>
 <ownerDesignName>Diagram</ownerDesignName>
 <engineerTo>
 <item key="FE6295DB-AFF4-3C5D-AC26-6CDC7CB8C4A0" value="true"/>
 </engineerTo>
 <pk>true</pk>
 <usedAttributes>
-<attributeRef>5B56022C-9825-501B-4036-042CD721ACDA</attributeRef>
-<attributeRef>25439D23-1466-195A-2D94-4F2C3B97F342</attributeRef>
+<attributeRef>9B7A04EA-AC40-CE0C-1E25-1469320DF208</attributeRef>
+<attributeRef>6C7DC6C2-5B92-512F-23D4-B3B84A55891F</attributeRef>
+<attributeRef>6B0B8897-DD8D-7CD5-4CCC-6888B4A3C444</attributeRef>
+<attributeRef>57DBEA21-8951-F66F-2803-9D3D76B13D8D</attributeRef>
 </usedAttributes>
 </identifier>
 </identifiers>

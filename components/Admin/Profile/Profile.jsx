@@ -1,4 +1,4 @@
-import {useStateContext} from "../../services/context/ContextProvider";
+import {useStateContext} from "../../../services/context/ContextProvider";
 import {useRouter} from "next/router";
 import {AiOutlineClose} from "react-icons/ai"
 import styles from "./Profile.module.css";
@@ -6,7 +6,7 @@ import { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import {RiLockPasswordLine, RiLogoutCircleRLine} from "react-icons/ri";
-import API from "../../services/api/";
+import API from "../../../services/api/";
 
 
 function Profile() {

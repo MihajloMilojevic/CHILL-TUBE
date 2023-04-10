@@ -1,4 +1,4 @@
-import { useStateContext } from "../../services/context/ContextProvider";
+import { useStateContext } from "../../../services/context/ContextProvider";
 
 
 function Modal({show, children}) {

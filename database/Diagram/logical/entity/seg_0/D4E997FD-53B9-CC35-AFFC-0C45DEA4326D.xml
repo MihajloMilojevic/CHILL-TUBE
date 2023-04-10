@@ -1,7 +1,7 @@
 <?xml version = '1.0' encoding = 'UTF-8'?>
-<Entity class="oracle.dbtools.crest.model.design.logical.Entity" directorySegmentName="seg_0" id="5C211744-5DE6-5D08-B9B5-71F10C781F45" name="EPISODE">
+<Entity class="oracle.dbtools.crest.model.design.logical.Entity" directorySegmentName="seg_0" id="D4E997FD-53B9-CC35-AFFC-0C45DEA4326D" name="LIST_ANIME">
 <createdBy>PC</createdBy>
-<createdTime>2023-03-02 20:37:23 UTC</createdTime>
+<createdTime>2023-04-10 11:26:06 UTC</createdTime>
 <ownerDesignName>Diagram</ownerDesignName>
 <engineerTo>
 <item key="FE6295DB-AFF4-3C5D-AC26-6CDC7CB8C4A0" value="true"/>
@@ -15,9 +15,9 @@
 <minVolumes>0</minVolumes>
 <normalForm>Third</normalForm>
 <attributes itemClass="oracle.dbtools.crest.model.design.logical.Attribute">
-<Attribute name="id" id="5B56022C-9825-501B-4036-042CD721ACDA">
+<Attribute name="listId" id="5134AC40-4B96-70F9-F707-3BC15B810580">
 <createdBy>PC</createdBy>
-<createdTime>2023-03-02 20:37:38 UTC</createdTime>
+<createdTime>2023-04-10 11:26:34 UTC</createdTime>
 <ownerDesignName>Diagram</ownerDesignName>
 <engineerTo>
 <item key="FE6295DB-AFF4-3C5D-AC26-6CDC7CB8C4A0" value="true"/>
@@ -27,9 +27,9 @@
 <logicalDatatype>LOGDT011</logicalDatatype>
 <ownDataTypeParameters>,,</ownDataTypeParameters>
 </Attribute>
-<Attribute name="orderNumber" id="3F3F5541-E48F-B68A-9E59-46B3DF97F788">
+<Attribute name="animeId" id="E33ABD77-221A-0095-6ACA-D21B61DACAA3">
 <createdBy>PC</createdBy>
-<createdTime>2023-03-02 20:37:54 UTC</createdTime>
+<createdTime>2023-04-10 11:28:15 UTC</createdTime>
 <ownerDesignName>Diagram</ownerDesignName>
 <engineerTo>
 <item key="FE6295DB-AFF4-3C5D-AC26-6CDC7CB8C4A0" value="true"/>
@@ -39,34 +39,24 @@
 <logicalDatatype>LOGDT011</logicalDatatype>
 <ownDataTypeParameters>,,</ownDataTypeParameters>
 </Attribute>
-<Attribute name="video" id="2D2AB6A1-B9C0-3966-B5FF-20F259598F81">
+<Attribute name="id" id="D64A3520-92B8-D2DD-7D6D-A3654D670874">
 <createdBy>PC</createdBy>
-<createdTime>2023-03-02 20:52:17 UTC</createdTime>
+<createdTime>2023-04-10 11:29:46 UTC</createdTime>
+<generatorID>D156B9B0-51BF-89FB-EA76-CDE1704A1594</generatorID>
 <ownerDesignName>Diagram</ownerDesignName>
 <engineerTo>
 <item key="FE6295DB-AFF4-3C5D-AC26-6CDC7CB8C4A0" value="true"/>
 </engineerTo>
-<useDomainConstraints>false</useDomainConstraints>
-<use>1</use>
-<logicalDatatype>LOGDT040</logicalDatatype>
-<ownDataTypeParameters>,,</ownDataTypeParameters>
-</Attribute>
-<Attribute name="animeId" id="16C3AA03-9A1F-07B9-0420-054F073FF200">
-<createdBy>PC</createdBy>
-<createdTime>2023-03-02 20:52:33 UTC</createdTime>
-<ownerDesignName>Diagram</ownerDesignName>
-<engineerTo>
-<item key="FE6295DB-AFF4-3C5D-AC26-6CDC7CB8C4A0" value="true"/>
-</engineerTo>
+<referedAttribute>D6CC9D7F-974F-E773-AA5C-9C5881A73BD5</referedAttribute>
 <useDomainConstraints>false</useDomainConstraints>
 <use>1</use>
 <logicalDatatype>LOGDT011</logicalDatatype>
 <ownDataTypeParameters>,,</ownDataTypeParameters>
 </Attribute>
-<Attribute name="id1" id="25439D23-1466-195A-2D94-4F2C3B97F342">
+<Attribute name="id1" id="363950ED-C9C7-EA01-B3BD-B4A811B65742">
 <createdBy>PC</createdBy>
-<createdTime>2023-03-02 20:53:08 UTC</createdTime>
-<generatorID>072C2ACA-5227-FC77-547A-D18C9397B3B7</generatorID>
+<createdTime>2023-04-10 11:30:03 UTC</createdTime>
+<generatorID>D4F13321-072F-BF51-465C-61CE07A31BCA</generatorID>
 <ownerDesignName>Diagram</ownerDesignName>
 <engineerTo>
 <item key="FE6295DB-AFF4-3C5D-AC26-6CDC7CB8C4A0" value="true"/>
@@ -79,17 +69,19 @@
 </Attribute>
 </attributes>
 <identifiers itemClass="oracle.dbtools.crest.model.design.logical.CandidateKey">
-<identifier id="5FE4535C-ADB2-C3E9-FB18-6FA7EA39F99B" name="EPISODE PK">
+<identifier id="DB22EA6E-3FCD-6A02-8BB1-21B796638866" name="LIST_ANIME PK">
 <createdBy>PC</createdBy>
-<createdTime>2023-03-02 20:37:53 UTC</createdTime>
+<createdTime>2023-04-10 11:28:07 UTC</createdTime>
 <ownerDesignName>Diagram</ownerDesignName>
 <engineerTo>
 <item key="FE6295DB-AFF4-3C5D-AC26-6CDC7CB8C4A0" value="true"/>
 </engineerTo>
 <pk>true</pk>
 <usedAttributes>
-<attributeRef>5B56022C-9825-501B-4036-042CD721ACDA</attributeRef>
-<attributeRef>25439D23-1466-195A-2D94-4F2C3B97F342</attributeRef>
+<attributeRef>5134AC40-4B96-70F9-F707-3BC15B810580</attributeRef>
+<attributeRef>E33ABD77-221A-0095-6ACA-D21B61DACAA3</attributeRef>
+<attributeRef>D64A3520-92B8-D2DD-7D6D-A3654D670874</attributeRef>
+<attributeRef>363950ED-C9C7-EA01-B3BD-B4A811B65742</attributeRef>
 </usedAttributes>
 </identifier>
 </identifiers>

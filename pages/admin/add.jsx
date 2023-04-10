@@ -1,5 +1,5 @@
 import { useRef, useState } from "react";
-import AdminLayout from "../../components/AdminLayout/AdminLayout";
+import AdminLayout from "../../components/Admin/AdminLayout/AdminLayout";
 import auth from "../../services/middleware/authentication";
 import {SSRSession} from "../../services/sessions/get-session";
 import { useStateContext } from '../../services/context/ContextProvider';

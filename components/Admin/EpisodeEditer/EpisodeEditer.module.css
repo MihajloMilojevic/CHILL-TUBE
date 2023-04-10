@@ -1,0 +1,6 @@
+.editor {
+	flex: 2;
+	min-height: 300px;
+	border-left: 1px solid black;
+	
+}

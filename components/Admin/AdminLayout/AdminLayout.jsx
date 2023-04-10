@@ -1,4 +1,4 @@
-import { useStateContext } from "../../services/context/ContextProvider";
+import { useStateContext } from "../../../services/context/ContextProvider";
 import {Navbar, ScrollToTop, Page} from "..";
 import { useEffect } from "react";
 

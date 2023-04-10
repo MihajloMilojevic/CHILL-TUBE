@@ -1,11 +1,24 @@
 import { useRef, useState } from "react";
-import AdminLayout from "../../../components/AdminLayout/AdminLayout";
+import AdminLayout from "../../../components/Admin/AdminLayout/AdminLayout";
 import auth from "../../../services/middleware/authentication";
 import {SSRSession} from "../../../services/sessions/get-session";
 import { useStateContext } from '../../../services/context/ContextProvider';
 import API from "../../../services/api";
 import { useRouter } from "next/router";
 import Anime from "../../../services/database/controllers/anime";
+import {EpisodeEditer} from "../../../components/Admin";
+
+const testEpisodes = [
+	{number: 1, video: null},
+	{number: 2, video: null},
+	{number: 3, video: null},
+	{number: 4, video: null},
+	{number: 5, video: null},
+	{number: 6, video: null},
+	{number: 7, video: null},
+	{number: 8, video: null},
+	{number: 9, video: null},
+]
 
 export default function SingleAnime({user, anime}) {
 	const {createNotification, notificationTypes} = useStateContext();
@@ -14,6 +27,8 @@ export default function SingleAnime({user, anime}) {
 	const [imageSrc, setImageSrc] = useState(anime.picture);
 	const pictureRef = useRef(null);
 	const router = useRouter();
+	const [episodes, setEpisodes] = useState(testEpisodes) //useState(anime.episodes ?? []);
+	const [currentEpisodeIndex, setCurrentEpisodeIndex] = useState(-1);
 		
 	async function handleSubmit(e) {
 		e.preventDefault();
@@ -76,6 +91,24 @@ export default function SingleAnime({user, anime}) {
 				<label htmlFor="desc">Description:</label>
 				<textarea id="desc" value={description} onChange={e => setDescription(e.target.value)} /> <br />
 			</form>
+			<div style={{display: "flex"}}>
+				<div style={{flex: 3}}>
+					<button onClick={() => {setEpisodes([...episodes, {number: episodes.length + 1}])}}>
+						Add episode
+					</button>
+					<ul>
+						{episodes.map((e, i) => (
+							<li key={i} onClick={(e) => setCurrentEpisodeIndex(i)}>Episode {i+1}. {e.video == null ? <span title="This episode does not have video selected">-</span> : <span title="This episode has video selevted">+</span>}</li>
+						))}
+						<br></br>
+						<br></br>
+						<br></br>
+						<br></br>
+						<hr></hr>
+					</ul>
+				</div>
+				<EpisodeEditer onVideoChange={(e) => {console.log(e.currentTarget.value)}} anime={anime} episode={currentEpisodeIndex < 0 ? null : episodes[currentEpisodeIndex]} />
+			</div>
 		</AdminLayout>
 	)
 }

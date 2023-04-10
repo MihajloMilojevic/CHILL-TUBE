@@ -1,7 +1,7 @@
 import {createContext, useContext, useState, useEffect} from "react";
 import useWindowSize from "../hooks/useWindowSize";
 import {NotificationContainer, NotificationManager} from 'react-notifications';
-import {Modal} from "../../components";
+import {Modal} from "../../components/Admin";
 
 const StateContext = createContext();
 

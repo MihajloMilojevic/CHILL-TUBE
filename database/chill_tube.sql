@@ -20,14 +20,9 @@ CREATE TABLE IF NOT EXISTS anime (
 	released			INT
 );
 
-CREATE TABLE genres (
+CREATE TABLE IF NOT EXISTS genres (
 	id					INT PRIMARY KEY AUTO_INCREMENT,
 	name				TEXT NOT NULL
-);
-
-CREATE TABLE animes_genres (
-	animeId				INT NOT NULL REFERENCES anime(id),
-	genreId				INT NOT NULL REFERENCES genres(id)
 );
 
 CREATE TABLE IF NOT EXISTS episodes (
@@ -35,6 +30,45 @@ CREATE TABLE IF NOT EXISTS episodes (
 	orderNumber			INT NOT NULL,
 	video				TEXT NOT NULL,
 	animeId				INT NOT NULL REFERENCES anime(id)
+);
+
+CREATE TABLE IF NOT EXISTS lists (
+	id					INT PRIMARY KEY AUTO_INCREMENT,
+	userId				INT NOT NULL REFERENCES users(id),
+	name				TEXT NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS animes_genres (
+	animeId				INT NOT NULL REFERENCES anime(id),
+	genreId				INT NOT NULL REFERENCES genres(id)
+);
+
+CREATE TABLE IF NOT EXISTS animes_lists (
+	animeId				INT NOT NULL REFERENCES anime(id),
+	listId				INT NOT NULL REFERENCES lists(id)
+);
+
+CREATE TABLE IF NOT EXISTS watches (
+	userId 				INT NOT NULL REFERENCES users(id),
+	episodeId			INT NOT NULL REFERENCES episodes(id),
+	completed			BOOLEAN NOT NULL DEFAULT FALSE,
+	timestamp			INT,
+	PRIMARY KEY(userId, episodeId)
+);
+
+CREATE TABLE IF NOT EXISTS comments (
+	id					BIGINT PRIMARY KEY AUTO_INCREMENT,
+	userId 				INT NOT NULL REFERENCES users(id),
+	episodeId			INT NOT NULL REFERENCES episodes(id),
+	timestamp			DATETIME NOT NULL,
+	commentText			TEXT NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS ratings (
+	userId 				INT NOT NULL REFERENCES users(id),
+	animeId				INT NOT NULL REFERENCES anime(id),
+	rating 				INT NOT NULl,
+	PRIMARY KEY(userId, animeId)
 );
 
 -- PL/SQL
