@@ -12,7 +12,7 @@ function generateVideoUrlFromEpisode(episode) {
 	return URL.createObjectURL(episode?.videoFile);
 }
 
-function EpisodeEditer({episode, close, saveEpisode, deleteEpisode}) {
+function EpisodeEditer({episode, close, saveEpisode, deleteEpisode, index}) {
 	const {createNotification, notificationTypes} = useStateContext();
 	const [videoUrl, setVideoUrl] = useState(generateVideoUrlFromEpisode(episode));
 	const [editMode, setEditMode] = useState(false);
@@ -75,7 +75,7 @@ function EpisodeEditer({episode, close, saveEpisode, deleteEpisode}) {
 	return (
 		<div className={styles.editor}>
 			<button className={styles.close} onClick={close}><AiOutlineClose color="black" size={15} /></button>
-			<h2>Episode {episode.orderNumber}</h2>
+			<h2>Episode {index + 1}</h2>
 			{
 				editMode ? (
 					<>

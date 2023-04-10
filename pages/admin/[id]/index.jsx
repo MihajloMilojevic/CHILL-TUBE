@@ -9,15 +9,15 @@ import Anime from "../../../services/database/controllers/anime";
 import {EpisodeEditer} from "../../../components/Admin";
 
 const testEpisodes = [
-	{id: 1, orderNumber: 1, videoUrl: null, videoFile: null},
-	{id: 2, orderNumber: 2, videoUrl: null, videoFile: null},
-	{id: 3, orderNumber: 3, videoUrl: null, videoFile: null},
-	{id: 4, orderNumber: 4, videoUrl: null, videoFile: null},
-	{id: 5, orderNumber: 5, videoUrl: null, videoFile: null},
-	{id: 6, orderNumber: 6, videoUrl: null, videoFile: null},
-	{id: 7, orderNumber: 7, videoUrl: null, videoFile: null},
-	{id: 8, orderNumber: 8, videoUrl: null, videoFile: null},
-	{id: 9, orderNumber: 9, videoUrl: null, videoFile: null},
+	{id: 1, videoUrl: null, videoFile: null, new: false},
+	{id: 2, videoUrl: null, videoFile: null, new: false},
+	{id: 3, videoUrl: null, videoFile: null, new: false},
+	{id: 4, videoUrl: null, videoFile: null, new: false},
+	{id: 5, videoUrl: null, videoFile: null, new: false},
+	{id: 6, videoUrl: null, videoFile: null, new: false},
+	{id: 7, videoUrl: null, videoFile: null, new: false},
+	{id: 8, videoUrl: null, videoFile: null, new: false},
+	{id: 9, videoUrl: null, videoFile: null, new: false},
 ]
 
 export default function SingleAnime({user, anime}) {
@@ -72,40 +72,102 @@ export const getServerSideProps = SSRSession(async ({req, res, query}) => {
 	}
 })
 
+function generateEpisodesListFromDB(episodes) {
+	return (episodes ?? []).map(({id, video}) => ({id, videoUrl: video ?? "", videoFile: null, new: false}))
+}
+
 function Episodes({anime}) {
 
-	const [episodes, setEpisodes] = useState(testEpisodes) //useState(anime.episodes ?? []);
+	const {createNotification, notificationTypes} = useStateContext();
+	const [episodes, setEpisodes] = useState(generateEpisodesListFromDB(anime.episodes));
 	const [currentEpisodeIndex, setCurrentEpisodeIndex] = useState(-1);
+	const [saveInProgress, setSaveInProgress] = useState(false);
 
 	function deleteEpisode(episodeId) {
-		setEpisodes(episodes.filter(({id}) => id !== episodeId))
+		setEpisodes(episodes.filter(({id}) => id !== episodeId));
+		setCurrentEpisodeIndex(-1);
 	}
 	function saveEpisode(id, file) {
 		setEpisodes(episodes.map(episode => episode.id === id ? {...episode, videoFile: file} : episode));
 	}
 
+	async function handleSave() {
+		if(episodes.length === 0) {
+			return createNotification({
+				type: notificationTypes.ERROR,
+				title: "Error",
+				message: "Anime must have at least one episode"
+			})
+		}
+		if(episodes.some(ep => ep.videoFile == null && ep.videoUrl == null)) {
+			return createNotification({
+				type: notificationTypes.ERROR,
+				title: "Error",
+				message: "All episodes must have video uploaded"
+			})
+		}
+		createNotification({
+			type: notificationTypes.INFO,
+			title: "Info",
+			message: "Episodes upload started"
+		})
+		setSaveInProgress(true);
+		const {error, data} = await API.AnimeAPI.SaveEpisodes(anime.id, episodes);
+		setSaveInProgress(false);
+		if(error) {
+			return createNotification({
+				type: notificationTypes.ERROR,
+				title: "Error",
+				message: error.message
+			})
+		}
+		createNotification({
+			type: notificationTypes.SUCCESS,
+			title: "Success",
+			message: "Episodes succesfully updated"
+		})
+		setEpisodes(generateEpisodesListFromDB(data.episodes));
+	}
+
+	function addNewEpisode() {
+		const maxEpId = episodes.reduce((currMax, currEp) => {
+			if(currMax == null && currEp.new === true) return null;
+			if(currMax == null && currEp.new === false) return currEp.id;
+			return Math.max(currMax, currEp.id);
+		}, 0);
+		const newEpisode = {
+			id: Math.round(Math.random() * 1000000) + maxEpId,
+			videoUrl: null,
+			videoFile: null,
+			new: true
+		}
+		setEpisodes([...episodes, newEpisode]);
+	}
+
 	return (
 		<div style={{display: "flex"}}>
 			<div style={{flex: 3}}>
-				<button onClick={() => {setEpisodes([...episodes, {orderNumber: episodes.length + 1}])}}>
+				<button onClick={addNewEpisode}>
 					Add episode
 				</button>
-				<button onClick={() => {}}>
+				<button onClick={handleSave} disabled={saveInProgress}>
 					Save Episodes
 				</button>
 				<ul>
-					{episodes.map((e, i) => (
-						<li key={i} onClick={(e) => setCurrentEpisodeIndex(i)}>Episode {i+1}. {e.videoUrl == null && e.videoFile == null ? <span title="This episode does not have video selected">-</span> : <span title="This episode has video selected">+</span>}</li>
-					))}
-					<br></br>
-					<br></br>
-					<br></br>
-					<br></br>
-					<hr></hr>
+					{
+						episodes.length === 0 ? (
+							<p>There are no episodes</p>
+						) : (
+							episodes.map((e, i) => (
+								<li key={i} onClick={(e) => setCurrentEpisodeIndex(i)}>Episode {i+1}. {!e.videoUrl && !e.videoFile? <span title="This episode does not have video selected">-</span> : <span title="This episode has video selected">+</span>}</li>
+							))
+						)
+					}
 				</ul>
 			</div>
 			<EpisodeEditer 
 				episode={currentEpisodeIndex < 0 ? null : episodes[currentEpisodeIndex]}
+				index={currentEpisodeIndex}
 				close={() => {setCurrentEpisodeIndex(-1)}}
 				saveEpisode={saveEpisode}
 				deleteEpisode={deleteEpisode}
