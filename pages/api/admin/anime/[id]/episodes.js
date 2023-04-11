@@ -59,7 +59,8 @@ handler.patch(async (req, res) => {
 	if(animeQ.error) throw animeQ.error;
 	const anime = {
 		...animeQ.data[0],
-		episodes: JSON.parse(animeQ.data[0].episodes ?? "[]") ?? []
+		episodes: JSON.parse(animeQ.data[0].episodes ?? "[]") ?? [],
+		genres: JSON.parse(animeQ.data[0].genres ?? "[]") ?? []
 	}
 	res.status(StatusCodes.OK).json({ok: true, anime})
 });

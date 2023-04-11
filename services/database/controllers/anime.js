@@ -11,23 +11,50 @@ export default class Anime {
 	}
 	static async GetById(id) {
 		const ret = await query({
-			sql: "SELECT *, getEpisodes(id) as episodes FROM anime WHERE id = ?",
+			sql: "SELECT *, getEpisodes(id) as episodes, getGenres(id) as genres FROM anime WHERE id = ?",
 			params: [id]
 		});
 		return ret;
 	}
-	static async Create({fileName, name, description, type, released}) {
-		const ret = await query({
+	static async Create({fileName, name, description, type, released, genres}) {
+		let ret = await query({
 			sql: "INSERT INTO anime(name, picture, description, type, released) VALUES (?, ?, ?, ?, ?)",
 			params: [name, `/files/anime/${fileName}`, description, type, released]
 		});
+		if(ret.error) throw error;
+		const id = ret.data.insertId;
+		const values = genres.map(() => `(?, ?)`);
+		const params = [];
+		for (const genreId of genres) {
+			params.push(id);
+			params.push(genreId);
+		}
+		ret = await query({
+			sql: `INSERT INTO anime_genres(animeId, genreId) VALUES ${values.join(', ')}`,
+			params
+		})
 		return ret;
 	}
-	static async Update({animeId, name, description, type, released, picture}) {
-		const ret = await query({
+	static async Update({animeId, name, description, type, released, picture, genres}) {
+		let ret = await query({
 			sql: "UPDATE anime SET name = ?, picture = ?, description = ?, type = ?, released = ? WHERE id = ?",
 			params: [name, picture, description, type, released, animeId]
 		});
+		if(ret.error) throw ret.error;
+		await query({
+			sql: "DELETE FROM anime_genres WHERE animeID = ?",
+			params: [animeId]
+		});
+		const values = genres.map(() => `(?, ?)`);
+		const params = [];
+		for (const genreId of genres) {
+			params.push(animeId);
+			params.push(genreId);
+		}
+		ret = await query({
+			sql: `INSERT INTO anime_genres(animeId, genreId) VALUES ${values.join(', ')}`,
+			params
+		})
 		return ret;
 	}
 	static async Delete(animeId) {
@@ -39,6 +66,10 @@ export default class Anime {
 		}
 		promises.push(query({
 			sql: "DELETE FROM ratings WHERE animeId = ?",
+			params: [animeId]
+		}));
+		promises.push(query({
+			sql: "DELETE FROM anime_genres WHERE animeId = ?",
 			params: [animeId]
 		}));
 		promises.push(query({
@@ -98,5 +129,11 @@ export default class Anime {
 			params: [`/files/episodes/${animeId}/${fileName}`, episodeId, animeId]
 		})
 		console.log(update);
+	}
+	static async AllGenres() {
+		const ret = await query({
+			sql: "SELECT * FROM genres"
+		})
+		return ret;
 	}
 }

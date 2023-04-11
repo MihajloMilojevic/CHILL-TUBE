@@ -1,7 +1,7 @@
 
 export default class AnimeAPI {
 	
-	static async Create(name, description, picture, type, released) {
+	static async Create(name, description, picture, type, released, genres) {
 		try {
 			const body = new FormData();
 			body.append("name", name);
@@ -9,6 +9,9 @@ export default class AnimeAPI {
 			body.append("picture", picture);
 			body.append("type", type);
 			body.append("released", released);
+			const genresStr = JSON.stringify(genres);
+			console.log({genresStr});
+			body.append("genres", genresStr);
 			const ENDPOINT = `/api/admin/anime`;
 			const res = await fetch(ENDPOINT, {
 				method: "POST",
@@ -23,7 +26,7 @@ export default class AnimeAPI {
 		}
 	}
 	
-	static async Update(animeId, name, description, picture, type, released, pictureSrc) {
+	static async Update(animeId, name, description, picture, type, released, pictureSrc, genres) {
 		try {
 			const body = new FormData();
 			body.append("name", name);
@@ -31,7 +34,10 @@ export default class AnimeAPI {
 			if(picture) body.append("picture", picture);
 			body.append("type", type);
 			body.append("released", released);
-			body.append("pictureSrc", pictureSrc)
+			body.append("pictureSrc", pictureSrc);
+			const genresStr = JSON.stringify(genres);
+			console.log({genresStr});
+			body.append("genres", genresStr);
 			const ENDPOINT = `/api/admin/anime/${animeId}`;
 			const res = await fetch(ENDPOINT, {
 				method: "PATCH",

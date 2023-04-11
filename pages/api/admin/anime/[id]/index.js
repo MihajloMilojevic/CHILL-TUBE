@@ -26,6 +26,7 @@ handler.patch(async (req, res) => {
 	if(!user.admin) 
 		throw new Errors.ForbiddenError("You don't have permission to perform this action.");
 	const {name, pictureSrc, description, type, released} = req.body;
+	const genres = JSON.parse(req.body.genres ?? "[]") ?? [];
 	if(!name) throw new Errors.BadRequestError("Name is required.");
 	let picture = pictureSrc;
 	if(req.files && Object.hasOwn(req.files, "picture")) {
@@ -33,13 +34,14 @@ handler.patch(async (req, res) => {
 		const fileName = await File.Upload(req.files.picture, `anime`, name);
 		picture = `/files/anime/${fileName}`;
 	}
-	const update = await Anime.Update({animeId, name, description, picture, type, released})
+	const update = await Anime.Update({animeId, name, description, picture, type, released, genres})
 	if(update.error) throw update.error;
 	const animeQ = await Anime.GetById(animeId);
 	if(animeQ.error) throw animeQ.error;
 	const anime = {
 		...animeQ.data[0],
-		episodes: JSON.parse(animeQ.data[0].episodes ?? "[]") ?? []
+		episodes: JSON.parse(animeQ.data[0].episodes ?? "[]") ?? [],
+		genres: JSON.parse(animeQ.data[0].genres ?? "[]") ?? []
 	}
 	res.status(StatusCodes.OK).json({ok: true, anime})
 });

@@ -38,12 +38,12 @@ CREATE TABLE IF NOT EXISTS lists (
 	name				TEXT NOT NULL
 );
 
-CREATE TABLE IF NOT EXISTS animes_genres (
+CREATE TABLE IF NOT EXISTS anime_genres (
 	animeId				INT NOT NULL REFERENCES anime(id),
 	genreId				INT NOT NULL REFERENCES genres(id)
 );
 
-CREATE TABLE IF NOT EXISTS animes_lists (
+CREATE TABLE IF NOT EXISTS anime_lists (
 	animeId				INT NOT NULL REFERENCES anime(id),
 	listId				INT NOT NULL REFERENCES lists(id)
 );
@@ -84,6 +84,15 @@ BEGIN
     );
 END //
 
+CREATE FUNCTION getGenres(animeId_input INT) RETURNS TEXT
+BEGIN
+	RETURN CONCAT(
+    	'[',
+        (SELECT GROUP_CONCAT(JSON_OBJECT('id', id, 'name', name) SEPARATOR ', ' ) FROM genres JOIN anime_genres ON id = genreId WHERE animeId = animeId_input ORDER BY id ASC),
+        ']'
+    );
+END //
+
 DELIMITER ;
 
 -- INSERT DATA
@@ -94,3 +103,17 @@ INSERT INTO users(email, username, admin, password) VALUES
 INSERT INTO users(id, email, username, admin, password) VALUES
 (100, 'milojevicm374@gmail.com', 'Mihajlo Milojevic', TRUE, '$2a$10$gyOL.zzdddWS18n4x8Uv..bs53fXGYQTNC4vwcfF7JzlhTFGgahXq'); 			-- ID: 1
 
+INSERT INTO genres(name) VALUES
+('Action'),							-- ID 1
+('Adventure'),						-- ID 2
+('Comedy'),							-- ID 3
+('Drama'),							-- ID 4
+('Slice of Life'),					-- ID 5
+('Fantasy'),						-- ID 6
+('Magic'),							-- ID 7
+('Supernatural'),					-- ID 8
+('Horror'),							-- ID 9
+('Mystery'),						-- ID 10
+('Psychological'),					-- ID 11
+('Romance'),						-- ID 12
+('Sci-Fi');							-- ID 13

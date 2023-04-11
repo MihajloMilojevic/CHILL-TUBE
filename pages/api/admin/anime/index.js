@@ -25,11 +25,12 @@ handler.post(async (req, res) => {
 	if(!user.admin) 
 		throw new Errors.ForbiddenError("You don't have permission to perform this action.");
 	const {name, description, type, released} = req.body;
+	const genres = JSON.parse(req.body.genres ?? "[]") ?? [];
 	if(!name) throw new Errors.BadRequestError("Name is required.");
 	const picture = req.files.picture;
 	if(!picture) throw new Errors.BadRequestError("Picture is required");
 	const fileName = await File.Upload(picture, `anime`, `${name}`);
-	const {error} = await Anime.Create({fileName, name, description, type, released});
+	const {error} = await Anime.Create({fileName, name, description, type, released, genres});
 	if(error) throw error;
 
 	res.status(StatusCodes.OK).json({ok: true})

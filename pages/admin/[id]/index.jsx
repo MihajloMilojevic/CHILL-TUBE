@@ -9,12 +9,19 @@ import Anime from "../../../services/database/controllers/anime";
 import {EpisodeEditer} from "../../../components/Admin";
 import AnimeAPI from "../../../services/api/Anime";
 
-export default function SingleAnime({user, anime: animeDB}) {
+import Box from '@mui/material/Box';
+import OutlinedInput from '@mui/material/OutlinedInput';
+import MenuItem from '@mui/material/MenuItem';
+import Select from '@mui/material/Select';
+import Chip from '@mui/material/Chip';
+
+
+export default function SingleAnime({user, anime: animeDB, genres}) {
 	const [anime, setAnime] = useState(animeDB);
 	return (
 		<AdminLayout user={user}>
 			<h1>{anime.name}</h1>
-			<AnimeData anime={anime} setAnime={setAnime} />
+			<AnimeData anime={anime} setAnime={setAnime} genres={genres} />
 			<Episodes anime={anime} setAnime={setAnime} />
 		</AdminLayout>
 	)
@@ -48,13 +55,25 @@ export const getServerSideProps = SSRSession(async ({req, res, query}) => {
 	//console.log(data);
 	const anime = {
 		...data[0],
-		episodes: JSON.parse(data[0].episodes ?? "[]") ?? []
+		episodes: JSON.parse(data[0].episodes ?? "[]") ?? [],
+		genres: JSON.parse(data[0].genres ?? "[]") ?? []
+	}
+	
+	const genresQ = await Anime.AllGenres();
+	if(genresQ.error) {
+		return {
+			redirect: {
+				destination: `/error?message=${genresQ.error.message}`,
+				permanent: false
+			}
+		}
 	}
 	//console.log(anime);
 	return {
 		props: {
 			user,
-			anime: JSON.parse(JSON.stringify(anime))
+			anime: JSON.parse(JSON.stringify(anime)),
+			genres: JSON.parse(JSON.stringify(genresQ.data))
 		}
 	}
 })
@@ -164,14 +183,30 @@ function Episodes({anime, setAnime}) {
 	)
 }
 
-function AnimeData({anime, setAnime}) {
 
+const ITEM_HEIGHT = 48;
+const ITEM_PADDING_TOP = 8;
+const MenuProps = {
+  PaperProps: {
+    style: {
+      maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
+      width: 250,
+    },
+  },
+  
+  disablePortal: true 
+};
+
+function AnimeData({anime, setAnime, genres}) {
+
+	console.log(genres)
 	const {createNotification, notificationTypes, setModalOpen, setModalChildren} = useStateContext();
 	const [name, setName] = useState(anime.name);
 	const [description, setDescription] = useState(anime.description);
 	const [type, setType] = useState(anime.type);
 	const [released, setReleased] = useState(anime.released);
 	const [imageSrc, setImageSrc] = useState(anime.picture);
+	const [genresSelect, setGenresSelect] = useState(anime.genres.map(({id}) => id));
 	const pictureRef = useRef(null);
 	const router = useRouter();
 	const [saveInProgress, setSaveInPogress] = useState(false);
@@ -186,8 +221,15 @@ function AnimeData({anime, setAnime}) {
 				message: "Name is required"
 			})
 		}
+		if(genresSelect.length === 0) {
+			return createNotification({
+				type: notificationTypes.ERROR,
+				title: "Error",
+				message: "Anime must have at least one genre selected"
+			})
+		}
 		const file = pictureRef.current.files.length !== 0 ? pictureRef.current.files[0] : null;
-		const {error, data} = await API.AnimeAPI.Update(anime.id, name, description, file, type, released, anime.picture);
+		const {error, data} = await API.AnimeAPI.Update(anime.id, name, description, file, type, released, anime.picture, genresSelect);
 		if(error) {
 			return createNotification({
 				type: notificationTypes.ERROR,
@@ -222,6 +264,16 @@ function AnimeData({anime, setAnime}) {
 		)
 		setModalOpen(true)
 	}
+	
+	const handleChange = (event) => {
+		const {
+		  target: { value },
+		} = event;
+		setGenresSelect(
+		  // On autofill we get a stringified value.
+		  typeof value === 'string' ? value.split(',') : value,
+		);
+	  };
 
 	return (
 		<form onSubmit={handleSubmit}>
@@ -234,6 +286,35 @@ function AnimeData({anime, setAnime}) {
 			<input id="type" value={type} onChange={e => setType(e.target.value)}  /> <br />
 			<label htmlFor="released">Released:</label>
 			<input id="released" value={released} onChange={e => setReleased(e.target.value)}  /> <br />
+			<label htmlFor="genres">Genres:</label>
+				<Select
+					id="genres"
+					style={{
+						width: 300,
+						padding: 0
+					}}
+					multiple
+					value={genresSelect}
+					onChange={handleChange}
+					input={<OutlinedInput/>}
+					renderValue={(selected) => (
+						<Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
+							{selected.map((value) => (
+								<Chip key={value} label={genres.find(({id}) => id === value)?.name ?? ""} />
+							))}
+						</Box>
+					)}
+					MenuProps={MenuProps}
+					>
+					{genres.map((genre) => (
+						<MenuItem
+							key={genre.id}
+							value={genre.id}
+						>
+							{genre.name}
+						</MenuItem>
+					))}
+				</Select> <br/>
 			<label htmlFor="picture">Picture:</label>
 			<input 
 				type="file" 
