@@ -23,6 +23,13 @@ export default class Anime {
 		});
 		return ret;
 	}
+	static async Update({animeId, name, description, type, released, picture}) {
+		const ret = await query({
+			sql: "UPDATE anime SET name = ?, picture = ?, description = ?, type = ?, released = ? WHERE id = ?",
+			params: [name, picture, description, type, released, animeId]
+		});
+		return ret;
+	}
 	static async GetDeletedEpisodes({animeId, remainingIds}) {
 		const ret = await query({
 			sql: "SELECT * FROM episodes WHERE animeId = ? AND id NOT IN(?)",

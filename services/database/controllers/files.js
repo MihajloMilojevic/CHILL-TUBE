@@ -17,6 +17,11 @@ export default class File {
 	}
 	static async Delete(src) {
 		const filePath = path.join(process.cwd(), "/public", src);
-		fs.unlinkSync(filePath);
+		try {
+			fs.unlinkSync(filePath);
+			return true;
+		} catch (error) {
+			return false;
+		}
 	}
 }

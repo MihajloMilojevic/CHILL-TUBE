@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import AdminLayout from "../../../components/Admin/AdminLayout/AdminLayout";
 import auth from "../../../services/middleware/authentication";
 import {SSRSession} from "../../../services/sessions/get-session";
@@ -8,27 +8,13 @@ import { useRouter } from "next/router";
 import Anime from "../../../services/database/controllers/anime";
 import {EpisodeEditer} from "../../../components/Admin";
 
-const testEpisodes = [
-	{id: 1, videoUrl: null, videoFile: null, new: false},
-	{id: 2, videoUrl: null, videoFile: null, new: false},
-	{id: 3, videoUrl: null, videoFile: null, new: false},
-	{id: 4, videoUrl: null, videoFile: null, new: false},
-	{id: 5, videoUrl: null, videoFile: null, new: false},
-	{id: 6, videoUrl: null, videoFile: null, new: false},
-	{id: 7, videoUrl: null, videoFile: null, new: false},
-	{id: 8, videoUrl: null, videoFile: null, new: false},
-	{id: 9, videoUrl: null, videoFile: null, new: false},
-]
-
-export default function SingleAnime({user, anime}) {
-	
-
+export default function SingleAnime({user, anime: animeDB}) {
+	const [anime, setAnime] = useState(animeDB);
 	return (
 		<AdminLayout user={user}>
 			<h1>{anime.name}</h1>
-			{/* <p>{JSON.stringify(user)}</p> */}
-			{/* <AnimeData anime={anime} /> */}
-			<Episodes anime={anime} />
+			<AnimeData anime={anime} setAnime={setAnime} />
+			<Episodes anime={anime} setAnime={setAnime} />
 		</AdminLayout>
 	)
 }
@@ -76,7 +62,7 @@ function generateEpisodesListFromDB(episodes) {
 	return (episodes ?? []).map(({id, video}) => ({id, videoUrl: video ?? "", videoFile: null, new: false}))
 }
 
-function Episodes({anime}) {
+function Episodes({anime, setAnime}) {
 
 	const {createNotification, notificationTypes} = useStateContext();
 	const [episodes, setEpisodes] = useState(generateEpisodesListFromDB(anime.episodes));
@@ -126,7 +112,8 @@ function Episodes({anime}) {
 			title: "Success",
 			message: "Episodes succesfully updated"
 		})
-		setEpisodes(generateEpisodesListFromDB(data.episodes));
+		setEpisodes(generateEpisodesListFromDB(data.anime.episodes));
+		setAnime(data.anime)
 	}
 
 	function addNewEpisode() {
@@ -176,17 +163,18 @@ function Episodes({anime}) {
 	)
 }
 
-function AnimeData({anime}) {
+function AnimeData({anime, setAnime}) {
 
 	const {createNotification, notificationTypes} = useStateContext();
 	const [name, setName] = useState(anime.name);
 	const [description, setDescription] = useState(anime.description);
+	const [type, setType] = useState(anime.type);
+	const [released, setReleased] = useState(anime.released);
 	const [imageSrc, setImageSrc] = useState(anime.picture);
 	const pictureRef = useRef(null);
 	const router = useRouter();
 		
 	async function handleSubmit(e) {
-		return;
 		e.preventDefault();
 		//console.log({name, description, picture: pictureRef.current.files[0]});
 		if(!name) {
@@ -196,15 +184,8 @@ function AnimeData({anime}) {
 				message: "Name is required"
 			})
 		}
-		
-		if(pictureRef.current.files.length === 0) {
-			return createNotification({
-				type: notificationTypes.ERROR,
-				title: "Error",
-				message: "Picture is required"
-			})
-		}
-		const {error, data} = await API.AnimeAPI.Create(name, description, pictureRef.current.files[0])
+		const file = pictureRef.current.files.length !== 0 ? pictureRef.current.files[0] : null;
+		const {error, data} = await API.AnimeAPI.Update(anime.id, name, description, file, type, released, anime.picture);
 		if(error) {
 			return createNotification({
 				type: notificationTypes.ERROR,
@@ -215,9 +196,10 @@ function AnimeData({anime}) {
 		createNotification({
 			type: notificationTypes.SUCCESS,
 			title: "Success",
-			message: "Anime succesfully created"
+			message: "Anime succesfully updated"
 		})
-		router.push("/admin");
+		setAnime(data.anime)
+		pictureRef.current.value = "";
 	}
 
 	return (
@@ -225,6 +207,10 @@ function AnimeData({anime}) {
 			<button type="submit">Save</button> <br/>
 			<label htmlFor="name">Name:</label>
 			<input id="name" value={name} onChange={e => setName(e.target.value)}  /> <br />
+			<label htmlFor="type">Type:</label>
+			<input id="type" value={type} onChange={e => setType(e.target.value)}  /> <br />
+			<label htmlFor="released">Released:</label>
+			<input id="released" value={released} onChange={e => setReleased(e.target.value)}  /> <br />
 			<label htmlFor="picture">Picture:</label>
 			<input 
 				type="file" 

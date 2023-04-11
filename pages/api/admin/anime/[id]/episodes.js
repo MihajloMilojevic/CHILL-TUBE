@@ -55,10 +55,13 @@ handler.patch(async (req, res) => {
 		updatesPromises.push(Anime.UpdateEpisode({animeId, episodeId: notNewEpisode.id, orderNumber: notNewEpisode.orderNumber, video}))
 	}
 	await Promise.all(updatesPromises);
-	const episodes = await Anime.GetById(animeId);
-	if(episodes.error) throw episodes.error;
-	const ep = JSON.parse(episodes.data[0].episodes) ?? [];
-	res.status(StatusCodes.OK).json({ok: true, episodes: ep})
+	const animeQ = await Anime.GetById(animeId);
+	if(animeQ.error) throw animeQ.error;
+	const anime = {
+		...animeQ.data[0],
+		episodes: JSON.parse(animeQ.data[0].episodes ?? "[]") ?? []
+	}
+	res.status(StatusCodes.OK).json({ok: true, anime})
 });
 
 

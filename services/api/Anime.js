@@ -23,6 +23,29 @@ export default class AnimeAPI {
 		}
 	}
 	
+	static async Update(animeId, name, description, picture, type, released, pictureSrc) {
+		try {
+			const body = new FormData();
+			body.append("name", name);
+			body.append("description", description);
+			if(picture) body.append("picture", picture);
+			body.append("type", type);
+			body.append("released", released);
+			body.append("pictureSrc", pictureSrc)
+			const ENDPOINT = `/api/admin/anime/${animeId}`;
+			const res = await fetch(ENDPOINT, {
+				method: "PATCH",
+				body,
+			})
+			const json = await res.json();
+			if(!json.ok) throw new Error(json.message);
+			return {error: null, data: json};
+		} catch (error) {
+			console.error(error);
+			return {error, data: null};
+		}
+	}
+	
 	static async SaveEpisodes(animeId, episodes) {
 		try {
 			const data = episodes.map((ep, index) => ({id: ep.id, orderNumber: index + 1, new: ep.new, videoUrl: ep.videoUrl}))
