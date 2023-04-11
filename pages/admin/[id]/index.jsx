@@ -7,6 +7,7 @@ import API from "../../../services/api";
 import { useRouter } from "next/router";
 import Anime from "../../../services/database/controllers/anime";
 import {EpisodeEditer} from "../../../components/Admin";
+import AnimeAPI from "../../../services/api/Anime";
 
 export default function SingleAnime({user, anime: animeDB}) {
 	const [anime, setAnime] = useState(animeDB);
@@ -165,7 +166,7 @@ function Episodes({anime, setAnime}) {
 
 function AnimeData({anime, setAnime}) {
 
-	const {createNotification, notificationTypes} = useStateContext();
+	const {createNotification, notificationTypes, setModalOpen, setModalChildren} = useStateContext();
 	const [name, setName] = useState(anime.name);
 	const [description, setDescription] = useState(anime.description);
 	const [type, setType] = useState(anime.type);
@@ -173,6 +174,7 @@ function AnimeData({anime, setAnime}) {
 	const [imageSrc, setImageSrc] = useState(anime.picture);
 	const pictureRef = useRef(null);
 	const router = useRouter();
+	const [saveInProgress, setSaveInPogress] = useState(false);
 		
 	async function handleSubmit(e) {
 		e.preventDefault();
@@ -202,9 +204,30 @@ function AnimeData({anime, setAnime}) {
 		pictureRef.current.value = "";
 	}
 
+	function handleDelete() {
+		setModalChildren(
+			<DeleteAnimeModal 
+				onConfirm={async () => {
+					const {error} = await AnimeAPI.Delete(anime.id);
+					if(error) {
+						return createNotification({
+							type: notificationTypes.ERROR,
+							title: "Error",
+							message: error.message
+						})
+					}
+					router.push("/admin")
+				}}
+			/>
+		)
+		setModalOpen(true)
+	}
+
 	return (
 		<form onSubmit={handleSubmit}>
-			<button type="submit">Save</button> <br/>
+			<button type="submit" disabled={saveInProgress}>Save</button> 
+			<button type="button" onClick={handleDelete}>Delete</button>
+			<br/>
 			<label htmlFor="name">Name:</label>
 			<input id="name" value={name} onChange={e => setName(e.target.value)}  /> <br />
 			<label htmlFor="type">Type:</label>
@@ -230,5 +253,27 @@ function AnimeData({anime, setAnime}) {
 			<label htmlFor="desc">Description:</label>
 			<textarea id="desc" value={description} onChange={e => setDescription(e.target.value)} /> <br />
 		</form>
+	);
+}
+
+
+function DeleteAnimeModal({onConfirm}) {
+
+	const {setModalOpen} = useStateContext();
+	async function handleYes() {
+		onConfirm();
+		setModalOpen(false);
+	}
+	async function handleNo() {
+		setModalOpen(false);
+	}
+
+	return (
+		<div>
+			<h3>Delete anime confirmation</h3>
+			<p>Are you sure you want to delete this anime? Once performed this action can&apos;t be reversed.</p>
+			<button onClick={handleYes}>Yes</button>
+			<button onClick={handleNo}>No</button>
+		</div>
 	);
 }

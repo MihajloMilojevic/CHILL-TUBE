@@ -45,6 +45,15 @@ handler.patch(async (req, res) => {
 });
 
 
+handler.delete(async (req, res) => {
+	const animeId = req.query.id;
+	const user = await auth(req, res);
+	if(!user) throw new Errors.UnauthenticatedError("You are not logged in");
+	if(!user.admin) 
+		throw new Errors.ForbiddenError("You don't have permission to perform this action.");
+	await Anime.Delete(animeId);
+	res.status(StatusCodes.OK).json({ok: true})
+});
 
 export default APISession(errorWrapper(handler));
 

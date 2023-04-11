@@ -45,6 +45,21 @@ export default class AnimeAPI {
 			return {error, data: null};
 		}
 	}
+
+	static async Delete(animeId) {
+		try {
+			const ENDPOINT = `/api/admin/anime/${animeId}`;
+			const res = await fetch(ENDPOINT, {
+				method: "DELETE",
+			});
+			const json = await res.json();
+			if(!json.ok) throw new Error(json.message);
+			return {error: null, data: json};
+		} catch (error) {
+			console.error(error);
+			return {error, data: null};
+		}
+	}
 	
 	static async SaveEpisodes(animeId, episodes) {
 		try {

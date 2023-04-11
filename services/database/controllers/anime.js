@@ -30,6 +30,29 @@ export default class Anime {
 		});
 		return ret;
 	}
+	static async Delete(animeId) {
+		const promises = []
+		const episodes = await this.GetDeletedEpisodes({animeId, remainingIds: []});
+		if(episodes.error) throw episodes.error;
+		for (const episode of episodes.data) {
+			promises.push(this.DeleteEpisode({animeId, episodeId: episode.id, src: episode.video}))
+		}
+		promises.push(query({
+			sql: "DELETE FROM ratings WHERE animeId = ?",
+			params: [animeId]
+		}));
+		promises.push(query({
+			sql: "DELETE FROM animes_lists WHERE animeId = ?",
+			params: [animeId]
+		}));
+		await Promise.all(promises);
+		const {error, data} = await this.GetById(animeId);
+		if(data && data.length > 0) File.Delete(data[0].picture);
+		await query({
+			sql: "DELETE FROM anime WHERE id = ?",
+			params: [animeId]
+		})
+	}
 	static async GetDeletedEpisodes({animeId, remainingIds}) {
 		const ret = await query({
 			sql: "SELECT * FROM episodes WHERE animeId = ? AND id NOT IN(?)",
@@ -38,11 +61,22 @@ export default class Anime {
 		return ret;
 	}
 	static async DeleteEpisode({animeId, episodeId, src}) {
-		if(src) File.Delete(src).then(() => {});
+		if(src) File.Delete(src);
+		await Promise.all([
+			query({
+				sql: "DELETE FROM watches WHERE episodeId = ?",
+				params: [episodeId]
+			}),
+			query({
+				sql: "DELETE FROM comments WHERE episodeId = ?",
+				params: [episodeId]
+			})
+		]);
 		await query({
 			sql: "DELETE FROM episodes WHERE id = ? AND animeId = ?",
 			params: [episodeId, animeId]
 		})
+		
 	}
 	static async UpdateEpisode({animeId, episodeId, orderNumber, video}) {
 		await query({

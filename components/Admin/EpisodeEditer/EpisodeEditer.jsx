@@ -13,7 +13,7 @@ function generateVideoUrlFromEpisode(episode) {
 }
 
 function EpisodeEditer({episode, close, saveEpisode, deleteEpisode, index}) {
-	const {createNotification, notificationTypes} = useStateContext();
+	const {createNotification, notificationTypes, setModalOpen, setModalChildren} = useStateContext();
 	const [videoUrl, setVideoUrl] = useState(generateVideoUrlFromEpisode(episode));
 	const [editMode, setEditMode] = useState(false);
 	const inputRef = useRef(null);
@@ -52,12 +52,27 @@ function EpisodeEditer({episode, close, saveEpisode, deleteEpisode, index}) {
 		setEditMode(true)
 	}
 	function handleDelete() {
-		deleteEpisode(episode.id)
+		setModalChildren(
+			<DeleteEpisodeModal 
+				onConfirm={ () => {
+					deleteEpisode(episode.id)
+				}}
+			/>
+		)
+		setModalOpen(true)
 	}
+
 	function handleCancel() {
-		inputRef.current.value = "";
-		setVideoUrl(generateVideoUrlFromEpisode(episode));
-		setEditMode(false)
+		setModalChildren(
+			<CancelEditModal 
+				onConfirm={ () => {
+					inputRef.current.value = "";
+					setVideoUrl(generateVideoUrlFromEpisode(episode));
+					setEditMode(false)
+				}}
+			/>
+		)
+		setModalOpen(true)
 	}
 	function handleSave() {
 		if(inputRef.current.files.length === 0) {
@@ -98,3 +113,46 @@ function EpisodeEditer({episode, close, saveEpisode, deleteEpisode, index}) {
 }
 
 export default EpisodeEditer
+
+
+function DeleteEpisodeModal({onConfirm}) {
+
+	const {setModalOpen} = useStateContext();
+	async function handleYes() {
+		onConfirm();
+		setModalOpen(false);
+	}
+	async function handleNo() {
+		setModalOpen(false);
+	}
+
+	return (
+		<div>
+			<h3>Delete episode confirmation</h3>
+			<p>Are you sure you want to delete this episode? Once performed this action can&apos;t be reversed.</p>
+			<button onClick={handleYes}>Yes</button>
+			<button onClick={handleNo}>No</button>
+		</div>
+	);
+}
+
+function CancelEditModal({onConfirm}) {
+
+	const {setModalOpen} = useStateContext();
+	async function handleYes() {
+		onConfirm();
+		setModalOpen(false);
+	}
+	async function handleNo() {
+		setModalOpen(false);
+	}
+
+	return (
+		<div>
+			<h3>Exit edit mode</h3>
+			<p>Are you sure you want to exit edit mode? You will lose all your unsaved work.</p>
+			<button onClick={handleYes}>Yes</button>
+			<button onClick={handleNo}>No</button>
+		</div>
+	);
+}
