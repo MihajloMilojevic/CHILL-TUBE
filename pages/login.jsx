@@ -34,11 +34,7 @@ export default function LoginPage() {
                 title: "Success",
                 message: "You have successfully logged in, you will be redirected to homepage soon"
             })
-			// if user is admin redirect him to admin page and if user is regular user redirect to homapage
-			if(data.user.admin) 
-            	router.push("/admin");
-			else
-				router.push("/");
+			router.push("/");
         }
 		setButtonDisabled(false);
  	}

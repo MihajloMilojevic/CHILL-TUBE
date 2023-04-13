@@ -16,8 +16,7 @@ CREATE TABLE IF NOT EXISTS anime (
 	name				TEXT NOT NULL,
 	picture				TEXT NOT NULL,
 	description			TEXT,
-	type				TEXT,
-	released			INT
+	released			INT NOT NULL
 );
 
 CREATE TABLE IF NOT EXISTS genres (

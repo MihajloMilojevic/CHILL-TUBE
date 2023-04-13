@@ -1,13 +1,12 @@
 
 export default class AnimeAPI {
 	
-	static async Create(name, description, picture, type, released, genres) {
+	static async Create(name, description, picture, released, genres) {
 		try {
 			const body = new FormData();
 			body.append("name", name);
 			body.append("description", description);
 			body.append("picture", picture);
-			body.append("type", type);
 			body.append("released", released);
 			const genresStr = JSON.stringify(genres);
 			console.log({genresStr});
@@ -26,13 +25,12 @@ export default class AnimeAPI {
 		}
 	}
 	
-	static async Update(animeId, name, description, picture, type, released, pictureSrc, genres) {
+	static async Update(animeId, name, description, picture, released, pictureSrc, genres) {
 		try {
 			const body = new FormData();
 			body.append("name", name);
 			body.append("description", description);
 			if(picture) body.append("picture", picture);
-			body.append("type", type);
 			body.append("released", released);
 			body.append("pictureSrc", pictureSrc);
 			const genresStr = JSON.stringify(genres);

@@ -1,8 +1,8 @@
-import { useStateContext } from "../../../services/context/ContextProvider";
+import { useStateContext } from "../../services/context/ContextProvider";
 import {Navbar, ScrollToTop, Page} from "..";
 import { useEffect } from "react";
 
-function AdminLayout({children, user}) {
+function Layout({children, user}) {
 
 	const {activeMenu, windowSize, setUser} = useStateContext();
 
@@ -32,9 +32,7 @@ function AdminLayout({children, user}) {
 					id="content"
 				>
 					<Navbar />
-					<Page>
-						{children}
-					</Page>
+					{children}
 					<ScrollToTop />
 				</div>
 			</div>
@@ -42,4 +40,4 @@ function AdminLayout({children, user}) {
 	)
 }
 
-export default AdminLayout
+export default Layout

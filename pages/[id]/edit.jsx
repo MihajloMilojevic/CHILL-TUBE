@@ -1,13 +1,13 @@
 import { useEffect, useRef, useState } from "react";
-import Layout from "../../../components/Layout/Layout";
-import auth from "../../../services/middleware/authentication";
-import {SSRSession} from "../../../services/sessions/get-session";
-import { useStateContext } from '../../../services/context/ContextProvider';
-import API from "../../../services/api";
+import Layout from "../../components/Layout/Layout";
+import auth from "../../services/middleware/authentication";
+import {SSRSession} from "../../services/sessions/get-session";
+import { useStateContext } from '../../services/context/ContextProvider';
+import API from "../../services/api";
 import { useRouter } from "next/router";
-import Anime from "../../../services/database/controllers/anime";
-import {EpisodeEditer} from "../../../components";
-import AnimeAPI from "../../../services/api/Anime";
+import Anime from "../../services/database/controllers/anime";
+import {EpisodeEditer} from "../../components";
+import AnimeAPI from "../../services/api/Anime";
 
 import Box from '@mui/material/Box';
 import OutlinedInput from '@mui/material/OutlinedInput';
@@ -203,7 +203,6 @@ function AnimeData({anime, setAnime, genres}) {
 	const {createNotification, notificationTypes, setModalOpen, setModalChildren} = useStateContext();
 	const [name, setName] = useState(anime.name);
 	const [description, setDescription] = useState(anime.description);
-	const [type, setType] = useState(anime.type);
 	const [released, setReleased] = useState(anime.released);
 	const [imageSrc, setImageSrc] = useState(anime.picture);
 	const [genresSelect, setGenresSelect] = useState(anime.genres.map(({id}) => id));
@@ -221,6 +220,13 @@ function AnimeData({anime, setAnime, genres}) {
 				message: "Name is required"
 			})
 		}
+		if(!released) {
+			return createNotification({
+				type: notificationTypes.ERROR,
+				title: "Error",
+				message: "Released is required"
+			})
+		}
 		if(genresSelect.length === 0) {
 			return createNotification({
 				type: notificationTypes.ERROR,
@@ -229,7 +235,7 @@ function AnimeData({anime, setAnime, genres}) {
 			})
 		}
 		const file = pictureRef.current.files.length !== 0 ? pictureRef.current.files[0] : null;
-		const {error, data} = await API.AnimeAPI.Update(anime.id, name, description, file, type, released, anime.picture, genresSelect);
+		const {error, data} = await API.AnimeAPI.Update(anime.id, name, description, file, released, anime.picture, genresSelect);
 		if(error) {
 			return createNotification({
 				type: notificationTypes.ERROR,
@@ -282,8 +288,6 @@ function AnimeData({anime, setAnime, genres}) {
 			<br/>
 			<label htmlFor="name">Name:</label>
 			<input id="name" value={name} onChange={e => setName(e.target.value)}  /> <br />
-			<label htmlFor="type">Type:</label>
-			<input id="type" value={type} onChange={e => setType(e.target.value)}  /> <br />
 			<label htmlFor="released">Released:</label>
 			<input id="released" value={released} onChange={e => setReleased(e.target.value)}  /> <br />
 			<label htmlFor="genres">Genres:</label>

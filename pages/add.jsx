@@ -1,19 +1,20 @@
 import { useRef, useState } from "react";
-import AdminLayout from "../../components/Admin/AdminLayout/AdminLayout";
-import auth from "../../services/middleware/authentication";
-import {SSRSession} from "../../services/sessions/get-session";
-import { useStateContext } from '../../services/context/ContextProvider';
-import API from "../../services/api";
+import Layout from "../components/Layout/Layout";
+import auth from "../services/middleware/authentication";
+import {SSRSession} from "../services/sessions/get-session";
+import { useStateContext } from '../services/context/ContextProvider';
+import API from "../services/api";
 import { useRouter } from "next/router";
-import Anime from "../../services/database/controllers/anime";
+import Anime from "../services/database/controllers/anime";
 
-
+// import all the component from mui for select
 import Box from '@mui/material/Box';
 import OutlinedInput from '@mui/material/OutlinedInput';
 import MenuItem from '@mui/material/MenuItem';
 import Select from '@mui/material/Select';
 import Chip from '@mui/material/Chip';
 
+// copied from mui select example
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
 const MenuProps = {
@@ -24,23 +25,25 @@ const MenuProps = {
     },
   },
   
-  disablePortal: true 
+  disablePortal: true // NEEDED for proper positiong of dropdown
 };
 
 export default function AddAnimePage({user, genres}) {
 	const {createNotification, notificationTypes} = useStateContext();
 	const [name, setName] = useState("");
 	const [description, setDescription] = useState("");
-	const [type, setType] = useState("");
 	const [released, setReleased] = useState("");
 	const [imageSrc, setImageSrc] = useState("");
 	const [genresSelect, setGenresSelect] = useState([]);
 	const pictureRef = useRef(null);
 	const router = useRouter();
 
+	// event handler - subming for and saving a anime to the db
 	async function handleSubmit(e) {
 		e.preventDefault();
 		//console.log({name, description, picture: pictureRef.current.files[0]});
+
+		// name is required
 		if(!name) {
 			return createNotification({
 				type: notificationTypes.ERROR,
@@ -48,7 +51,16 @@ export default function AddAnimePage({user, genres}) {
 				message: "Name is required"
 			})
 		}
-		
+
+		// name is required
+		if(!released) {
+			return createNotification({
+				type: notificationTypes.ERROR,
+				title: "Error",
+				message: "Released is required"
+			})
+		}
+		// there has to be a picture uploaded
 		if(pictureRef.current.files.length === 0) {
 			return createNotification({
 				type: notificationTypes.ERROR,
@@ -57,6 +69,7 @@ export default function AddAnimePage({user, genres}) {
 			})
 		}
 		
+		//anime must have at least one genre added
 		if(genresSelect.length === 0) {
 			return createNotification({
 				type: notificationTypes.ERROR,
@@ -64,7 +77,9 @@ export default function AddAnimePage({user, genres}) {
 				message: "Anime must have at least one genre selected"
 			})
 		}
-		const {error} = await API.AnimeAPI.Create(name, description, pictureRef.current.files[0], type, released, genresSelect)
+		// call API to create anime
+		const {error} = await API.AnimeAPI.Create(name, description, pictureRef.current.files[0], released, genresSelect)
+		// if API return error display it to the user
 		if(error) {
 			return createNotification({
 				type: notificationTypes.ERROR,
@@ -72,37 +87,40 @@ export default function AddAnimePage({user, genres}) {
 				message: error.message
 			})
 		}
+		// there was no error display confirmation message and redirect to admin homepage
 		createNotification({
 			type: notificationTypes.SUCCESS,
 			title: "Success",
 			message: "Anime succesfully created"
 		})
-		router.push("/admin");
+		router.push("/");
 	}
 
+	// copied from mui select example - event that fires on value change of genre select
 	const handleChange = (event) => {
 		const {
 		  target: { value },
 		} = event;
+		// value is in event.target.value and is string (like array.join()) so to set state as an array we need to split string at ',' into an array
 		setGenresSelect(
 		  // On autofill we get a stringified value.
+
 		  typeof value === 'string' ? value.split(',') : value,
 		);
 	  };
 
 	return (
-		<AdminLayout user={user}>
+		<Layout user={user}>
 			<h1>Add Anime</h1>
 			{/* <p>{JSON.stringify(user)}</p> */}
 			<form onSubmit={handleSubmit} style={{position: "relative"}}>
 				<button type="submit">Save</button> <br/>
 				<label htmlFor="name">Name:</label>
 				<textarea id="name" value={name} onChange={e => setName(e.target.value)}  /> <br />
-				<label htmlFor="type">Type:</label>
-				<input id="type" value={type} onChange={e => setType(e.target.value)}  /> <br />
 				<label htmlFor="released">Released:</label>
 				<input id="released" value={released} onChange={e => setReleased(e.target.value)}  /> <br />
 				<label htmlFor="genres">Genres:</label>
+				{/* select is copied from mui select chip example with values changed for this app and unnessery thing removed */}
 				<Select
 					id="genres"
 					style={{
@@ -139,7 +157,7 @@ export default function AddAnimePage({user, genres}) {
 						e => {
 							const [file] = e.target.files;
 							if (file) {
-								setImageSrc(URL.createObjectURL(file))
+								setImageSrc(URL.createObjectURL(file)) // generate url for uploded image so that it can be showned
 							}
 							else setImageSrc("")
 						}
@@ -150,7 +168,7 @@ export default function AddAnimePage({user, genres}) {
 				<label htmlFor="desc">Description:</label>
 				<textarea id="desc" value={description} onChange={e => setDescription(e.target.value)} /> <br />
 			</form>
-		</AdminLayout>
+		</Layout>
 	)
 }
 

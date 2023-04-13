@@ -16,10 +16,10 @@ export default class Anime {
 		});
 		return ret;
 	}
-	static async Create({fileName, name, description, type, released, genres}) {
+	static async Create({fileName, name, description, released, genres}) {
 		let ret = await query({
-			sql: "INSERT INTO anime(name, picture, description, type, released) VALUES (?, ?, ?, ?, ?)",
-			params: [name, `/files/anime/${fileName}`, description, type, released]
+			sql: "INSERT INTO anime(name, picture, description, released) VALUES (?, ?, ?, ?)",
+			params: [name, `/files/anime/${fileName}`, description, released]
 		});
 		if(ret.error) throw error;
 		const id = ret.data.insertId;
@@ -35,10 +35,10 @@ export default class Anime {
 		})
 		return ret;
 	}
-	static async Update({animeId, name, description, type, released, picture, genres}) {
+	static async Update({animeId, name, description, released, picture, genres}) {
 		let ret = await query({
-			sql: "UPDATE anime SET name = ?, picture = ?, description = ?, type = ?, released = ? WHERE id = ?",
-			params: [name, picture, description, type, released, animeId]
+			sql: "UPDATE anime SET name = ?, picture = ?, description = ?, released = ? WHERE id = ?",
+			params: [name, picture, description, released, animeId]
 		});
 		if(ret.error) throw ret.error;
 		await query({

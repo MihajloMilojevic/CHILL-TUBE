@@ -1,4 +1,4 @@
-import { useStateContext } from "../../../services/context/ContextProvider"
+import { useStateContext } from "../../services/context/ContextProvider"
 import styles from "./Navbar.module.css";
 import { useState, useEffect, useRef } from "react";
 import {Profile} from "..";

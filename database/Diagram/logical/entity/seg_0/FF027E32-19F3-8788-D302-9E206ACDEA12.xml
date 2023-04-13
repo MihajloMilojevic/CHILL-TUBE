@@ -39,6 +39,19 @@
 <logicalDatatype>LOGDT040</logicalDatatype>
 <ownDataTypeParameters>,,</ownDataTypeParameters>
 </Attribute>
+<Attribute name="released" id="A9B4CE3A-21C8-64B1-A7CE-FD77B76F249F">
+<createdBy>PC</createdBy>
+<createdTime>2023-03-14 19:34:36 UTC</createdTime>
+<ownerDesignName>Diagram</ownerDesignName>
+<engineerTo>
+<item key="FE6295DB-AFF4-3C5D-AC26-6CDC7CB8C4A0" value="true"/>
+</engineerTo>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT011</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
 <Attribute name="picture" id="9D61B11B-A21B-AEFE-E1D0-BA9A692A9447">
 <createdBy>PC</createdBy>
 <createdTime>2023-03-02 17:06:35 UTC</createdTime>
@@ -62,32 +75,6 @@
 <useDomainConstraints>false</useDomainConstraints>
 <use>1</use>
 <logicalDatatype>LOGDT040</logicalDatatype>
-<ownDataTypeParameters>,,</ownDataTypeParameters>
-</Attribute>
-<Attribute name="type" id="526F7C1E-D754-5CDE-5A1C-A63C3D4B6F6D">
-<createdBy>PC</createdBy>
-<createdTime>2023-03-14 19:33:54 UTC</createdTime>
-<ownerDesignName>Diagram</ownerDesignName>
-<engineerTo>
-<item key="FE6295DB-AFF4-3C5D-AC26-6CDC7CB8C4A0" value="true"/>
-</engineerTo>
-<nullsAllowed>true</nullsAllowed>
-<useDomainConstraints>false</useDomainConstraints>
-<use>1</use>
-<logicalDatatype>LOGDT040</logicalDatatype>
-<ownDataTypeParameters>,,</ownDataTypeParameters>
-</Attribute>
-<Attribute name="released" id="A9B4CE3A-21C8-64B1-A7CE-FD77B76F249F">
-<createdBy>PC</createdBy>
-<createdTime>2023-03-14 19:34:36 UTC</createdTime>
-<ownerDesignName>Diagram</ownerDesignName>
-<engineerTo>
-<item key="FE6295DB-AFF4-3C5D-AC26-6CDC7CB8C4A0" value="true"/>
-</engineerTo>
-<nullsAllowed>true</nullsAllowed>
-<useDomainConstraints>false</useDomainConstraints>
-<use>1</use>
-<logicalDatatype>LOGDT011</logicalDatatype>
 <ownDataTypeParameters>,,</ownDataTypeParameters>
 </Attribute>
 </attributes>
