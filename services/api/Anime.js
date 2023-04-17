@@ -88,5 +88,22 @@ export default class AnimeAPI {
 			return {error, data: null};
 		}
 	}
-
+	static async Rate(animeId, rating) {
+		try {
+			const ENDPOINT = `/api/anime/${animeId}/rate`;
+			const res = await fetch(ENDPOINT, {
+				method: "POST",
+				headers: {
+					"Content-Type": "application/json"
+				},
+				body: JSON.stringify({rating})
+			});
+			const json = await res.json();
+			if(!json.ok) throw new Error(json.message);
+			return {error: null, data: json};
+		} catch (error) {
+			console.error(error);
+			return {error, data: null};
+		}
+	}
 }

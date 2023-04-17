@@ -4,17 +4,19 @@ import auth from "../../services/middleware/authentication";
 import {SSRSession} from "../../services/sessions/get-session";
 import Anime from "../../services/database/controllers/anime";
 import Link from "next/link";
+import { AnimeDetails } from "../../components";
 
-export default function SingleAnime({user, anime: animeDB}) {
-	const [anime, setAnime] = useState(animeDB);
+export default function SingleAnime({user, anime}) {
 	return (
 		<Layout user={user}>
 			<h1>{anime.name}</h1>
 			{
-				(user && user.admin) && (
-					<Link href={`/${anime.id}/edit`}>Edit</Link>
+				(user && user.admin) && (<>
+					<Link href={`/${anime.id}/edit`}>Edit</Link> <br/>
+				</>
 				)
 			}
+			<AnimeDetails anime={anime} />
 		</Layout>
 	)
 }
@@ -38,6 +40,14 @@ export const getServerSideProps = SSRSession(async ({req, res, query}) => {
 		episodes: JSON.parse(data[0].episodes ?? "[]") ?? [],
 		genres: JSON.parse(data[0].genres ?? "[]") ?? []
 	}
+	let rating = null;
+	if(user) {
+		const ratingQ = await Anime.GetUserRatingOfAnime(anime.id, user.id);
+		console.log(anime.id, user.id)
+		console.log(ratingQ);
+		if(ratingQ.data && ratingQ.data.length > 0) rating = ratingQ.data[0].rating;
+	}
+	anime.userRating = rating;
 	
 	//console.log(anime);
 	return {

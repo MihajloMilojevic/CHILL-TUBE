@@ -78,7 +78,7 @@ CREATE FUNCTION getEpisodes(animeId_input INT) RETURNS TEXT
 BEGIN
 	RETURN CONCAT(
     	'[',
-        (SELECT GROUP_CONCAT(JSON_OBJECT('id', id, 'video', video) SEPARATOR ', ' ) FROM episodes WHERE animeId = animeId_input ORDER BY orderNumber ASC),
+        (SELECT GROUP_CONCAT(JSON_OBJECT('id', id, 'video', video, 'orderNumber', orderNumber) SEPARATOR ', ' ) FROM episodes WHERE animeId = animeId_input ORDER BY orderNumber ASC),
         ']'
     );
 END //

@@ -11,8 +11,15 @@ export default class Anime {
 	}
 	static async GetById(id) {
 		const ret = await query({
-			sql: "SELECT *, getEpisodes(id) as episodes, getGenres(id) as genres FROM anime WHERE id = ?",
-			params: [id]
+			sql: "SELECT *, getEpisodes(id) as episodes, getGenres(id) as genres, ROUND((SELECT AVG(rating) FROM ratings WHERE animeId = ?), 1) as rating FROM anime WHERE id = ?",
+			params: [id, id]
+		});
+		return ret;
+	}
+	static async GetUserRatingOfAnime(animeId, userId) {
+		const ret = await query({
+			sql: "SELECT rating FROM ratings WHERE animeId = ? AND userId = ?",
+			params: [animeId, userId]
 		});
 		return ret;
 	}
@@ -133,6 +140,17 @@ export default class Anime {
 	static async AllGenres() {
 		const ret = await query({
 			sql: "SELECT * FROM genres"
+		})
+		return ret;
+	}
+	static async Rate(animeId, userId, rating) {
+		await query({
+			sql: "DELETE FROM ratings WHERE animeId = ? AND userId = ?",
+			params: [animeId, userId]
+		});
+		const ret = await query({
+			sql: "INSERT INTO ratings(animeId, userId, rating) VALUES(?, ?, ?)",
+			params: [animeId, userId, rating]
 		})
 		return ret;
 	}
