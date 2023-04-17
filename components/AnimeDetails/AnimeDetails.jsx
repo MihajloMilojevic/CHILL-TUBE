@@ -18,7 +18,7 @@ export default function AnimeDetails({anime: animeDB}) {
 			<h2>Select episode to watch:</h2>
 			{
 				anime.episodes.length > 0 ? (
-					anime.episodes.map(episode => <Link key={episode.id} href={`/${anime.id}/episode/${episode.id}`}>{"Episode " + episode.orderNumber}</Link>)
+					anime.episodes.map(episode => <Link key={episode.id} href={`/${anime.id}/episode/${episode.id}`}>{"Episode " + episode.orderNumber + (episode.watched ? "+" : "")}</Link>)
 				) : (
 					<p>There are no episodes uploded at the time.</p>
 				)
