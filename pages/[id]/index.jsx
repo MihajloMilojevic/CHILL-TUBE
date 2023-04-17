@@ -24,7 +24,7 @@ export default function SingleAnime({user, anime}) {
 export const getServerSideProps = SSRSession(async ({req, res, query}) => {
 	const user = await auth(req, res); // get currently logged user
 	
-	const {error, data} = await Anime.GetById(query.id);
+	const {error, data} = await Anime.GetPersonalizedAnimeData(query.id, user?.id ?? null);
 	if(error) return {
 		redirect: {
 			destination: `/error?message=${error.message}`,
@@ -38,16 +38,9 @@ export const getServerSideProps = SSRSession(async ({req, res, query}) => {
 	const anime = {
 		...data[0],
 		episodes: JSON.parse(data[0].episodes ?? "[]") ?? [],
-		genres: JSON.parse(data[0].genres ?? "[]") ?? []
+		genres: JSON.parse(data[0].genres ?? "[]") ?? [],
+		lists: JSON.parse(data[0].lists ?? "[]") ?? [],
 	}
-	let rating = null;
-	if(user) {
-		const ratingQ = await Anime.GetUserRatingOfAnime(anime.id, user.id);
-		console.log(anime.id, user.id)
-		console.log(ratingQ);
-		if(ratingQ.data && ratingQ.data.length > 0) rating = ratingQ.data[0].rating;
-	}
-	anime.userRating = rating;
 	
 	//console.log(anime);
 	return {

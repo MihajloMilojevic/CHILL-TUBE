@@ -1,6 +1,6 @@
 import React, {useState} from 'react'
 import {TiStarFullOutline} from "@react-icons/all-files/ti/TiStarFullOutline";
-import { UserRating } from "..";
+import { AddToListButton, UserRating } from "..";
 import Link from "next/link";
 
 export default function AnimeDetails({anime: animeDB}) {
@@ -25,6 +25,7 @@ export default function AnimeDetails({anime: animeDB}) {
 			}
 			<br/>
 			<UserRating anime={anime} setAnime={setAnime} />
+			<AddToListButton anime={anime} setAnime={setAnime} />
 		</>
 	)
 }

@@ -106,4 +106,24 @@ export default class AnimeAPI {
 			return {error, data: null};
 		}
 	}
+	
+	static async AddToLists(lists, animeId) {
+		try {
+			const ENDPOINT = `/api/anime/${animeId}/lists`;
+			const res = await fetch(ENDPOINT, {
+				method: "POST",
+				headers: {
+					"Content-Type": "application/json"
+				},
+				body: JSON.stringify({lists})
+			});
+			const json = await res.json();
+			if(!json.ok) throw new Error(json.message);
+			return {error: null, data: json};
+		} catch (error) {
+			console.error(error);
+			return {error, data: null};
+		}
+	}
+	
 }

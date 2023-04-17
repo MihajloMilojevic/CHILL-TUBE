@@ -11,15 +11,15 @@ export default class Anime {
 	}
 	static async GetById(id) {
 		const ret = await query({
-			sql: "SELECT *, getEpisodes(id) as episodes, getGenres(id) as genres, ROUND((SELECT AVG(rating) FROM ratings WHERE animeId = ?), 1) as rating FROM anime WHERE id = ?",
-			params: [id, id]
+			sql: "SELECT *, getEpisodes(id) as episodes, getGenres(id) as genres, ROUND((SELECT AVG(rating) FROM ratings WHERE animeId = id), 1) as rating FROM anime WHERE id = ?",
+			params: [id]
 		});
 		return ret;
 	}
-	static async GetUserRatingOfAnime(animeId, userId) {
+	static async GetPersonalizedAnimeData(animeId, userId) {
 		const ret = await query({
-			sql: "SELECT rating FROM ratings WHERE animeId = ? AND userId = ?",
-			params: [animeId, userId]
+			sql: "SELECT *, getGenres(id) as genres, ROUND((SELECT AVG(rating) FROM ratings WHERE animeId = id), 1) as rating, getPersonilizedEpisodes(id, ?) as episodes, (SELECT rating FROM ratings WHERE animeId = id AND userId = ?) as userRating, getLists(id, ?) as lists FROM anime WHERE id = ?",
+			params: [userId, userId, userId, animeId]
 		});
 		return ret;
 	}
@@ -151,6 +151,26 @@ export default class Anime {
 		const ret = await query({
 			sql: "INSERT INTO ratings(animeId, userId, rating) VALUES(?, ?, ?)",
 			params: [animeId, userId, rating]
+		})
+		return ret;
+	}
+	static async AddToLists(animeId, userId, listIds) {
+		await query({
+			sql: "DELETE FROM anime_lists WHERE animeId = ? AND listId IN((SELECT id FROM lists WHERE userId = ?))",
+			params: [animeId, userId]
+		})
+		console.log(listIds)
+		const values = [];
+		const params = [];
+		for (const id of listIds) {
+			values.push(`(?, ?)`);
+			params.push(animeId);
+			params.push(id);
+		}
+		if(values.length === 0) return {error: null, data: null}
+		const ret = await query({
+			sql: `INSERT INTO anime_lists(animeId, listId) VALUES ${values.join(", ")}`,
+			params
 		})
 		return ret;
 	}

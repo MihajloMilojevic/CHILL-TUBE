@@ -83,6 +83,39 @@ BEGIN
     );
 END //
 
+CREATE FUNCTION getPersionalizedEpisodes(animeId_input INT, userId_input INT) RETURNS TEXT
+BEGIN
+	IF (userId_input IS NULL) THEN
+		RETURN CONCAT(
+    	'[',
+        (SELECT GROUP_CONCAT(JSON_OBJECT('id', id, 'video', video, 'orderNumber', orderNumber, 'watched', FALSE) SEPARATOR ', ' ) FROM episodes WHERE animeId = animeId_input ORDER BY orderNumber ASC),
+        ']'
+    );
+	END IF;
+	RETURN CONCAT(
+    	'[',
+        (SELECT GROUP_CONCAT(JSON_OBJECT('id', id, 'video', video, 'orderNumber', orderNumber, 'watched', IFNULL((SELECT completed FROM watches WHERE episodeId = id AND userId = userId_input), FALSE)) SEPARATOR ', ' ) FROM episodes WHERE animeId = animeId_input ORDER BY orderNumber ASC),
+        ']'
+    );
+END //
+
+CREATE FUNCTION checkAnimeOnList(animeId_input INT, listId_input INT) RETURNS BOOLEAN
+BEGIN
+	RETURN (SELECT COUNT(*) FROM anime_lists WHERE listId = listId_input AND animeId = animeId_input) > 0;
+END //
+
+CREATE FUNCTION getLists(animeId_input INT, userId_input INT) RETURNS TEXT
+BEGIN
+	IF (userId_input IS NULL) THEN
+    	RETURN NULL;
+    END IF;
+	RETURN CONCAT(
+    	'[',
+        (SELECT GROUP_CONCAT(JSON_OBJECT('id', id, 'name', name, 'added', IF(checkAnimeOnList(animeId_input, id) > 0, TRUE, FALSE)) SEPARATOR ', ' ) FROM lists WHERE userId = userId_input),
+        ']'
+    );
+END //
+
 CREATE FUNCTION getGenres(animeId_input INT) RETURNS TEXT
 BEGIN
 	RETURN CONCAT(

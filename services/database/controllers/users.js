@@ -16,4 +16,12 @@ export default class User {
 		});
 		return ret;
 	}
+	static async AddList(name, userId) {
+		const {error, data} = await query({
+			sql: "INSERT INTO lists(userId, name) VALUES(?, ?)",
+			params: [userId, name]
+		})
+		if(error) throw error;
+		return data.insertId;
+	}
 }

@@ -6,6 +6,7 @@ import errorHandler from "../../../../services/middleware/errorHandler";
 import Errors from "../../../../services/errors";
 import auth from "../../../../services/middleware/authentication";
 import Anime from "../../../../services/database/controllers/anime";
+import User from "../../../../services/database/controllers/users";
 
 
 const handler = nc({
@@ -20,9 +21,18 @@ handler.post(async (req, res) => {
 	const animeId = req.query.id;
 	const user = await auth(req, res);
 	if(!user) throw new Errors.UnauthenticatedError("You are not logged in");
-	if(!req.body.rating) throw new Errors.BadRequestError("Rating is required.");
-	const {error: rateError} = await Anime.Rate(animeId, user.id, req.body.rating);
-	if(rateError) throw rateError;
+	if(!req.body.lists) throw new Errors.BadRequestError("Lists are required.");
+
+	const ids = [];
+	for (const list of req.body.lists) {
+		if(list?.new) {
+			const id = await User.AddList(list.name, user.id);
+			list.id = id;
+		}
+		if(list.added) ids.push(list.id)
+	}
+	const {error} = await Anime.AddToLists(animeId, user.id, ids);
+	if(error) throw error;
 	const {error: animeError, data} = await Anime.GetPersonalizedAnimeData(req.query.id, user.id);
 	if(animeError) throw animeError; 
 	const anime = {
