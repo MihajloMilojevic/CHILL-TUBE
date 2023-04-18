@@ -174,4 +174,25 @@ export default class Anime {
 		})
 		return ret;
 	}
+	static async GetComments(episodeId) {
+		const ret = await query({
+			sql: "SELECT jsonComment(id) as json FROM comments WHERE episodeId = ? ORDER BY timestamp DESC",
+			params: [episodeId]
+		});
+		return ret;
+	}
+	static async Comment(animeId, episodeNumber, userId, commentText) {
+		const ret = await query({
+			sql: "INSERT INTO comments(userId, episodeId, commentText) VALUES (?, (SELECT id FROM episodes WHERE animeId = ? AND orderNumber = ?), ?);",
+			params: [userId, animeId, episodeNumber, commentText]
+		});
+		return ret;
+	}
+	static async Timestamp(animeId, episodeNumber, userId, timestamp) {
+		const ret = await query({
+			sql: "CALL editTimestamp(?, (SELECT id FROM episodes WHERE animeId = ? AND orderNumber = ?), ?)",
+			params: [userId, animeId, episodeNumber, timestamp]
+		});
+		return ret;
+	}
 }

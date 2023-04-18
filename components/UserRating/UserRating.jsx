@@ -26,7 +26,7 @@ export default function UserRating({anime, setAnime}) {
             })
         }
         else {
-			setAnime(data.anime)
+			setAnime({...anime, ...data.anime})
             createNotification({
                 type: notificationTypes.SUCCESS,
                 title: "Success",

@@ -59,7 +59,7 @@ CREATE TABLE IF NOT EXISTS comments (
 	id					BIGINT PRIMARY KEY AUTO_INCREMENT,
 	userId 				INT NOT NULL REFERENCES users(id),
 	episodeId			INT NOT NULL REFERENCES episodes(id),
-	timestamp			DATETIME NOT NULL,
+	timestamp			DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP() ,
 	commentText			TEXT NOT NULL
 );
 
@@ -123,6 +123,22 @@ BEGIN
         (SELECT GROUP_CONCAT(JSON_OBJECT('id', id, 'name', name) SEPARATOR ', ' ) FROM genres JOIN anime_genres ON id = genreId WHERE animeId = animeId_input ORDER BY id ASC),
         ']'
     );
+END //
+
+CREATE FUNCTION jsonComment(commentId_input BIGINT) RETURNS TEXT
+BEGIN
+	RETURN (SELECT JSON_OBJECT('id', c.id, 'username', u.username, 'picture', u.picture, 'timestamp', c.timestamp, 'text', c.commentText) FROM comments c JOIN users u ON c.userId = u.id WHERE c.id = commentId_input);
+END //
+
+CREATE PROCEDURE editTimestamp(userId_input INT, episodeId_input INT, timestamp_input INT)
+BEGIN
+	DECLARE numberOfRecords INT;
+    SET numberOfRecords = (SELECT COUNT(*) FROM watches WHERE userId = userId_input AND episodeId = episodeId_input);
+    IF(numberOfRecords = 0) THEN 
+    	INSERT INTO watches(userId, episodeId, timestamp) VALUES(userId_input, episodeId_input, timestamp_input);
+    ELSE
+    	UPDATE watches SET timestamp = timestamp_input WHERE userId = userId_input AND episodeId = episodeId_input;
+    END IF;
 END //
 
 DELIMITER ;

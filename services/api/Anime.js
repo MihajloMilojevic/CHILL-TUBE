@@ -125,5 +125,40 @@ export default class AnimeAPI {
 			return {error, data: null};
 		}
 	}
-	
+	static async Comment(animeId, episodeNumber, commentText) {
+		try {
+			const ENDPOINT = `/api/anime/${animeId}/episode/${episodeNumber}/comment`;
+			const res = await fetch(ENDPOINT, {
+				method: "POST",
+				headers: {
+					"Content-Type": "application/json"
+				},
+				body: JSON.stringify({commentText})
+			});
+			const json = await res.json();
+			if(!json.ok) throw new Error(json.message);
+			return {error: null, data: json};
+		} catch (error) {
+			console.error(error);
+			return {error, data: null};
+		}
+	}
+	static async Watch(animeId, episodeNumber, timestamp) {
+		try {
+			const ENDPOINT = `/api/anime/${animeId}/episode/${episodeNumber}/timestamp`;
+			const res = await fetch(ENDPOINT, {
+				method: "PATCH",
+				headers: {
+					"Content-Type": "application/json"
+				},
+				body: JSON.stringify({timestamp})
+			});
+			const json = await res.json();
+			if(!json.ok) throw new Error(json.message);
+			return {error: null, data: json};
+		} catch (error) {
+			console.error(error);
+			return {error, data: null};
+		}
+	}
 }

@@ -3,8 +3,7 @@ import {TiStarFullOutline} from "@react-icons/all-files/ti/TiStarFullOutline";
 import { AddToListButton, UserRating } from "..";
 import Link from "next/link";
 
-export default function AnimeDetails({anime: animeDB}) {
-	const [anime, setAnime] = useState(animeDB);
+export default function AnimeDetails({anime, setAnime}) {
 	return (
 		<>
 			<img src={anime.picture} alt={anime.name}  />
@@ -18,7 +17,7 @@ export default function AnimeDetails({anime: animeDB}) {
 			<h2>Select episode to watch:</h2>
 			{
 				anime.episodes.length > 0 ? (
-					anime.episodes.map(episode => <Link key={episode.id} href={`/${anime.id}/episode/${episode.id}`}>{"Episode " + episode.orderNumber + (episode.watched ? "+" : "")}</Link>)
+					anime.episodes.map(episode => <p key={episode.id} ><a href={`/${anime.id}/episode/${episode.id}`}>Episode  {episode.orderNumber} {(episode.watched ? "+" : "")}</a></p>)
 				) : (
 					<p>There are no episodes uploded at the time.</p>
 				)

@@ -41,6 +41,7 @@ handler.post(async (req, res) => {
 		genres: JSON.parse(data[0].genres ?? "[]") ?? [],
 		lists: JSON.parse(data[0].lists ?? "[]") ?? [],
 	}
+	
 	res.status(StatusCodes.OK).json({ok: true, anime})
 });
 
