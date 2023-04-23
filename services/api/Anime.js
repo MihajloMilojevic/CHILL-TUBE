@@ -161,4 +161,22 @@ export default class AnimeAPI {
 			return {error, data: null};
 		}
 	}
+	static async MarkEpisode(animeId, episodeNumber, mark) {
+		try {
+			const ENDPOINT = `/api/anime/${animeId}/episode/${episodeNumber}/mark`;
+			const res = await fetch(ENDPOINT, {
+				method: "PATCH",
+				headers: {
+					"Content-Type": "application/json"
+				},
+				body: JSON.stringify({mark})
+			});
+			const json = await res.json();
+			if(!json.ok) throw new Error(json.message);
+			return {error: null, data: json};
+		} catch (error) {
+			console.error(error);
+			return {error, data: null};
+		}
+	}
 }

@@ -6,30 +6,37 @@ function doubleDigit(number) {
 	if(number > 9) return `${number}`
 	return `0${number}`;
 }
-export default function EpisodePlayer({anime, episodeNumber}) {
+export default function EpisodePlayer({anime, episodeNumber, setAnime}) {
 	const playerRef = useRef(null);
-	const {user, setModalChildren, setModalOpen} = useStateContext();
+	const {user, setModalChildren, setModalOpen, createNotification, notificationTypes} = useStateContext();
 	const [episode, setEpisode] = useState(anime.episodes.find(({orderNumber}) => orderNumber === episodeNumber))
+	const [firstPlay, setFirstPlay] = useState(true);
 	const router = useRouter();
 
 	const saveWatchedTime = useCallback(async function() {
 		const time = localStorage.getItem(`${anime.id}-${episodeNumber}`);
-		console.log(time)
+		//console.log(time)
 		if(!time) return;
-		console.log("Watch Timestamp Update")
+		//console.log("Watch Timestamp Update")
 		await API.AnimeAPI.Watch(anime.id, episodeNumber, parseInt(time));
 	}, [])	
 	
 	useEffect(() => {
-		const interval = setInterval(() => {saveWatchedTime(); console.log("INTERVAL")}, 10 * 1000);
+		const interval = setInterval(() => {saveWatchedTime(); /*console.log("INTERVAL")*/}, 10 * 1000);
 		return () => {
 			clearInterval(interval);
 		}
 	}, [])
 
-
 	useEffect(() => {
-		const time = localStorage.getItem(`${anime.id}-${episodeNumber}`);
+		setEpisode(anime.episodes.find(({orderNumber}) => orderNumber === episodeNumber))
+	}, [anime, episodeNumber])
+
+	function handlePlay() {
+		if(!firstPlay) return;
+		setFirstPlay(false);
+		let time = localStorage.getItem(`${anime.id}-${episodeNumber}`);
+		if(episode.timestamp > 0) time = episode.timestamp;
 		if(!time  || parseInt(time) === 0 || !playerRef.current) return;
 		setModalChildren(
 			<ContinueWhereLeftModal 
@@ -38,7 +45,7 @@ export default function EpisodePlayer({anime, episodeNumber}) {
 			/>
 		);
 		setModalOpen(true);
-	}, [playerRef, playerRef.current])
+	}
 
 	function handlePrevious() {
 		if(episodeNumber === 1) return;
@@ -52,7 +59,23 @@ export default function EpisodePlayer({anime, episodeNumber}) {
 		localStorage.setItem(`${anime.id}-${episodeNumber}`, Math.trunc(e.target.currentTime));
 	}
 	async function markEpisode() {
-		
+		const {error, data} = await API.AnimeAPI.MarkEpisode(anime.id, episodeNumber, !episode.watched);
+		if(error || !data.ok) { 
+			// if an error occured create error notification
+            createNotification({
+                type: notificationTypes.ERROR,
+                title: "Error",
+                message: error.message || data.message
+            })
+        }
+        else {
+			createNotification({
+				type: notificationTypes.SUCCESS,
+                title: "Success",
+                message: "Succesfully marked as " + (episode.watched ? "not" : "") + " completed"
+            })
+			setAnime({...anime, ...data.anime})
+        }
 	}
 	return (
 		<div>
@@ -63,7 +86,7 @@ export default function EpisodePlayer({anime, episodeNumber}) {
 			<button disabled={episodeNumber === 1} onClick={handlePrevious}>Previous Episode</button>
 			<button disabled={episodeNumber === anime.episodes.length} onClick={handleNext}>Next Episode</button>
 			<br/>
-			<video onTimeUpdate={handleTimeUpdate} src={episode.video} controls ref={playerRef} style={{width: "100%", maxHeight: "90vh", maxWidth: 1024, margin: "auto", display: "block"}}/>
+			<video onPlay={handlePlay} onTimeUpdate={handleTimeUpdate} src={episode.video} controls ref={playerRef} style={{width: "100%", maxHeight: "90vh", maxWidth: 1024, margin: "auto", display: "block"}}/>
 		</div>
 	)
 }

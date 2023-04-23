@@ -83,18 +83,18 @@ BEGIN
     );
 END //
 
-CREATE FUNCTION getPersionalizedEpisodes(animeId_input INT, userId_input INT) RETURNS TEXT
+CREATE FUNCTION getPersonalizedEpisodes(animeId_input INT, userId_input INT) RETURNS TEXT
 BEGIN
 	IF (userId_input IS NULL) THEN
 		RETURN CONCAT(
     	'[',
-        (SELECT GROUP_CONCAT(JSON_OBJECT('id', id, 'video', video, 'orderNumber', orderNumber, 'watched', FALSE) SEPARATOR ', ' ) FROM episodes WHERE animeId = animeId_input ORDER BY orderNumber ASC),
+        (SELECT GROUP_CONCAT(JSON_OBJECT('id', id, 'video', video, 'orderNumber', orderNumber, 'watched', FALSE, 'timestamp', 0) SEPARATOR ', ' ) FROM episodes WHERE animeId = animeId_input ORDER BY orderNumber ASC),
         ']'
     );
 	END IF;
 	RETURN CONCAT(
     	'[',
-        (SELECT GROUP_CONCAT(JSON_OBJECT('id', id, 'video', video, 'orderNumber', orderNumber, 'watched', IFNULL((SELECT completed FROM watches WHERE episodeId = id AND userId = userId_input), FALSE)) SEPARATOR ', ' ) FROM episodes WHERE animeId = animeId_input ORDER BY orderNumber ASC),
+        (SELECT GROUP_CONCAT(JSON_OBJECT('id', id, 'video', video, 'orderNumber', orderNumber, 'watched', IFNULL((SELECT completed FROM watches WHERE episodeId = id AND userId = userId_input), FALSE), 'timestamp', IFNULL((SELECT timestamp FROM watches WHERE episodeId = id AND userId = userId_input), 0)) SEPARATOR ', ' ) FROM episodes WHERE animeId = animeId_input ORDER BY orderNumber ASC),
         ']'
     );
 END //
@@ -138,6 +138,17 @@ BEGIN
     	INSERT INTO watches(userId, episodeId, timestamp) VALUES(userId_input, episodeId_input, timestamp_input);
     ELSE
     	UPDATE watches SET timestamp = timestamp_input WHERE userId = userId_input AND episodeId = episodeId_input;
+    END IF;
+END //
+
+CREATE PROCEDURE editWatched(userId_input INT, episodeId_input INT, completed_input BOOLEAN)
+BEGIN
+	DECLARE numberOfRecords INT;
+    SET numberOfRecords = (SELECT COUNT(*) FROM watches WHERE userId = userId_input AND episodeId = episodeId_input);
+    IF(numberOfRecords = 0) THEN 
+    	INSERT INTO watches(userId, episodeId, completed) VALUES(userId_input, episodeId_input, completed_input);
+    ELSE
+    	UPDATE watches SET completed = completed_input WHERE userId = userId_input AND episodeId = episodeId_input;
     END IF;
 END //
 

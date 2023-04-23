@@ -195,4 +195,11 @@ export default class Anime {
 		});
 		return ret;
 	}
+	static async Mark(animeId, episodeNumber, userId, mark) {
+		const ret = await query({
+			sql: "CALL editWatched(?, (SELECT id FROM episodes WHERE animeId = ? AND orderNumber = ?), ?)",
+			params: [userId, animeId, episodeNumber, mark]
+		});
+		return ret;
+	}
 }
