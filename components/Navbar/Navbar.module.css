@@ -30,6 +30,13 @@
 	text-align: left;
 }
 
+.navbar_right {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	gap: 10px;
+}
+
 
 @media screen and (max-width: 500px) {
 	.navbar {

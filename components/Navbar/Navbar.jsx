@@ -9,7 +9,7 @@ function Navbar() {
 
 	const navRef = useRef(null);
 	
-	const {windowSize, setNavHeight} = useStateContext();
+	const {windowSize, setNavHeight, user} = useStateContext();
 
 	useEffect(() => {
 		setNavHeight(navRef.current.clientHeight);
@@ -26,7 +26,14 @@ function Navbar() {
 				</div>
 			</Link>
 			<div className={styles.navbar_right}>
-				<Profile />
+				{!!user ? (
+					<Profile />
+				) : (
+					<>
+						<Link href="/login">Login</Link>
+						<Link href="/register">Register</Link>
+					</>
+				)}
 			</div>
 		</div>
 	)

@@ -9,7 +9,6 @@ export default function AdminHomePage({user, anime}) {
 	const [search, setSearch] = useState("");
 	return (
 		<Layout user={user}>
-			<h1>Admin</h1>
 			{/* <p>{JSON.stringify(user)}</p> */}
 			{ (user && user.admin) && 
 				<Link href="/add"><p style={{padding: "1rem", background: "white", cursor: "pointer", display: "inline-block"}}>+</p></Link>
