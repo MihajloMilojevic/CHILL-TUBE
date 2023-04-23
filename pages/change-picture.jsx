@@ -3,11 +3,11 @@ import auth from "../services/middleware/authentication"
 import { Layout } from "../components";
 
 
-export default function ChangePasswordPage({user}) {
+export default function ChangePicturePage({user}) {
 
 	return (
 		<Layout user={user}>
-			<h1>Change Password Page</h1>
+			<h1>Change Picture Page</h1>
 		</Layout>
 	)
 }

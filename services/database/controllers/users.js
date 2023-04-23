@@ -2,6 +2,13 @@ import query from "../query";
 
 export default class User {
 
+	static async Create({username, email, password}) {
+		const ret = await query({
+			sql: "INSERT INTO users(username, email, password) VALUES(?, ?, ?)",
+			params: [username, email, password]
+		});
+		return ret;
+	}
 	static async getUserById(userId) {
 		const ret = await query({
 			sql: "SELECT * FROM users WHERE id = ?",

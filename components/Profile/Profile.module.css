@@ -13,26 +13,44 @@
 	height: 100%;
 	object-fit: fill;
 }
-
+.profile_close {
+	position: absolute;
+	top: 1rem;
+	right: 1rem;
+	border-radius: 50%;
+	width: 30px;
+	height: 30px;
+	padding: 0;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
 .profile_dropdown {
 	position: absolute;
 	top: 100%;
 	right: 0;
-	padding: 2rem;
 	background: white;
 	border-radius: 15px;
-	/* border: 1px solid black; */
+	border: 1px solid black;
 	width: 25rem;
 	margin-top: 0.5rem;
+	overflow: hidden;
 }
 .profile_dropdown_header {
+	padding: 1rem 1rem 0 1rem;
 	display: flex;
-	justify-content: space-between;
-	align-items: center;
-	gap: 0.5rem;
+	justify-content:flex-start;
+	align-items: flex-start;
+	flex-direction: column;
+	gap: 0.1rem;
 }
 .profile_dropdown_header h3 {
 	margin: 0;
+	text-align: left;
+}
+.profile_dropdown_header p {
+	margin: 0;
+	font-size: 0.85rem;
 	text-align: left;
 }
 .profile_dropdown_data {

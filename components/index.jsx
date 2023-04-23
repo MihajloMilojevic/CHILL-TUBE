@@ -1,4 +1,4 @@
-export {default as ScrollToTop} from "./ScrollToTop/ScrollToTop";
+export {default as Layout} from "./Layout/Layout";
 export {default as Navbar} from "./Navbar/Navbar";
 export {default as Profile} from "./Profile/Profile";
 export {default as Modal} from "./Modal/Modal";

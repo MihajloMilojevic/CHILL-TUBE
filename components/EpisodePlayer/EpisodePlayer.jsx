@@ -22,6 +22,7 @@ export default function EpisodePlayer({anime, episodeNumber, setAnime}) {
 	}, [])	
 	
 	useEffect(() => {
+		if(!user) return;
 		const interval = setInterval(() => {saveWatchedTime(); /*console.log("INTERVAL")*/}, 10 * 1000);
 		return () => {
 			clearInterval(interval);

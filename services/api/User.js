@@ -35,5 +35,23 @@ export default class UserAPI {
 			return {error, data: null};
 		}
 	}
-	
+	// function that sends POST request to register api route
+	static async register(data) {
+		try {
+			const ENDPOINT = "/api/register";
+			const res = await fetch(ENDPOINT, {
+				headers: {
+					"Content-Type": "application/json"
+				},
+				method: "POST",
+				body: JSON.stringify(data)
+			});
+			const json = await res.json();
+			if(!json.ok) throw new Error(json.message);
+			return {error: null, data: json};
+		} catch (error) {
+			console.error(error);
+			return {error, data: null};
+		}
+	}
 }

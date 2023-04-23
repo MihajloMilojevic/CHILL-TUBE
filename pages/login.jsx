@@ -2,6 +2,7 @@ import { useRouter } from "next/router";
 import { useState } from "react";
 import API from "../services/api";
 import { useStateContext } from "../services/context/ContextProvider";
+import {Layout} from "../components";
 
 const initialFormData = {
 	email: "",
@@ -44,7 +45,7 @@ export default function LoginPage() {
 	}
 
 	return (
-		<>
+		<Layout user={null}>
 			<form onSubmit={handleSubmit}>
 				<label htmlFor="email">Email:</label>
 				<input type="text" id="email" name="email" onChange={handleChange} value={formData.email} />
@@ -54,6 +55,6 @@ export default function LoginPage() {
 				<br/>
 				<button disabled={buttonDisabled} type="submit">Login</button>
 			</form>
-		</>
+		</Layout>
 	);
 }

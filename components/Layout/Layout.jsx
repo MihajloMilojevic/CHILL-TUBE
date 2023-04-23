@@ -1,6 +1,7 @@
 import { useStateContext } from "../../services/context/ContextProvider";
 import {Navbar, ScrollToTop, Page} from "..";
 import { useEffect } from "react";
+import styles from "./Layout.module.css";
 
 function Layout({children, user}) {
 
@@ -11,32 +12,14 @@ function Layout({children, user}) {
 	}, []);
 
 	return (
-		<>
-			<div
-				style={{
-					display: "flex",
-					width: "100%",
-					minHeight: "100vh",
-					position: "relative"
-				}}
-			>
-				<div 
-					style={{
-						width: "100%",
-						height: "100%",
-						position: "fixed",
-						right: 0,
-						overflowX: "hidden",
-						zIndex: 3000
-					}}
-					id="content"
-				>
-					<Navbar />
+		<div className={styles.wrapper}>
+			<div className={styles.content}>
+				<Navbar />
+				<div className={styles.page}>
 					{children}
-					<ScrollToTop />
 				</div>
 			</div>
-		</>
+		</div>
 	)
 }
 
