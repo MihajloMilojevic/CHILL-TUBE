@@ -1,13 +1,18 @@
 import {SSRSession} from "../services/sessions/get-session"
 import auth from "../services/middleware/authentication"
-import { Layout } from "../components";
+import { AnimeList, Layout } from "../components";
+import User from "../services/database/controllers/users";
 
 
-export default function HistoryPage({user}) {
+export default function HistoryPage({user, history}) {
 
 	return (
 		<Layout user={user}>
 			<h1>History Page</h1>
+			<AnimeList 
+				anime={history}
+				pagination={true}
+			/>
 		</Layout>
 	)
 }
@@ -20,9 +25,17 @@ export const getServerSideProps = SSRSession(async ({req, res}) => {
 			permanent: false
 		}
 	}
+	const historyQ = await User.GetHistory(user.id);
+	if(historyQ.error) return {
+		redirect: {
+			destination: `/error?message=${historyQ.error.message}`,
+			permanent: false
+		}
+	}
 	return {
 		props: {
-			user
+			user,
+			history: JSON.parse(JSON.stringify(historyQ.data ?? []))
 		}
 	}
 })

@@ -67,4 +67,11 @@ export default class User {
 		})
 		return ret;
 	}
+	static async GetHistory(userId) {
+		const ret = await query({
+			sql: "SELECT id, name, picture FROM anime WHERE id IN(SELECT DISTINCT animeId FROM episodes WHERE id IN(SELECT episodeId FROM watches WHERE userId = ?)) ORDER BY id DESC",
+			params: [userId]
+		})
+		return ret;
+	}
 }
