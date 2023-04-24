@@ -41,6 +41,7 @@ function Profile() {
 
 	return (
 		<div className={styles.profile}>
+			{/* <span>{user.username}</span> */}
 			<div className={styles.profile_toggle} onClick={() => setOpenDropdown(prev => !prev)}  >
 				<Image alt="profile-picture" src={user.picture} layout="fill" />
 			</div>

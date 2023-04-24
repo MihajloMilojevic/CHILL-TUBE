@@ -8,3 +8,4 @@ export {default as AddToListButton} from "./AddToListButton/AddToListButton";
 export {default as EpisodeEditer} from "./EpisodeEditer/EpisodeEditer";
 export {default as EpisodePlayer} from "./EpisodePlayer/EpisodePlayer";
 export {default as CommentsSection} from "./CommentsSection/CommentsSection";
+export {default as AnimeList} from "./AnimeList/AnimeList";

@@ -89,4 +89,22 @@ export default class UserAPI {
 			return {error, data: null};
 		}
 	}
+	static async DeleteList(listId) {
+		try {
+			const ENDPOINT = "/api/delete-list";
+			const res = await fetch(ENDPOINT, {
+				headers: {
+					"Content-Type": "application/json"
+				},
+				method: "DELETE",
+				body: JSON.stringify({listId})
+			});
+			const json = await res.json();
+			if(!json.ok) throw new Error(json.message);
+			return {error: null, data: json};
+		} catch (error) {
+			console.error(error);
+			return {error, data: null};
+		}
+	}
 }

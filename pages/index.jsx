@@ -4,6 +4,7 @@ import {SSRSession} from "../services/sessions/get-session";
 import Anime from "../services/database/controllers/anime";
 import Link from "next/link";
 import { useState } from "react";
+import { AnimeList } from "../components";
 
 export default function AdminHomePage({user, anime}) {
 	const [search, setSearch] = useState("");
@@ -18,18 +19,10 @@ export default function AdminHomePage({user, anime}) {
 			<br/>
 			{
 				anime.length === 0 ? "No anime has been added" : (
-					<div>
-						{
-							anime.filter(a => (search === "" ? true : a.name.toLowerCase().includes(search.toLowerCase()))).map(a => (
-								<Link key={a.id} href={`/${a.id}`}>
-									<div style={{width: 100, height: 200, display: "inline-block"}}>
-										<img src={a.picture} alt={a.name} style={{width: "100%", height: "80%", objectFit: "cover"}} />
-										<p>{a.name}</p>
-									</div>
-								</Link>
-							))
-						}
-					</div>
+					<AnimeList 
+						anime={anime.filter(a => (search === "" ? true : a.name.toLowerCase().includes(search.toLowerCase())))}
+						pagination={false}
+					/>
 				)
 			}
 		</Layout>

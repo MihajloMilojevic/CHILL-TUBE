@@ -31,6 +31,28 @@ export default class User {
 		if(error) throw error;
 		return data.insertId;
 	}
+	static async GetLists(userId) {
+		const ret = await query({
+			sql: "SELECT id, name, getAnimeOnList(id) as animes FROM lists WHERE userId = ?",
+			params: [userId]
+		})
+		return ret;
+	}
+	static async GetListById(listId) {
+		const ret = await query({
+			sql: "SELECT * FROM lists WHERE id = ?",
+			params: [listId]
+		})
+		return ret;
+	}
+	static async DeleteList(listId) {
+		await query({sql: "DELETE FROM anime_lists WHERE listId = ?", params: [listId]}) 
+		const ret = await query({
+			sql: "DELETE FROM lists WHERE id = ?",
+			params: [listId]
+		});
+		return ret;
+	}
 	static async ChangePassword(password, userId) {
 		const ret = await query({
 			sql: "UPDATE users SET password = ? WHERE id = ?",

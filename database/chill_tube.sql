@@ -116,6 +116,15 @@ BEGIN
     );
 END //
 
+CREATE FUNCTION getAnimeOnList(listId_input INT) RETURNS TEXT
+BEGIN
+	RETURN CONCAT(
+    	'[',
+        	(SELECT GROUP_CONCAT((SELECT JSON_OBJECT('id', id, 'name', name, 'picture', picture) FROM anime WHERE id = animeId) SEPARATOR ', ' ) FROM anime_lists WHERE listId = listId_input),
+        ']'
+    );
+END //
+
 CREATE FUNCTION getGenres(animeId_input INT) RETURNS TEXT
 BEGIN
 	RETURN CONCAT(
