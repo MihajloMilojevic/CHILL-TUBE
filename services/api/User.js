@@ -54,4 +54,22 @@ export default class UserAPI {
 			return {error, data: null};
 		}
 	}
+	static async changePassword(data) {
+		try {
+			const ENDPOINT = "/api/change-password";
+			const res = await fetch(ENDPOINT, {
+				headers: {
+					"Content-Type": "application/json"
+				},
+				method: "PATCH",
+				body: JSON.stringify(data)
+			});
+			const json = await res.json();
+			if(!json.ok) throw new Error(json.message);
+			return {error: null, data: json};
+		} catch (error) {
+			console.error(error);
+			return {error, data: null};
+		}
+	}
 }

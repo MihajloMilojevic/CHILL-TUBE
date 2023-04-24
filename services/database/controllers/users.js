@@ -31,4 +31,11 @@ export default class User {
 		if(error) throw error;
 		return data.insertId;
 	}
+	static async ChangePassword(password, userId) {
+		const ret = await query({
+			sql: "UPDATE users SET password = ? WHERE id = ?",
+			params: [password, userId]
+		})
+		return ret;
+	}
 }
