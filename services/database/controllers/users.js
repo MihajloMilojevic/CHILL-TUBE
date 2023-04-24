@@ -38,4 +38,11 @@ export default class User {
 		})
 		return ret;
 	}
+	static async ChangePicture(newPic, userId) {
+		const ret = await query({
+			sql: "UPDATE users SET picture = ? WHERE id = ?",
+			params: [newPic, userId]
+		})
+		return ret;
+	}
 }

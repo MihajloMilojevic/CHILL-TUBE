@@ -4,7 +4,6 @@ import { Layout } from "../components";
 import { useState } from "react";
 import API from "../services/api";
 import { useStateContext } from "../services/context/ContextProvider";
-import { useRouter } from "next/router";
 
 const initialFormData = {
 	oldPassword: "",
@@ -17,7 +16,6 @@ export default function ChangePasswordPage({user}) {
 	const {createNotification, notificationTypes} = useStateContext();
 	const [formData, setFormData] = useState(initialFormData);
 	const [buttonDisabled, setButtonDisabled] = useState(false);
-	const router = useRouter();
 
 	async  function handleSubmit(e) {
 		e.preventDefault();
@@ -38,7 +36,6 @@ export default function ChangePasswordPage({user}) {
                 title: "Success",
                 message: "You have successfully changed your password"
             })
-			router.push("/");
         }
 		setButtonDisabled(false);
 		setFormData(initialFormData);

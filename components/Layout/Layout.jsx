@@ -9,7 +9,7 @@ function Layout({children, user}) {
 
 	useEffect(() => {
 		setUser(user);
-	}, []);
+	}, [user]);
 
 	return (
 		<div className={styles.wrapper}>
