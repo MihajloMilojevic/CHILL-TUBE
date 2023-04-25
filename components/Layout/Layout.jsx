@@ -5,7 +5,7 @@ import styles from "./Layout.module.css";
 
 function Layout({children, user}) {
 
-	const {activeMenu, windowSize, setUser} = useStateContext();
+	const { setUser} = useStateContext();
 
 	useEffect(() => {
 		setUser(user);

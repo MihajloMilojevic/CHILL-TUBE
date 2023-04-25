@@ -48,13 +48,13 @@ function Profile() {
 			{
 				openDropdown && (
 					<div className={`${styles.profile_dropdown} box-shadow`}>
-					<button className={styles.profile_close} 
-								onClick={
-									() => setOpenDropdown(false)
-								}
-							>
-								<AiOutlineClose color="black" size={15} />
-							</button>
+						<button className={styles.profile_close} 
+							onClick={
+								() => setOpenDropdown(false)
+							}
+						>
+							<AiOutlineClose color="black" size={15} />
+						</button>
 						<div className={styles.profile_dropdown_header}>
 								<h3>{user.username}</h3>
 								<p>{user.email}</p>

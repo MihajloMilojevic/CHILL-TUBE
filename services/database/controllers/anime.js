@@ -5,13 +5,13 @@ import File from "./files";
 export default class Anime {
 	static async GetAll() {
 		const ret = await query({
-			sql: "SELECT id, name, picture FROM anime ORDER BY id DESC",
+			sql: "SELECT id, name, picture, released, getGenres(id) as genres, IFNULL(ROUND((SELECT AVG(rating) FROM ratings WHERE animeId = id), 1), 0) as rating FROM anime ORDER BY id DESC",
 		});
 		return ret;
 	}
 	static async GetById(id) {
 		const ret = await query({
-			sql: "SELECT *, getEpisodes(id) as episodes, getGenres(id) as genres, ROUND((SELECT AVG(rating) FROM ratings WHERE animeId = id), 1) as rating FROM anime WHERE id = ?",
+			sql: "SELECT *, getEpisodes(id) as episodes, getGenres(id) as genres, IFNULL(ROUND((SELECT AVG(rating) FROM ratings WHERE animeId = id), 1), 0) as rating FROM anime WHERE id = ?",
 			params: [id]
 		});
 		return ret;

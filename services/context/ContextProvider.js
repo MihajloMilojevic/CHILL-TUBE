@@ -1,32 +1,55 @@
 import {createContext, useContext, useState, useEffect} from "react";
 import useWindowSize from "../hooks/useWindowSize";
 import {NotificationContainer, NotificationManager} from 'react-notifications';
-import {Modal} from "../../components";
+import {FilterSidebar, Modal} from "../../components";
 
 const StateContext = createContext();
+
+const filterOrderTypes = {
+	"NAME_ASC": "Name Ascending",
+	"NAME_DESC": "Name Descending",
+	"RATING_ASC": "Rating Ascending",
+	"RATING_DESC": "Rating Descending",
+}
+
+const genres = [
+	{id: 1, name: "Action"},
+	{id: 2, name: "Adventure"},
+	{id: 3, name: "Comedy"},
+	{id: 4, name: "Drama"},
+	{id: 5, name: "Slice of Life"},
+	{id: 6, name: "Fantasy"},
+	{id: 7, name: "Magic"},
+	{id: 8, name: "Supernatural"},
+	{id: 9, name: "Horror"},
+	{id: 10, name: "Mystery"},
+	{id: 11, name: "Psychological"},
+	{id: 12, name: "Romance"},
+	{id: 13, name: "Sci-Fi"}
+]
+
+// types of notifications - each has its own styles
+const notificationTypes = {
+	INFO: "info",
+	SUCCESS: "success",
+	WARNING: "warning",
+	ERROR: "error"
+}
 
 // component that provides context to the enitre app
 export default function ContextProvider({children}) {
 	// defines state of the aplication and helper functions
 	const windowSize = useWindowSize();
-	const [activeMenu, setActiveMenu] = useState(true);
 	const [user, setUser] = useState(null);
 	const [navHeight, setNavHeight] = useState(0);
 	const [modalOpen, setModalOpen] = useState(false);
 	const [modalChildren, setModalChildren] = useState(null);
-
-	useEffect(() => {
-		setActiveMenu(windowSize.width > 900)
-	}, [windowSize])
-
-	// types of notifications - each has its own styles
-	const notificationTypes = {
-		INFO: "info",
-		SUCCESS: "success",
-		WARNING: "warning",
-		ERROR: "error"
-	}
-
+	const [filterOpen, setFilterOpen] = useState(false);
+	const [filterOrder, setFilterOrder] = useState(filterOrderTypes.NAME_DESC);
+	const [selectedGenres, setSelectedGenres] = useState([]);
+	const [releasedBoundries, setReleasedBoundries] = useState({min: 1900, max: (new Date().getFullYear())});
+	const [releasedValue, setReleasedValue] = useState({min: 0, max: (new Date().getFullYear())});
+	
 	// function that creates notification 
 	// params is on object that has:
 	// - type of the notification
@@ -71,11 +94,16 @@ export default function ContextProvider({children}) {
 		<StateContext.Provider
 			value={{  // all variables and function availabe for any component inside context provider by using useStateContext hook
 				windowSize,
-				activeMenu, setActiveMenu,
 				notificationTypes, createNotification,
 				user, setUser,
 				navHeight, setNavHeight,
 				setModalChildren, setModalOpen,
+				filterOpen, setFilterOpen,
+				filterOrder, setFilterOrder,
+				selectedGenres, setSelectedGenres,
+				filterOrderTypes, genres,
+				releasedBoundries, setReleasedBoundries,
+				releasedValue, setReleasedValue,
 			}}
 		>	
 			{children}
@@ -83,6 +111,7 @@ export default function ContextProvider({children}) {
 			<Modal show={modalOpen}>
 				{modalChildren}
 			</Modal>
+			<FilterSidebar />
 		</StateContext.Provider>	
 	)
 }

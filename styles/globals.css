@@ -1,4 +1,9 @@
 
+:root {
+	--color-bg: #37306B;
+	--color-dark: #66347F;
+	--color-light: #D27685;
+}
 html,
 body {
 	padding: 0;
@@ -20,4 +25,8 @@ a {
 #__next {
 	width: 100%;
 	min-height: 100vh;
+}
+.overlay {
+	background: rgba(0, 0, 0, 0.5);
+	backdrop-filter: blur(25px);
 }

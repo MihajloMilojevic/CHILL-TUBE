@@ -1,0 +1,14 @@
+.close_button {
+	position: absolute;
+	top: 1rem;
+	right: 1rem;
+	border-radius: 50%;
+	width: 30px;
+	height: 30px;
+	padding: 0;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	background: transparent;
+	border: 3px solid white;
+}
