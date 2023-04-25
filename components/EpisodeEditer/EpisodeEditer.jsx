@@ -144,10 +144,12 @@ function DeleteEpisodeModal({onConfirm}) {
 
 	return (
 		<div>
-			<h3>Delete episode confirmation</h3>
-			<p>Are you sure you want to delete this episode? Once performed this action can&apos;t be reversed.</p>
-			<button onClick={handleYes}>Yes</button>
-			<button onClick={handleNo}>No</button>
+			<h3 className={`modal_title`}>Delete episode confirmation</h3>
+			<p className={`modal_paragraph`}>Are you sure you want to delete this episode? Once performed this action can&apos;t be reversed.</p>
+			<div className={`modal_buttons`}>
+				<button onClick={handleYes} className={`modal_yes_button`}>Yes</button>
+				<button onClick={handleNo} className={`modal_no_button`}>No</button>
+			</div>
 		</div>
 	);
 }
@@ -166,10 +168,12 @@ function CancelEditModal({onConfirm}) {
 
 	return (
 		<div>
-			<h3>Exit edit mode</h3>
-			<p>Are you sure you want to exit edit mode? You will lose all your unsaved work.</p>
-			<button onClick={handleYes}>Yes</button>
-			<button onClick={handleNo}>No</button>
+			<h3 className={`modal_title`}>Exit edit mode</h3>
+			<p className={`modal_paragraph`}>Are you sure you want to exit edit mode? You will lose all your unsaved work.</p>
+			<div className={`modal_buttons`}>
+				<button onClick={handleYes} className={`modal_yes_button`}>Yes</button>
+				<button onClick={handleNo} className={`modal_no_button`}>No</button>
+			</div>
 		</div>
 	);
 }

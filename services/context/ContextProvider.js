@@ -97,6 +97,7 @@ export default function ContextProvider({children}) {
 				notificationTypes, createNotification,
 				user, setUser,
 				navHeight, setNavHeight,
+				modalChildren, modalOpen,
 				setModalChildren, setModalOpen,
 				filterOpen, setFilterOpen,
 				filterOrder, setFilterOrder,
@@ -108,9 +109,7 @@ export default function ContextProvider({children}) {
 		>	
 			{children}
 			<NotificationContainer/> {/* this is used to show notifications */}
-			<Modal show={modalOpen}>
-				{modalChildren}
-			</Modal>
+			<Modal />
 			<FilterSidebar />
 		</StateContext.Provider>	
 	)

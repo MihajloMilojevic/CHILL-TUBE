@@ -73,13 +73,16 @@ function ListsModal({lists: listsDB, onCofirm}) {
 		setNewListName("");
 	}
 	return <div>
+		<h3 className={`modal_title`}>Add Anime To List</h3>
 		<input value={newListName} onChange={e => setNewListName(e.target.value)}/>
 		<button onClick={addNewList}>New List</button>
 		{lists.map(list => <div key={list.id}>
 			<input type='checkbox' checked={list.added} onChange={e => handleChange(e.target.checked, list.id)} id={list.name} />
 			<label htmlFor={list.name}>{list.name}</label>
 		</div>)}
-		<button onClick={handleConfirm}>Ok</button>
-		<button onClick={handleClose}>Close</button>
+		<div className={`modal_buttons`}>
+			<button onClick={handleConfirm} className={`modal_yes_button`}>Ok</button>
+			<button onClick={handleClose} className={`modal_no_button`}>Close</button>
+		</div>
 	</div>
 }

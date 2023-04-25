@@ -12,7 +12,7 @@
 }
 .panel {
 	width: 95%;
-	max-width: 300px;
+	max-width: 400px;
 	height: 100vh;
 	background: var(--color-dark);
 	border-left: 3px solid #FFFFFF;
@@ -28,4 +28,47 @@
 }
 .panel h3 {
 	margin-bottom: 0.5rem;
+}
+
+.custom_element {
+	display: flex;
+	gap: 10px;
+	justify-content: flex-start;
+	align-items: center;
+	margin: 0 0 10px 10px;
+	cursor: pointer;
+}
+.custom_element  p {
+	padding: 0;
+	margin: 0;
+}
+.checkbox_outer {
+	width: 25px;
+	height: 25px;
+	border: 2px solid white;
+	border-radius: 5px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+.checkbox_inner {
+	width: 15px;
+	height: 15px;
+	background-color: white;
+	border-radius: 2px;
+}
+.radio_outer {
+	width: 25px;
+	height: 25px;
+	border: 2px solid white;
+	border-radius: 50%;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+.radio_inner {
+	width: 15px;
+	height: 15px;
+	background-color: white;
+	border-radius: 50%;
 }

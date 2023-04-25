@@ -104,10 +104,12 @@ function ContinueWhereLeftModal({onConfirm, time}) {
 	}
 	return (
 		<div>
-			<h3>Continue Watching</h3>
-			<p>Do you want to continue watching this episide from {time}</p>
-			<button onClick={handleYes}>Yes</button>
-			<button onClick={handleNo}>No</button>
+			<h3 className={`modal_title`}>Continue Watching</h3>
+			<p className={`modal_paragraph`}>Do you want to continue watching this episide from {time}</p>
+			<div className={`modal_buttons`}>
+				<button onClick={handleYes} className={`modal_yes_button`}>Yes</button>
+				<button onClick={handleNo} className={`modal_no_button`}>No</button>
+			</div>
 		</div>
 	)
 }

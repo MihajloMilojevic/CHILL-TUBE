@@ -4,7 +4,7 @@
 	justify-content: space-between;
 	align-items: center;
 	z-index: 9999 !important;
-	background: #f1f1f1;
+	background: transparent;
 	position: relative;
 }
 /* .navbar_remove_shadow {

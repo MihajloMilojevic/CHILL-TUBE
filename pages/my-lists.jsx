@@ -135,10 +135,12 @@ function DeleteListModal({onConfirm}) {
 
 	return (
 		<div>
-			<h3>Delete list confirmation</h3>
-			<p>Are you sure you want to delete this list? Once performed this action can&apos;t be reversed.</p>
-			<button onClick={handleYes}>Yes</button>
-			<button onClick={handleNo}>No</button>
+			<h3 className={`modal_title`}>Delete list confirmation</h3>
+			<p className={`modal_paragraph`}>Are you sure you want to delete this list? Once performed this action can&apos;t be reversed.</p>
+			<div className={`modal_buttons`}>
+				<button onClick={handleYes} className={`modal_yes_button`}>Yes</button>
+				<button onClick={handleNo} className={`modal_no_button`}>No</button>
+			</div>
 		</div>
 	);
 }

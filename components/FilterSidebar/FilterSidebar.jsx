@@ -3,6 +3,8 @@ import styles from "./FilterSidebar.module.css"
 import { useStateContext } from '../../services/context/ContextProvider';
 import { CloseButton } from "..";
 import Slider from '@mui/material/Slider';
+import CustomCheckbox from './CustomCheckbox';
+import CustomRadioButton from './CustomRadioButton';
 
 export default function FilterSidebar() {
 	const {
@@ -14,17 +16,16 @@ export default function FilterSidebar() {
 		releasedValue, setReleasedValue,
 	} = useStateContext();
 
-	function handleCheckboxChange(e) {
-		const value = e.target.value;
+	function handleCheckboxChange({value, checked}) {
 		const id = genres.find(g => g.name === value)?.id;
 		const exists = !!selectedGenres.find(g => g === id)
-		if(exists && !e.target.checked) 
+		if(exists && !checked) 
 			setSelectedGenres(selectedGenres.filter(g => g !== id));
 		else 
 			setSelectedGenres([...selectedGenres, id]);
 	}
-	function handleRadioChange(e) {
-		setFilterOrder(e.target.value);
+	function handleRadioChange({value}) {
+		setFilterOrder(value);
 	}
 	function handleSliderChange(e, value) {
 		setReleasedValue({min: value[0], max: value[1]})
@@ -38,17 +39,9 @@ export default function FilterSidebar() {
 				<CloseButton onClick={() => setFilterOpen(false)} />
 				<h2>Filter Search Options</h2>
 				<h3>Order By:</h3>
-				{Object.keys(filterOrderTypes).map(k => (
-					<div key={k}>
-						<input checked={filterOrderTypes[k] === filterOrder} type="radio" id={filterOrderTypes[k]} name="order" onChange={handleRadioChange} value={filterOrderTypes[k]} />
-						<label htmlFor={filterOrderTypes[k]}>{filterOrderTypes[k]}</label>
-					</div>))}
+				{Object.keys(filterOrderTypes).map(k => (<CustomRadioButton key={k} checked={filterOrderTypes[k] === filterOrder} onChange={handleRadioChange} value={filterOrderTypes[k]} label={filterOrderTypes[k]} />))}
 				<h3>Genres:</h3>
-				{genres.map(g => (
-					<div key={g.id}>
-						<input checked={selectedGenres.includes(g.id)} type="checkbox" id={g.name} onChange={handleCheckboxChange} value={g.name} />
-						<label htmlFor={g.name}>{g.name}</label>
-					</div>))}
+				{genres.map(g => (<CustomCheckbox key={g.id} checked={selectedGenres.includes(g.id)} onChange={handleCheckboxChange} value={g.name} label={g.name} />))}
 				<h3>Released:</h3>
 				<div style={{display: "flex", gap: 20, justifyContent: "center", alignItems: "center"}}>
 					<p>{releasedValue.min}</p>

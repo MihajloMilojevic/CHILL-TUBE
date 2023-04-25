@@ -18,11 +18,9 @@ function Navbar() {
 
 	return (
 		<div className={`${styles.navbar} `}  ref={navRef}>
-			
 			<Link href="/">
 				<div className={styles.navbar_left}>
-					<Image src="/logo.png" alt="Logo" width={50} height={50}/>
-					<span>Chill Tube</span>
+					<img src="/logo.png" alt="Logo" height={50}/>
 				</div>
 			</Link>
 			<div className={styles.navbar_right}>
