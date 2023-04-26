@@ -52,9 +52,7 @@ a {
 	backdrop-filter: blur(25px);
 }
 .modal_title {
-	margin: 0;
-	margin-top: 10px;
-	margin-bottom: 10px;
+	margin: 10px calc(2rem + 30px) 10px 0;
 	padding: 0;
 	font-weight: bold;
 }
@@ -88,4 +86,14 @@ a {
 	padding: 7.5px;
 	width: 150px;
 	font-weight: bold;
+}
+
+h1 {
+	font-size: 2.25rem;
+}
+
+@media screen and (max-width: 400px) {
+	h1 {
+		font-size: 1.5rem;
+	}
 }

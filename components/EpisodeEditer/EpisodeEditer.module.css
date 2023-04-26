@@ -1,20 +1,52 @@
 .editor {
-	flex: 2;
+	flex: 1;
 	min-height: 300px;
-	border-left: 1px solid black;
 	position: relative;
+	display: flex;
+	flex-direction: column;
+	gap: 5px;
+	padding-top: 0.75rem;
 }
-.close {
+.editor::before {
+	content: "";
+	width: 2px;
+	height: 100%;
 	position: absolute;
-	top: 5px;
-	right: 5px;
-	outline: none;
-	border: none;
-	background-color: lightblue;
-	display: grid;
-	place-items: center;
-	border-radius: 50%;
-	width: 30px;
-	height: 30px;
-	cursor: pointer;
+	top: 0;
+	left: -0.75rem;
+	background-color: white;
+	border-radius: 1px;
+}
+.button_group {
+	display: flex;
+	justify-content: flex-start;
+	align-items: center;
+	flex-wrap: wrap;
+	gap: 10px;
+	margin: 0.5rem 0;
+}
+.button {
+	display: flex;
+	justify-content: flex-start;
+	align-items: center;
+	gap: 10px;
+	text-align: left;
+	background-color: var(--color-light);
+	min-width: 150px;
+}
+.file_input {display: none;}
+.video {
+	width: 100%;
+	max-width: 700px;
+	margin: auto;
+	border-radius: 5px;
+}
+
+@media screen and (max-width: 800px) {
+	.editor::before {
+		width: 100%;
+		height: 2px;
+		top: 0;
+		left: 0;
+	}
 }

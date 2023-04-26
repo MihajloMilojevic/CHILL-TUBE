@@ -13,6 +13,6 @@
 .modal_body {
 	background: var(--color-dark);
 	border: 1px solid white;
-	border-radius: 15px;
+	border-radius: 5px;
 	position: relative;
 }

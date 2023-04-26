@@ -1,5 +1,6 @@
 export {default as Layout} from "./Layout/Layout";
 export {default as Navbar} from "./Navbar/Navbar";
+export {default as Footer} from "./Footer/Footer";
 export {default as Profile} from "./Profile/Profile";
 export {default as Modal} from "./Modal/Modal";
 export {default as FilterSidebar} from "./FilterSidebar/FilterSidebar";

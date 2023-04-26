@@ -5,20 +5,20 @@ import File from "./files";
 export default class Anime {
 	static async GetAll() {
 		const ret = await query({
-			sql: "SELECT id, name, picture, released, getGenres(id) as genres, IFNULL(ROUND((SELECT AVG(rating) FROM ratings WHERE animeId = id), 1), 0) as rating FROM anime ORDER BY id DESC",
+			sql: "SELECT id, name, picture, released, getGenres(id) as genres, IFNULL(ROUND((SELECT AVG(rating*1.0) FROM ratings WHERE animeId = id), 1), 0.0) as rating FROM anime ORDER BY id DESC",
 		});
 		return ret;
 	}
 	static async GetById(id) {
 		const ret = await query({
-			sql: "SELECT *, getEpisodes(id) as episodes, getGenres(id) as genres, IFNULL(ROUND((SELECT AVG(rating) FROM ratings WHERE animeId = id), 1), 0) as rating FROM anime WHERE id = ?",
+			sql: "SELECT *, getEpisodes(id) as episodes, getGenres(id) as genres, IFNULL(ROUND((SELECT AVG(rating*1.0) FROM ratings WHERE animeId = id), 1), 0.0) as rating FROM anime WHERE id = ?",
 			params: [id]
 		});
 		return ret;
 	}
 	static async GetPersonalizedAnimeData(animeId, userId) {
 		const ret = await query({
-			sql: "SELECT *, getGenres(id) as genres, ROUND((SELECT AVG(rating) FROM ratings WHERE animeId = id), 1) as rating, getPersonilizedEpisodes(id, ?) as episodes, (SELECT rating FROM ratings WHERE animeId = id AND userId = ?) as userRating, getLists(id, ?) as lists FROM anime WHERE id = ?",
+			sql: "SELECT *, getGenres(id) as genres, IFNULL(ROUND((SELECT AVG(rating*1.0) FROM ratings WHERE animeId = id), 1), 0.0) as rating, getPersonilizedEpisodes(id, ?) as episodes, (SELECT rating FROM ratings WHERE animeId = id AND userId = ?) as userRating, getLists(id, ?) as lists FROM anime WHERE id = ?",
 			params: [userId, userId, userId, animeId]
 		});
 		return ret;

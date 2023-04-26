@@ -3,8 +3,10 @@ import styles from "./EpisodeEditer.module.css";
 import {AiOutlineClose } from '@react-icons/all-files/ai/AiOutlineClose';
 import {AiOutlineSave } from '@react-icons/all-files/ai/AiOutlineSave';
 import {AiOutlineDelete } from '@react-icons/all-files/ai/AiOutlineDelete';
-import {GrEdit} from "@react-icons/all-files/gr/GrEdit";
+import {AiOutlineEdit} from "@react-icons/all-files/ai/AiOutlineEdit";
+import {BsUpload} from "@react-icons/all-files/bs/BsUpload";
 import { useStateContext } from '../../services/context/ContextProvider';
+import CloseButton from '../CloseButton/CloseButton';
 
 function generateVideoUrlFromEpisode(episode) {
 	if(!episode) return ""; //if there is no episode selected there can't be any url
@@ -94,31 +96,53 @@ function EpisodeEditer({episode, close, saveEpisode, deleteEpisode, index}) {
 		// saveEpisode from the props
 		saveEpisode(episode.id, inputRef.current.files[0])		
 	}
-	
+	// event handler - uploadnig new video
+	function handleUpload() {
+		// open file selection window as if user clicked on input 
+		inputRef.current?.click()
+	}
+
 	// memoizing a video component 
-	const VideoComponent = useMemo(() =>  <video controls width={"100%"} src={videoUrl}/>, [videoUrl])
+	const VideoComponent = useMemo(() =>  <video className={styles.video} controls width={"100%"} src={videoUrl}/>, [videoUrl])
 	//if no episode is selected and passed as prop don't show anything
 	if(!episode) return <></>
 	return (
 		<div className={styles.editor}>
-			<button className={styles.close} onClick={close}><AiOutlineClose color="black" size={15} /></button>
-			<h2>Episode {index + 1}</h2>
+			<CloseButton onClick={close} />
+			<h3 style={{fontWeight: "normal"}}>Episode {index + 1}</h3>
+			<div className={styles.button_group}>
 			{
 				// if edit mode is on show exit and save buttons and if it's off show edit and delete buttons
 				editMode ? (
 					<>
-						<button onClick={handleCancel}><AiOutlineClose size={20} /></button>
-						<button onClick={handleSave}><AiOutlineSave size={20} /></button>
+						<button className={`button ${styles.button}`} onClick={handleCancel}>
+							<AiOutlineClose size={20} />
+							<span>Close Edit Mode</span>
+						</button>
+						<button className={`button ${styles.button}`} onClick={handleSave}>
+							<AiOutlineSave size={20} />
+							<span>Save Changes</span>
+						</button>
+						<button className={`button ${styles.button}`} onClick={handleUpload}>
+							<BsUpload size={20} />
+							<span>Upload Video</span>
+						</button>
 					</>
 				) : (
 					<>
-						<button onClick={handleEdit}><GrEdit size={20} /></button>
-						<button onClick={handleDelete}><AiOutlineDelete size={20} /></button>
+						<button className={`button ${styles.button}`} onClick={handleEdit}>
+							<AiOutlineEdit size={20} />
+							<span>Edit Video</span>
+						</button>
+						<button className={`button ${styles.button}`} onClick={handleDelete}>
+							<AiOutlineDelete size={20} />
+							<span>Delete Episode</span>
+						</button>
 					</>
 				)
 			}
-			{/* Show an input if user is in edit mode */}
-			<input style={{display: editMode ? "block" : "none"}} ref={inputRef} type="file" accept='video/*' onChange={videoSelect}/>
+			</div>
+			<input className={styles.file_input} ref={inputRef} type="file" accept='video/*' onChange={videoSelect}/>
 			{
 				// if there is a video show it - if there isn't any video show text
 				videoUrl !== "" ? VideoComponent : <p>You didn&apos;t select any video for this episode </p>

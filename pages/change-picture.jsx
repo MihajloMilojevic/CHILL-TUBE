@@ -5,7 +5,7 @@ import { Layout } from "../components";
 import { useEffect, useRef, useState } from "react";
 import API from "../services/api";
 import {FiCamera} from "@react-icons/all-files/fi/FiCamera"
-import styles from "../styles/UserForms.module.css";
+import styles from "../styles/Forms.module.css";
 
 
 export default function ChangePicturePage({user: userDB}) {
@@ -64,7 +64,7 @@ export default function ChangePicturePage({user: userDB}) {
 					<h1>Change Picture Page</h1>
 					<div className={styles.button_group}>
 						<button className={`button ${styles.submit_button}`} onClick={handleSave}>Save</button>
-						<button className={`button ${styles.submit_button} ${styles.cancel_button}`} onClick={handleCancel}>Cancel</button>
+						<button className={`button ${styles.submit_button}`} onClick={handleCancel}>Cancel</button>
 					</div>
 					<div className={styles.image_preview}>
 						<img src={pictureUrl} alt="profile"/>

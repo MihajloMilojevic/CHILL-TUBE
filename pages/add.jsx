@@ -6,6 +6,9 @@ import { useStateContext } from '../services/context/ContextProvider';
 import API from "../services/api";
 import { useRouter } from "next/router";
 import Anime from "../services/database/controllers/anime";
+import {AiOutlineSave} from "@react-icons/all-files/ai/AiOutlineSave";
+import {BsUpload} from "@react-icons/all-files/bs/BsUpload";
+import styles from "../styles/Forms.module.css";
 
 // import all the component from mui for select
 import Box from '@mui/material/Box';
@@ -22,6 +25,8 @@ const MenuProps = {
     style: {
       maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
       width: 250,
+	  color: "white",
+	  background: "var(--color-light)"
     },
   },
   
@@ -108,66 +113,82 @@ export default function AddAnimePage({user, genres}) {
 		  typeof value === 'string' ? value.split(',') : value,
 		);
 	  };
-
+	function handleTextAreaChange(e) {
+		e.target.style.height = "";
+		e.target.style.height = e.target.scrollHeight + "px";
+	}
 	return (
 		<Layout user={user}>
-			<h1>Add Anime</h1>
-			{/* <p>{JSON.stringify(user)}</p> */}
-			<form onSubmit={handleSubmit} style={{position: "relative"}}>
-				<button type="submit">Save</button> <br/>
-				<label htmlFor="name">Name:</label>
-				<textarea id="name" value={name} onChange={e => setName(e.target.value)}  /> <br />
-				<label htmlFor="released">Released:</label>
-				<input id="released" value={released} onChange={e => setReleased(e.target.value)}  /> <br />
-				<label htmlFor="genres">Genres:</label>
-				{/* select is copied from mui select chip example with values changed for this app and unnessery thing removed */}
-				<Select
-					id="genres"
-					style={{
-						width: 300,
-						padding: 0
-					}}
-					multiple
-					value={genresSelect}
-					onChange={handleChange}
-					input={<OutlinedInput style={{outline: "none"}}/>}
-					renderValue={(selected) => (
-						<Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
-							{selected.map((value) => (
-								<Chip key={value} label={genres.find(({id}) => id === value).name} />
+			<div className={styles.form_wrapper}>
+				<form onSubmit={handleSubmit} className={styles.form}>
+					<h1>Add Anime</h1>
+					<div className={styles.group}>
+						<label className={styles.label} htmlFor="name">Name:</label>
+						<textarea className={styles.textarea} id="name" value={name} onChange={e => {setName(e.target.value); handleTextAreaChange(e); }}  />
+					</div>
+					<div className={styles.group}>
+						<label className={styles.label} htmlFor="released">Released:</label>
+						<input className={styles.input} id="released" value={released} onChange={e => setReleased(e.target.value)}  />
+					</div>
+					<div className={styles.group}>
+						<label className={styles.label} htmlFor="genres">Genres:</label>
+						{/* select is copied from mui select chip example with values changed for this app and unnessery thing removed */}
+						<Select
+							id="genres"
+							multiple
+							value={genresSelect}
+							onChange={handleChange}
+							input={<OutlinedInput style={{border: "none"}}/>}
+							renderValue={(selected) => (
+								<Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5, }}>
+									{selected.map((value) => (
+										<Chip key={value} label={genres.find(({id}) => id === value).name} sx={{background: "var(--color-light)", color: "white"}} />
+									))}
+								</Box>
+							)}
+							MenuProps={MenuProps}
+							sx={{
+								background: "var(--color-mid)",
+								'.MuiOutlinedInput-notchedOutline': { borderWidth: "0 !important" },
+							}}
+							>
+							{genres.map((genre) => (
+								<MenuItem
+									key={genre.id}
+									value={genre.id}
+								>
+									{genre.name}
+								</MenuItem>
 							))}
-						</Box>
-					)}
-					MenuProps={MenuProps}
-					>
-					{genres.map((genre) => (
-						<MenuItem
-							key={genre.id}
-							value={genre.id}
-						>
-							{genre.name}
-						</MenuItem>
-					))}
-				</Select> <br/>
-				<label htmlFor="picture">Picture:</label>
-				<input 
-					type="file" 
-					ref={pictureRef} 
-					onChange={
-						e => {
-							const [file] = e.target.files;
-							if (file) {
-								setImageSrc(URL.createObjectURL(file)) // generate url for uploded image so that it can be showned
+						</Select>
+					</div>
+					<label className={styles.label} htmlFor="picture">Picture:</label>
+					<button type="button" className={`button ${styles.upload_button}`} onClick={() => pictureRef.current?.click()}><BsUpload size={20} /><span>Upload Photo</span></button>
+					<input className={styles.file_input} 
+						type="file" 
+						ref={pictureRef} 
+						onChange={
+							e => {
+								const [file] = e.target.files;
+								if (file) {
+									setImageSrc(URL.createObjectURL(file)) // generate url for uploded image so that it can be showned
+								}
+								else setImageSrc("")
 							}
-							else setImageSrc("")
-						}
-  					} 
-				/> 
-				<br />
-				{imageSrc !== "" && (<img src={imageSrc} width={100} height={100} style={{objectFit: "contain", display:"block"}} />)}
-				<label htmlFor="desc">Description:</label>
-				<textarea id="desc" value={description} onChange={e => setDescription(e.target.value)} /> <br />
-			</form>
+						} 
+					/> 
+					{imageSrc !== "" && (
+						<div className={styles.anime_picture}>
+							<img src={imageSrc}/>
+						</div>
+					)}
+					<div className={styles.group}>
+						<label className={styles.label} htmlFor="desc">Description:</label>
+						<textarea className={styles.textarea} id="desc" value={description} onChange={e => {setDescription(e.target.value); handleTextAreaChange(e);}} />
+					</div>
+					<button type="submit" className={`button ${styles.save_button} ${styles.submit_button}`}><AiOutlineSave size={20} /><span>Save Anime</span></button>
+				</form>
+			</div>
 		</Layout>
 	)
 }

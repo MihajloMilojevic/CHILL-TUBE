@@ -5,7 +5,7 @@ import { useStateContext } from "../services/context/ContextProvider";
 import {Layout} from "../components";
 import {AiOutlineEyeInvisible} from "@react-icons/all-files/ai/AiOutlineEyeInvisible";
 import {AiOutlineEye} from "@react-icons/all-files/ai/AiOutlineEye"
-import styles from "../styles/UserForms.module.css";
+import styles from "../styles/Forms.module.css";
 
 const initialFormData = {
 	email: "",
