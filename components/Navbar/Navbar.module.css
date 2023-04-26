@@ -6,6 +6,7 @@
 	z-index: 9999 !important;
 	background: transparent;
 	position: relative;
+	gap: 10px;
 }
 /* .navbar_remove_shadow {
 	width: 25px;
@@ -36,10 +37,27 @@
 	align-items: center;
 	gap: 10px;
 }
+.login_button, .register_button {
+	width: 125px;
+}
+.login_button {
+	background-color: var(--color-light);
+}
+.register_button {
+	background-color: var(--color-mid);
+}
 
 
 @media screen and (max-width: 500px) {
 	.navbar {
 		padding: 1rem;
+	}
+	.navbar_right {
+		gap: 5px;
+	}
+	.login_button, .register_button {
+		min-width: 75px;
+		max-width: 125px;
+		width: auto;
 	}
 }

@@ -3,9 +3,13 @@ import auth from "../services/middleware/authentication";
 import {SSRSession} from "../services/sessions/get-session";
 import Anime from "../services/database/controllers/anime";
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { AnimeList } from "../components";
 import { useStateContext } from "../services/context/ContextProvider";
+import {AiOutlinePlus} from "@react-icons/all-files/ai/AiOutlinePlus";
+import {BsSearch} from "@react-icons/all-files/bs/BsSearch";
+import {IoMdOptions} from "@react-icons/all-files/io/IoMdOptions";
+import styles from "../styles/HomeScreen.module.css";
 
 export default function AdminHomePage({user, anime}) {
 	const {
@@ -19,6 +23,7 @@ export default function AdminHomePage({user, anime}) {
 
 	const [filteredAnime, setFilteredAnime] = useState(order(anime));
 	const [search, setSearch] = useState("");
+	const searchInputRef = useRef(null);
 
 	useEffect(() => {
 		const min = anime.reduce((currMin, currAnime) => Math.min(currMin, currAnime.released), new Date().getFullYear() + 100)
@@ -64,11 +69,15 @@ export default function AdminHomePage({user, anime}) {
 		<Layout user={user}>
 			{/* <p>{JSON.stringify(user)}</p> */}
 			{ (user && user.admin) && 
-				<Link href="/add"><p style={{padding: "1rem", background: "white", cursor: "pointer", display: "inline-block"}}>+</p></Link>
+				<Link href="/add"><p className={`button ${styles.add_button}`}><AiOutlinePlus size={20} /><span>Add New Anime</span></p></Link>
 			}
-			<br />
-			<input placeholder="Search" value={search} onChange={e => setSearch(e.target.value)} />
-			<button onClick={() => setFilterOpen(true)}>Filters</button>
+			<div className={styles.search_filter_group}>
+				<div className={`${styles.search_box}`} onClick={() => searchInputRef.current?.focus()}>
+					<BsSearch size={20} />
+					<input placeholder="Search" value={search} onChange={e => setSearch(e.target.value)} ref={searchInputRef} />
+				</div>
+				<button className={`button ${styles.filter_button}`} onClick={() => setFilterOpen(true)}><IoMdOptions size={20} /></button>
+			</div>
 			<br/>
 			{
 				filteredAnime.length === 0 ? "No anime has with this search" : (

@@ -12,10 +12,10 @@
 	overflow-x: "hidden";
 }
 .page {
-	padding: 1rem;
+	padding: 1rem 3rem;
 }
 @media screen and (max-width: 600px) {
 	.page {
-		padding: 0.5rem;
+		padding: 1rem;
 	}
 }

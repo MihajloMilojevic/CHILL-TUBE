@@ -5,10 +5,12 @@
 	--color-mid: #9E4784;
 	--color-light: #D27685;
 }
-html,
-body {
+* {
 	padding: 0;
 	margin: 0;
+}
+html,
+body {
 	font-family: 'Poppins', sans-serif;
 	overflow-x: hidden;
 	min-height: 100vh;
@@ -31,6 +33,17 @@ a {
 #__next {
 	width: 100%;
 	min-height: 100vh;
+}
+
+.button {
+	outline: none;
+	color: white;
+	/* border: 1px solid white; */
+	border: none;
+	border-radius: 5px;
+	padding: 7.5px;
+	cursor: pointer;
+	text-align: center;
 }
 
 /***** MODAL *****/

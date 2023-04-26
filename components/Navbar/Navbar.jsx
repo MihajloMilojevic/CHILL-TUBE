@@ -20,7 +20,7 @@ function Navbar() {
 		<div className={`${styles.navbar} `}  ref={navRef}>
 			<Link href="/">
 				<div className={styles.navbar_left}>
-					<img src="/logo.png" alt="Logo" height={50}/>
+					<img src="/logo.png" alt="Logo" height={windowSize.width > 400 ? 50 : 35}/>
 				</div>
 			</Link>
 			<div className={styles.navbar_right}>
@@ -28,8 +28,8 @@ function Navbar() {
 					<Profile />
 				) : (
 					<>
-						<Link href="/login">Login</Link>
-						<Link href="/register">Register</Link>
+						<Link href="/login"><div className={`button ${styles.login_button}`}>Login</div></Link>
+						<Link href="/register"><div className={`button ${styles.register_button}`}>Register</div></Link>
 					</>
 				)}
 			</div>
