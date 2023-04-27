@@ -1,21 +1,33 @@
 import React from 'react'
 import Link from "next/link";
+import {TiStarFullOutline} from "@react-icons/all-files/ti/TiStarFullOutline";
+import styles from "./AnimeList.module.css";
 
-function AnimeList({anime, pagination}) {
+export default function AnimeList({anime}) {
 	return (
-		<div style={{display: "flex", justifyContent: "flex-start", alignItems: "flex-start", gap: 10, flexWrap: "wrap"}}>
+		<div className={styles.wrapper}>
 		{
 			anime.map(a => (
-				<Link key={a.id} href={`/${a.id}`}>
-					<div style={{width: 100, height: 200, display: "inline-block"}}>
-						<img src={a.picture} alt={a.name} style={{width: "100%", height: "80%", objectFit: "cover"}} />
-						<p>{a.name}</p>
-					</div>
-				</Link>
+				<AnimeCard anime={a} key={a.id} />
 			))
 		}
 		</div>
 	)
 }
 
-export default AnimeList
+function AnimeCard({anime}) {
+	return (
+		<Link key={anime.id} href={`/${anime.id}`}>
+			<div className={styles.card}>
+				<img src={anime.picture} alt={anime.name} />
+				<div className={styles.data}>
+					<p className={styles.name}>{anime.name}</p>
+					<div className={styles.details}>
+						<p className={styles.rating}><span>{anime.rating ?? "0"}</span> <TiStarFullOutline size={20} /></p>
+						<p>{anime.released}</p>
+					</div>
+				</div>
+			</div>
+		</Link>
+	)
+}

@@ -8,10 +8,9 @@ export default function HistoryPage({user, history}) {
 
 	return (
 		<Layout user={user}>
-			<h1>History Page</h1>
+			<h1>Your History</h1>
 			<AnimeList 
 				anime={history}
-				pagination={true}
 			/>
 		</Layout>
 	)

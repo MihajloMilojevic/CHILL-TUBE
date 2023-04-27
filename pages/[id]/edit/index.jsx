@@ -117,6 +117,10 @@ export default function SingleAnime({user, anime: animeDB, genres}) {
 		  typeof value === 'string' ? value.split(',') : value,
 		);
 	  };
+	function handleTextAreaChange(e) {
+		e.target.style.height = "";
+		e.target.style.height = e.target.scrollHeight + "px";
+	}
 	return (
 		<Layout user={user}>
 			<div className={styles.form_wrapper}>

@@ -83,7 +83,6 @@ export default function AdminHomePage({user, anime}) {
 				filteredAnime.length === 0 ? "No anime has with this search" : (
 					<AnimeList 
 						anime={filteredAnime.filter(a => (search === "" ? true : a.name.toLowerCase().includes(search.toLowerCase())))}
-						pagination={true}
 					/>
 				)
 			}

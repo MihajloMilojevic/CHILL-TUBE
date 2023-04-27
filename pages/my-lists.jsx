@@ -114,7 +114,7 @@ function SingleList({list, setLists}) {
 				list.animes.length === 0 ? (
 					<p>There are no anime on this list</p>
 				) : (
-				<AnimeList anime={list.animes} pagination={false}/>
+				<AnimeList anime={list.animes}/>
 				)
 			}
 			</AccordionDetails>
