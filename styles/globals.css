@@ -4,6 +4,9 @@
 	--color-dark: #66347F;
 	--color-mid: #9E4784;
 	--color-light: #D27685;
+	--color-red: #FF0000;
+	--color-green: #00FF00;
+	--color-gold: #FFD700;
 }
 * {
 	padding: 0;

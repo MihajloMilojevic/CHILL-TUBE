@@ -1,0 +1,10 @@
+.add_button {
+	display: flex;
+	justify-content: flex-start;
+	align-items: center;
+	gap: 10px;
+	width: fit-content;
+	background-color: var(--color-dark);
+	text-align: left;
+	padding-inline: 1rem;
+}

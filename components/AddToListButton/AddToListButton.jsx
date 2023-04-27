@@ -1,6 +1,8 @@
 import React, { useState } from 'react'
 import { useStateContext } from '../../services/context/ContextProvider';
+import {AiOutlinePlus} from "@react-icons/all-files/ai/AiOutlinePlus";
 import API from '../../services/api';
+import styles from "./AddToListButton.module.css";
 
 export default function AddToListButton({anime, setAnime}) {
 
@@ -33,9 +35,10 @@ export default function AddToListButton({anime, setAnime}) {
 		)
 		setModalOpen(true);
 	}
+	//onClick={buttonClick}
 	if(!user) return null;
 	return (
-		<button onClick={buttonClick}>Add To List</button>
+		<button onClick={buttonClick} className={`button ${styles.add_button}`}><AiOutlinePlus size={20} /><span>Add To List</span></button>
 	)
 }
 
