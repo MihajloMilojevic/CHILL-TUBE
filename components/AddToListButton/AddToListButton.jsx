@@ -3,6 +3,7 @@ import { useStateContext } from '../../services/context/ContextProvider';
 import {AiOutlinePlus} from "@react-icons/all-files/ai/AiOutlinePlus";
 import API from '../../services/api';
 import styles from "./AddToListButton.module.css";
+import CustomCheckbox from './CustomCheckbox';
 
 export default function AddToListButton({anime, setAnime}) {
 
@@ -59,7 +60,8 @@ function ListsModal({lists: listsDB, onCofirm}) {
 	function handleClose() {
 		setModalOpen(false);
 	}
-	function addNewList() {
+	function addNewList(e) {
+		e.preventDefault();
 		if(!newListName) return;
 		const maxId = lists.reduce((currMax, currList) => {
 			if(currMax == null && currList.new === true) return null;
@@ -77,12 +79,17 @@ function ListsModal({lists: listsDB, onCofirm}) {
 	}
 	return <div>
 		<h3 className={`modal_title`}>Add Anime To List</h3>
-		<input value={newListName} onChange={e => setNewListName(e.target.value)}/>
-		<button onClick={addNewList}>New List</button>
-		{lists.map(list => <div key={list.id}>
-			<input type='checkbox' checked={list.added} onChange={e => handleChange(e.target.checked, list.id)} id={list.name} />
-			<label htmlFor={list.name}>{list.name}</label>
-		</div>)}
+		<form onSubmit={addNewList} className={styles.form}>
+			<input placeholder="New List's Name..." className={styles.input} value={newListName} onChange={e => setNewListName(e.target.value)}/>
+			<button className={`button ${styles.new_button}`} type="submit"><AiOutlinePlus size={20} /><span>Add New List</span></button>
+		</form>
+		<div className={styles.lists_list}>
+		{
+			lists.map(list => 
+				<CustomCheckbox key={list.id} checked={list.added} onChange={({checked}) => handleChange(checked, list.id)} label={list.name}  />
+			)
+		}
+		</div>
 		<div className={`modal_buttons`}>
 			<button onClick={handleConfirm} className={`modal_yes_button`}>Ok</button>
 			<button onClick={handleClose} className={`modal_no_button`}>Close</button>

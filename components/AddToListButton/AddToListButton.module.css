@@ -8,3 +8,100 @@
 	text-align: left;
 	padding-inline: 1rem;
 }
+.new_button {
+	display: flex;
+	justify-content: flex-start;
+	align-items: center;
+	gap: 10px;
+	width: fit-content;
+	background-color: var(--color-light);
+	text-align: left;
+	padding-inline: 1rem;
+}
+.form {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 10px;
+}
+.input {
+	max-width: 200px;
+	font-size: inherit;
+	color: white;
+	padding: 7.5px;
+	border-radius: 5px;
+	outline: none;
+	border: none;
+	background-color: var(--color-mid);
+	caret-color: var(--color-dark);
+}
+.input::placeholder {
+	color: rgba(255, 255, 255, 0.75);
+}
+.lists_list {
+	--col-num: 6;
+	column-count: var(--col-num);
+	margin: 10px 0;
+	overflow: hidden;
+}
+.custom_element {
+	display: flex;
+	gap: 10px;
+	justify-content: flex-start;
+	align-items: center;
+	margin: 5px;
+	cursor: pointer;
+	width: fit-content;
+}
+.custom_element  p {
+	padding: 0;
+	margin: 0;
+	overflow: hidden;
+	/* word-wrap: break-word;
+	word-break: break-all; */
+}
+.checkbox_outer {
+	width: 25px;
+	height: 25px;
+	border: 2px solid white;
+	border-radius: 5px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+.checkbox_inner {
+	width: 15px;
+	height: 15px;
+	background-color: white;
+	border-radius: 2px;
+}
+
+
+@media screen and (max-width: 2100px) {
+	.lists_list {
+		--col-num: 5;
+	}
+}
+
+@media screen and (max-width: 1700px) {
+	.lists_list {
+		--col-num: 4;
+	}
+}
+
+@media screen and (max-width: 1300px) {
+	.lists_list {
+		--col-num: 3;
+	}
+}
+
+@media screen and (max-width: 800px) {
+	.lists_list {
+		--col-num: 2;
+	}
+}
+
+@media screen and (max-width: 400px) {
+	.lists_list {
+		--col-num: 1;
+	}
+}
