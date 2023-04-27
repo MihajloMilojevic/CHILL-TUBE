@@ -2,6 +2,12 @@ import React, {useCallback, useEffect, useRef, useState} from 'react'
 import { useStateContext } from '../../services/context/ContextProvider'
 import { useRouter } from 'next/router';
 import API from '../../services/api';
+import {BsBookmark} from "@react-icons/all-files/bs/BsBookmark";
+import {BsBookmarkFill} from "@react-icons/all-files/bs/BsBookmarkFill";
+import {FiSkipBack} from "@react-icons/all-files/fi/FiSkipBack";
+import {FiSkipForward} from "@react-icons/all-files/fi/FiSkipForward";
+import styles from "./EpisodePlayer.module.css";
+
 function doubleDigit(number) {
 	if(number > 9) return `${number}`
 	return `0${number}`;
@@ -73,21 +79,42 @@ export default function EpisodePlayer({anime, episodeNumber, setAnime}) {
 			createNotification({
 				type: notificationTypes.SUCCESS,
                 title: "Success",
-                message: "Succesfully marked as " + (episode.watched ? "not" : "") + " completed"
+                message: "Succesfully marked as " + (episode.watched ? "not" : "") + " completed",
+				timeout: 1500
             })
 			setAnime({...anime, ...data.anime})
         }
 	}
 	return (
 		<div>
-			{user && (
-				<button onClick={markEpisode}>Mark As {episode.watched ? "Not" : ""} Completed {episode.watched ? "+" : "-"}</button>
-			)}
-			<br/>
-			<button disabled={episodeNumber === 1} onClick={handlePrevious}>Previous Episode</button>
-			<button disabled={episodeNumber === anime.episodes.length} onClick={handleNext}>Next Episode</button>
-			<br/>
-			<video onPlay={handlePlay} onTimeUpdate={handleTimeUpdate} src={episode.video} controls ref={playerRef} style={{width: "100%", maxHeight: "90vh", maxWidth: 1024, margin: "auto", display: "block"}}/>
+			<div className={styles.buttons}>
+				{
+					user ? (
+						<button onClick={markEpisode} className={`button ${styles.mark_button}`} >{episode.watched ? <BsBookmarkFill size={20}/> : <BsBookmark size={20} />}<span>Mark As {episode.watched ? "Not" : ""} Completed </span></button>
+					) : (
+						<div />
+					)
+				}
+				<div className={styles.button_group}>
+					<button 
+						className={`button ${styles.episode_button}`} 
+						disabled={episodeNumber === 1} 
+						onClick={handlePrevious}
+					>
+						<FiSkipBack size={20} />
+						<span>Previous Episode</span>
+					</button>
+					<button 
+						className={`button ${styles.episode_button}`} 
+						disabled={episodeNumber === anime.episodes.length} 
+						onClick={handleNext}
+					>
+						<span>Next Episode</span>
+						<FiSkipForward size={20} />
+					</button>
+				</div>
+			</div>
+			<video onPlay={handlePlay} onTimeUpdate={handleTimeUpdate} src={episode.video} controls ref={playerRef} className={styles.video}/>
 		</div>
 	)
 }

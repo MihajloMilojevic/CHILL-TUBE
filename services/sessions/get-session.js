@@ -4,7 +4,7 @@ const sessionOptions = {
   password: process.env.SESSION_PASSWORD,
   cookieName: "SID",
   // secure: true should be used in production (HTTPS) but can't be used in development (HTTP)
-  ttl: 1 * 60 * 60, // session last 1 hour
+  //ttl: 1 * 60 * 60, // session last 1 hour
   cookieOptions: {
     secure: process.env.NODE_ENV === "production",
     httpOnly: true
