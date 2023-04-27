@@ -1,0 +1,10 @@
+.edit_button {
+	display: flex;
+	justify-content: flex-start;
+	align-items: center;
+	gap: 10px;
+	width: fit-content;
+	background-color: var(--color-dark);
+	margin: 15px 0;
+	text-align: left;
+}

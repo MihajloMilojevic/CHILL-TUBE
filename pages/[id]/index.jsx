@@ -4,7 +4,9 @@ import auth from "../../services/middleware/authentication";
 import {SSRSession} from "../../services/sessions/get-session";
 import Anime from "../../services/database/controllers/anime";
 import Link from "next/link";
+import {AiOutlineEdit} from "@react-icons/all-files/ai/AiOutlineEdit";
 import { AnimeDetails } from "../../components";
+import styles from "../../styles/AnimePage.module.css"
 
 export default function SingleAnime({user, anime: animeDB}) {
 	const [anime, setAnime] = useState(animeDB);
@@ -13,7 +15,9 @@ export default function SingleAnime({user, anime: animeDB}) {
 			<h1>{anime.name}</h1>
 			{
 				(user && user.admin) && (<>
-					<Link href={`/${anime.id}/edit`}>Edit</Link> <br/>
+					<Link href={`/${anime.id}/edit`}>
+						<p className={`button ${styles.edit_button}`}><AiOutlineEdit size={20} /><span>Edit This Anime</span></p>
+					</Link>
 				</>
 				)
 			}
