@@ -1,0 +1,32 @@
+.delete_button {
+	display: flex;
+	justify-content: flex-start;
+	align-items: center;
+	gap: 10px;
+	width: fit-content;
+	background-color: var(--color-mid);
+	text-align: left;
+	color: white
+}
+.lists_list {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	flex-direction: column;
+	gap: 10px;
+}
+.list {
+	width: 100%;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	flex-wrap: wrap;
+}
+.list_text {
+	display: flex;
+	align-items: center;
+	gap: 1rem;
+}
+.list_text p {
+	font-size: 0.75rem;
+}

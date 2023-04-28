@@ -5,11 +5,15 @@ import {SSRSession} from "../../../services/sessions/get-session";
 import Anime from "../../../services/database/controllers/anime";
 import Link from "next/link";
 import { AnimeDetails, CommentsSection, EpisodePlayer } from "../../../components";
+import Head from "next/head";
 
 export default function SingleAnime({user, anime: animeDB, episodeNumber}) {
 	const [anime, setAnime] = useState(animeDB);
 	return (
 		<Layout user={user}>
+			<Head>
+				<title>Chill Tube | Watch {anime.name} - Episode {episodeNumber}</title>
+			</Head>
 			<h1>{anime.name} - Episode {episodeNumber}</h1>
 			<EpisodePlayer anime={anime} setAnime={setAnime} episodeNumber={episodeNumber} />
 			<AnimeDetails anime={anime} setAnime={setAnime} />

@@ -12,6 +12,7 @@ import {AiOutlinePlus} from "@react-icons/all-files/ai/AiOutlinePlus";
 import {AiOutlineCheck} from "@react-icons/all-files/ai/AiOutlineCheck";
 import {AiOutlineClose} from "@react-icons/all-files/ai/AiOutlineClose";
 import styles from "../../../styles/EditEpisodes.module.css";
+import Head from "next/head";
 
 
 export default function SingleAnime({user, anime: animeDB, genres}) {
@@ -85,6 +86,9 @@ export default function SingleAnime({user, anime: animeDB, genres}) {
 	}
 	return (
 		<Layout user={user}>
+			<Head>
+				<title>Chill Tube | Edit episodes - {anime.name}</title>
+			</Head>
 			<div>
 				<h1>{anime.name}</h1>
 				<h3>Edit Episodes</h3>

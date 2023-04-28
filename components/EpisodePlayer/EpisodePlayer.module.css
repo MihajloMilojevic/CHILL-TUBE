@@ -35,7 +35,8 @@
 }
 .video {
 	max-height: 90vh;
-	max-width: 1024;
+	width: 100%;
+	max-width: 1024px;
 	margin: 1rem auto;
 	display: block;
 	border-radius: 5px;

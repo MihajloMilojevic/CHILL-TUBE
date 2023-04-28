@@ -48,6 +48,10 @@ a {
 	cursor: pointer;
 	text-align: center;
 }
+.button span {
+	flex: 1;
+	text-align: center;
+}
 
 /***** MODAL *****/
 .overlay {

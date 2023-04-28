@@ -6,6 +6,7 @@ import { useEffect, useRef, useState } from "react";
 import API from "../services/api";
 import {FiCamera} from "@react-icons/all-files/fi/FiCamera"
 import styles from "../styles/Forms.module.css";
+import Head from "next/head";
 
 
 export default function ChangePicturePage({user: userDB}) {
@@ -59,6 +60,9 @@ export default function ChangePicturePage({user: userDB}) {
 
 	return (
 		<Layout user={user}>
+			<Head>
+				<title>Chill Tube | Change Profile Picture</title>
+			</Head>
 			<div className={styles.form_wrapper}>
 				<div className={styles.form}>
 					<h1>Change Picture Page</h1>

@@ -7,6 +7,7 @@ import { useStateContext } from "../services/context/ContextProvider";
 import {AiOutlineEyeInvisible} from "@react-icons/all-files/ai/AiOutlineEyeInvisible";
 import {AiOutlineEye} from "@react-icons/all-files/ai/AiOutlineEye"
 import styles from "../styles/Forms.module.css";
+import Head from "next/head";
 
 const initialFormData = {
 	oldPassword: "",
@@ -52,6 +53,9 @@ export default function ChangePasswordPage({user}) {
 	}
 	return (
 		<Layout user={user}>
+			<Head>
+				<title>Chill Tube | Change Password</title>
+			</Head>
 			<div className={styles.form_wrapper}>
 				<form onSubmit={handleSubmit} className={styles.form}>
 					<h1>Change Password Page</h1>

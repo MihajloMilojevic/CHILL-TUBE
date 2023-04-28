@@ -16,6 +16,7 @@ import OutlinedInput from '@mui/material/OutlinedInput';
 import MenuItem from '@mui/material/MenuItem';
 import Select from '@mui/material/Select';
 import Chip from '@mui/material/Chip';
+import Head from "next/head";
 
 // copied from mui select example
 const ITEM_HEIGHT = 48;
@@ -119,6 +120,9 @@ export default function AddAnimePage({user, genres}) {
 	}
 	return (
 		<Layout user={user}>
+			<Head>
+				Chill Tube | Add New Anime
+			</Head>
 			<div className={styles.form_wrapper}>
 				<form onSubmit={handleSubmit} className={styles.form}>
 					<h1>Add Anime</h1>

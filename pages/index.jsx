@@ -10,6 +10,7 @@ import {AiOutlinePlus} from "@react-icons/all-files/ai/AiOutlinePlus";
 import {BsSearch} from "@react-icons/all-files/bs/BsSearch";
 import {IoMdOptions} from "@react-icons/all-files/io/IoMdOptions";
 import styles from "../styles/HomeScreen.module.css";
+import Head from "next/head";
 
 export default function AdminHomePage({user, anime}) {
 	const {
@@ -67,6 +68,9 @@ export default function AdminHomePage({user, anime}) {
 
 	return (
 		<Layout user={user}>
+			<Head>
+				<title>Chill Tube | Home Page</title>
+			</Head>
 			{/* <p>{JSON.stringify(user)}</p> */}
 			{ (user && user.admin) && 
 				<Link href="/add"><p className={`button ${styles.add_button}`}><AiOutlinePlus size={20} /><span>Add New Anime</span></p></Link>

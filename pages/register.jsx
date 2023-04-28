@@ -6,6 +6,7 @@ import {Layout} from "../components";
 import {AiOutlineEyeInvisible} from "@react-icons/all-files/ai/AiOutlineEyeInvisible";
 import {AiOutlineEye} from "@react-icons/all-files/ai/AiOutlineEye"
 import styles from "../styles/Forms.module.css";
+import Head from "next/head";
 
 const initialFormData = {
 	username: "",
@@ -53,6 +54,9 @@ export default function RegisterPage() {
 
 	return (
 		<Layout user={null}>
+			<Head>
+				<title>Chill Tube | Register Page</title>
+			</Head>
 			<div className={styles.form_wrapper}>
 				<form onSubmit={handleSubmit} className={styles.form}>
 					<h1>Register Page</h1>

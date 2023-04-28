@@ -7,11 +7,15 @@ import Link from "next/link";
 import {AiOutlineEdit} from "@react-icons/all-files/ai/AiOutlineEdit";
 import { AnimeDetails } from "../../components";
 import styles from "../../styles/AnimePage.module.css"
+import Head from "next/head";
 
 export default function SingleAnime({user, anime: animeDB}) {
 	const [anime, setAnime] = useState(animeDB);
 	return (
 		<Layout user={user}>
+			<Head>
+				<title>Chill Tube | {anime.name}</title>
+			</Head>
 			<h1>{anime.name}</h1>
 			{
 				(user && user.admin) && (<>

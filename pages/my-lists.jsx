@@ -9,24 +9,31 @@ import { useState } from "react";
 import {AiOutlineDelete } from '@react-icons/all-files/ai/AiOutlineDelete';
 import { useStateContext } from "../services/context/ContextProvider";
 import API from "../services/api";
+import styles from "../styles/MyListsPage.module.css";
+import Head from "next/head";
 
 
 export default function MyListsPage({user, lists: listsDB}) {
 	const [lists, setLists] = useState(listsDB)
 	return (
 		<Layout user={user}>
+			<Head>
+				<title>Chill Tube | My Lists Page</title>
+			</Head>
 			<h1>My Lists Page</h1>
-			{lists.length === 0 ? (
-				<p>You don&apos;t have any lists.</p>
-			) : (
-				lists.map(list => (
-					<SingleList 
-						key={list.id}
-						list={list}
-						setLists={setLists}
-					/>
-				))
-			)}
+			<div className={styles.lists_list}>
+				{lists.length === 0 ? (
+					<p>You don&apos;t have any lists.</p>
+				) : (
+					lists.map(list => (
+						<SingleList 
+							key={list.id}
+							list={list}
+							setLists={setLists}
+						/>
+					))
+				)}
+				</div>
 		</Layout>
 	)
 }
@@ -91,18 +98,27 @@ function SingleList({list, setLists}) {
 		<Accordion 
 			onMouseEnter={() => setHovered(true)}
 			onMouseLeave={() => setHovered(false)}
+			sx={{
+				background: "var(--color-dark)",
+				// background: "transparent",
+				color: "white",
+				border: "1px solid white",
+				alignSelf: "stretch",
+				borderRadius: "5px !important",
+			}}
 		>
 			<AccordionSummary >
-				<div style={{width: "100%", display: "flex", justifyContent: "space-between", alignItems: "center"}}>
-					<div style={{display: "flex", alignItems: "center", gap: 10}}>
+				<div className={styles.list}>
+					<div className={styles.list_text}>
 						<h3>{list.name}</h3> 
-						<p style={{fontSize: "0.8rem"}}>{list.animes.length} Anime{list.animes.length !== 1 ? "s" : ""}</p>
+						<p>{list.animes.length} Anime{list.animes.length !== 1 ? "s" : ""}</p>
 					</div>
 					<div>
 					{
 						hovered && (
-							<button onClick={handleDelete}>
+							<button onClick={handleDelete} className={`button ${styles.delete_button}`}>
 								<AiOutlineDelete />
+								<span>Delete List</span>
 							</button>
 						)	
 					}

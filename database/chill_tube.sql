@@ -116,11 +116,16 @@ BEGIN
     );
 END //
 
+CREATE FUNCTION getAnimeRating(animeId_in INT) RETURNS FLOAT 
+BEGIN
+	RETURN (SELECT AVG(rating*1.0) FROM ratings WHERE animeId = animeId_in);
+END //
+
 CREATE FUNCTION getAnimeOnList(listId_input INT) RETURNS TEXT
 BEGIN
 	RETURN CONCAT(
     	'[',
-        	(SELECT GROUP_CONCAT((SELECT JSON_OBJECT('id', id, 'name', name, 'picture', picture) FROM anime WHERE id = animeId) SEPARATOR ', ' ) FROM anime_lists WHERE listId = listId_input),
+        	(SELECT GROUP_CONCAT((SELECT JSON_OBJECT('id', id, 'name', name, 'picture', picture, 'released', released, 'rating', IFNULL(ROUND(getAnimeRating(id), 1), 0.0)) FROM anime WHERE id = animeId) SEPARATOR ', ' ) FROM anime_lists WHERE listId = listId_input),
         ']'
     );
 END //

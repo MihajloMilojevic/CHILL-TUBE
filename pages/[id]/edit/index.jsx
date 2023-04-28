@@ -16,9 +16,11 @@ import Chip from '@mui/material/Chip';
 
 
 import {AiOutlineSave} from "@react-icons/all-files/ai/AiOutlineSave";
+import {AiOutlineDelete } from '@react-icons/all-files/ai/AiOutlineDelete';
 import {BsUpload} from "@react-icons/all-files/bs/BsUpload";
 import styles from "../../../styles/Forms.module.css";
 import Link from "next/link";
+import Head from "next/head";
 
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
@@ -123,6 +125,9 @@ export default function SingleAnime({user, anime: animeDB, genres}) {
 	}
 	return (
 		<Layout user={user}>
+			<Head>
+				<title>Chill Tube | Edit - {anime.name}</title>
+			</Head>
 			<div className={styles.form_wrapper}>
 				<form onSubmit={handleSubmit} className={styles.form}>
 					<h1>{anime.name}</h1>
@@ -195,7 +200,7 @@ export default function SingleAnime({user, anime: animeDB, genres}) {
 					</div>
 					<div className={styles.button_group}>
 						<button type="submit" className={`button ${styles.save_button} ${styles.submit_button}`}><AiOutlineSave size={20} /><span>Save Anime</span></button>
-						<button type="button" className={`button ${styles.submit_button}`} onClick={handleDelete}>Delete</button>
+						<button type="button" className={`button ${styles.save_button} ${styles.submit_button}}`} onClick={handleDelete}><AiOutlineDelete size={20} /><span>Delete Anime</span></button>
 					</div>
 				</form>
 			</div>
