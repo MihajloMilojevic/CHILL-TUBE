@@ -14,7 +14,7 @@ export default function SingleAnime({user, anime: animeDB}) {
 	return (
 		<Layout user={user}>
 			<Head>
-				<title>Chill Tube | {anime.name}</title>
+				<title>{`Chill Tube | ${anime.name}`}</title>
 			</Head>
 			<h1>{anime.name}</h1>
 			{

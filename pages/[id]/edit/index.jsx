@@ -126,7 +126,7 @@ export default function SingleAnime({user, anime: animeDB, genres}) {
 	return (
 		<Layout user={user}>
 			<Head>
-				<title>Chill Tube | Edit - {anime.name}</title>
+				<title>{`Chill Tube | Edit - ${anime.name}`}</title>
 			</Head>
 			<div className={styles.form_wrapper}>
 				<form onSubmit={handleSubmit} className={styles.form}>

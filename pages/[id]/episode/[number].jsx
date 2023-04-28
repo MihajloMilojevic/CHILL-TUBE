@@ -12,7 +12,7 @@ export default function SingleAnime({user, anime: animeDB, episodeNumber}) {
 	return (
 		<Layout user={user}>
 			<Head>
-				<title>Chill Tube | Watch {anime.name} - Episode {episodeNumber}</title>
+				<title>{`Chill Tube | Watch ${anime.name} - Episode ${episodeNumber}`}</title>
 			</Head>
 			<h1>{anime.name} - Episode {episodeNumber}</h1>
 			<EpisodePlayer anime={anime} setAnime={setAnime} episodeNumber={episodeNumber} />

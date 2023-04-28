@@ -87,7 +87,7 @@ export default function SingleAnime({user, anime: animeDB, genres}) {
 	return (
 		<Layout user={user}>
 			<Head>
-				<title>Chill Tube | Edit episodes - {anime.name}</title>
+				<title>{`Chill Tube | Edit episodes - ${anime.name}`}</title>
 			</Head>
 			<div>
 				<h1>{anime.name}</h1>
