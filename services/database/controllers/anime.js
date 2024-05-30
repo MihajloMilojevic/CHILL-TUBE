@@ -18,7 +18,7 @@ export default class Anime {
 	}
 	static async GetPersonalizedAnimeData(animeId, userId) {
 		const ret = await query({
-			sql: "SELECT *, getGenres(id) as genres, IFNULL(ROUND((SELECT AVG(rating*1.0) FROM ratings WHERE animeId = id), 1), 0.0) as rating, getPersonilizedEpisodes(id, ?) as episodes, (SELECT rating FROM ratings WHERE animeId = id AND userId = ?) as userRating, getLists(id, ?) as lists FROM anime WHERE id = ?",
+			sql: "SELECT *, getGenres(id) as genres, IFNULL(ROUND((SELECT AVG(rating*1.0) FROM ratings WHERE animeId = id), 1), 0.0) as rating, getPersonalizedEpisodes(id, ?) as episodes, (SELECT rating FROM ratings WHERE animeId = id AND userId = ?) as userRating, getLists(id, ?) as lists FROM anime WHERE id = ?",
 			params: [userId, userId, userId, animeId]
 		});
 		return ret;

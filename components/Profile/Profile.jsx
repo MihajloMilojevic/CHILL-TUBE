@@ -56,7 +56,7 @@ function Profile() {
 								<p>{user.email}</p>
 						</div>
 						<div style={{display: "flex", justifyContent: "center", alignItems: "center", margin: 0, padding:0}}></div>
-						<Link href="my-lists">
+						<Link href="/my-lists">
 							<div className={styles.profile_dropdown_link} onClick={() => setOpenDropdown(false)}>
 								<BsBook color="white" size={20}/>
 								<span>My Lists</span>
