@@ -1,5 +1,9 @@
 # Chill Tube
 
+Chill Tube is a Next.js application that allows users to watch their favourite animes add free. Application allows users to create watchlist, continue watching where they left of on any device, write comments and give reviews to episodes and shows. System administarors can add and modify shows and episodes.
+
+This project has been created for a client in Ljubljana, Slovenia as final project for their highschool.
+
 ## Setup
 #### Dependecies
 This app requires [Node.js](https://nodejs.org/) to run.
